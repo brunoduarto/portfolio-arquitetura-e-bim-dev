@@ -1,0 +1,101 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+
+const timeline = [
+  {
+    year: '2024',
+    title: 'BIM Automation Lead',
+    description: 'Desenvolvimento de ferramentas internas para automação de fluxos BIM em projetos de grande porte.',
+  },
+  {
+    year: '2022',
+    title: 'Especialização em IFC',
+    description: 'Foco em interoperabilidade BIM, desenvolvimento de parsers e exportadores IFC customizados.',
+  },
+  {
+    year: '2020',
+    title: 'Início em BIM Scripting',
+    description: 'Primeiros scripts em pyRevit e Dynamo para automação de tarefas repetitivas em projetos de arquitetura.',
+  },
+  {
+    year: '2018',
+    title: 'Graduação em Arquitetura',
+    description: 'Formação em Arquitetura e Urbanismo com interesse em design computacional e tecnologia.',
+  },
+];
+
+const tools = [
+  { category: 'Modelagem', items: ['Revit', 'Rhino', 'SketchUp'] },
+  { category: 'Scripting', items: ['Python', 'C#', 'TypeScript'] },
+  { category: 'BIM Tools', items: ['pyRevit', 'Dynamo', 'Grasshopper'] },
+  { category: 'IFC / OpenBIM', items: ['ifcopenshell', 'IFC4', 'BCF'] },
+  { category: 'DevOps', items: ['Git', 'VS Code', 'CI/CD'] },
+];
+---
+
+<BaseLayout title="Sobre" description="Arquiteto especializado em BIM scripting e design computacional.">
+  <section class="max-w-6xl mx-auto px-4 py-16">
+    {/* Header */}
+    <div class="grid md:grid-cols-3 gap-12 mb-20">
+      <div class="md:col-span-2">
+        <SectionHeading title="Sobre" />
+        <p class="text-lg text-ink-600 leading-relaxed">
+          Arquiteto com paixão por tecnologia e automação. Trabalho na interseção entre
+          arquitetura e programação, desenvolvendo ferramentas que tornam o fluxo BIM
+          mais eficiente e menos propenso a erros.
+        </p>
+        <p class="mt-4 text-lg text-ink-600 leading-relaxed">
+          Acredito que a automação não substitui o arquiteto — ela libera tempo para
+          que possamos focar no que realmente importa: projetar bons espaços.
+        </p>
+      </div>
+      <div class="flex items-start justify-center">
+        {/* Photo placeholder */}
+        <div class="w-48 h-48 rounded-full bg-warm-200 border-4 border-warm-100 flex items-center justify-center">
+          <span class="font-display text-4xl text-warm-500">B</span>
+        </div>
+      </div>
+    </div>
+
+    {/* Tools */}
+    <div class="mb-20">
+      <SectionHeading title="Ferramentas & Tecnologias" subtitle="O que uso no dia a dia" />
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {tools.map(({ category, items }) => (
+          <div class="bg-white rounded-lg border border-warm-200 p-5">
+            <h3 class="font-mono text-sm uppercase tracking-wider text-warm-600 mb-3">
+              {category}
+            </h3>
+            <ul class="space-y-1.5">
+              {items.map((item) => (
+                <li class="text-ink-700 text-sm flex items-center gap-2">
+                  <span class="w-1.5 h-1.5 rounded-full bg-code-500"></span>
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    {/* Timeline */}
+    <div>
+      <SectionHeading title="Trajetória" />
+      <div class="space-y-8 relative">
+        <div class="absolute left-[7px] top-2 bottom-2 w-px bg-warm-200"></div>
+        {timeline.map(({ year, title, description }) => (
+          <div class="relative pl-8">
+            <div class="absolute left-0 top-1.5 w-[15px] h-[15px] rounded-full bg-warm-500 border-4 border-warm-50"></div>
+            <div>
+              <span class="font-mono text-xs text-warm-600">{year}</span>
+              <h3 class="font-display text-lg text-ink-900 mt-1">{title}</h3>
+              <p class="text-ink-500 text-sm mt-1">{description}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+</BaseLayout>

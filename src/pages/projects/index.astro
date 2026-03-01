@@ -1,0 +1,60 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ProjectCard from '../../components/ProjectCard.astro';
+import SectionHeading from '../../components/SectionHeading.astro';
+import { getCollection } from 'astro:content';
+
+const allProjects = await getCollection('projects', ({ data }) => !data.draft);
+
+const sorted = allProjects.sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+
+const categories = [
+  { value: 'all', label: 'Todos' },
+  { value: 'revit-scripts', label: 'Revit Scripts' },
+  { value: 'ifc-tools', label: 'IFC Tools' },
+  { value: 'dynamo-nodes', label: 'Dynamo' },
+  { value: 'python-aec', label: 'Python AEC' },
+  { value: 'computational-design', label: 'Design Computacional' },
+  { value: 'bim-automation', label: 'BIM Automation' },
+];
+---
+
+<BaseLayout title="Projetos" description="Ferramentas, scripts e automações para fluxos BIM e AEC.">
+  <section class="max-w-6xl mx-auto px-4 py-16">
+    <SectionHeading
+      title="Projetos"
+      subtitle="Ferramentas, scripts e automações para fluxos BIM e AEC"
+    />
+
+    {/* Category filter — static for now, can add JS filtering later */}
+    <div class="flex flex-wrap gap-2 mb-12">
+      {categories.map(({ value, label }) => (
+        <span
+          class:list={[
+            'text-sm px-3 py-1.5 rounded-full border cursor-default transition-colors',
+            value === 'all'
+              ? 'bg-ink-950 text-warm-50 border-ink-950'
+              : 'bg-white text-ink-600 border-warm-200 hover:border-warm-400',
+          ]}
+        >
+          {label}
+        </span>
+      ))}
+    </div>
+
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {sorted.map((project) => (
+        <ProjectCard
+          title={project.data.title}
+          description={project.data.description}
+          category={project.data.category}
+          technologies={project.data.technologies}
+          language={project.data.language}
+          slug={project.id}
+        />
+      ))}
+    </div>
+  </section>
+</BaseLayout>

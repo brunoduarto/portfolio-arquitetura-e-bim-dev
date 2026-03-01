@@ -1,0 +1,66 @@
+---
+
+---
+
+<section class="relative overflow-hidden">
+  <div class="max-w-6xl mx-auto px-4 py-24 md:py-32">
+    <div class="grid md:grid-cols-2 gap-12 items-center">
+      {/* Text side */}
+      <div>
+        <p class="font-mono text-sm text-warm-600 tracking-wider uppercase mb-4">
+          BIM Scripting & Computational Design
+        </p>
+        <h1 class="font-display text-4xl md:text-5xl lg:text-6xl text-ink-950 leading-tight">
+          Automatizando o
+          <span class="text-warm-600"> fluxo BIM</span>
+        </h1>
+        <p class="mt-6 text-lg text-ink-500 leading-relaxed max-w-lg">
+          Scripts, ferramentas e automações para Revit, IFC e design computacional.
+          Transformando processos manuais em workflows eficientes para a indústria AEC.
+        </p>
+        <div class="mt-8 flex flex-wrap gap-4">
+          <a
+            href="/projects"
+            class="inline-flex items-center px-6 py-3 bg-ink-950 text-warm-50 rounded-lg text-sm font-medium hover:bg-ink-800 transition-colors"
+          >
+            Ver Projetos
+          </a>
+          <a
+            href="/about"
+            class="inline-flex items-center px-6 py-3 border border-warm-300 text-ink-700 rounded-lg text-sm font-medium hover:border-warm-500 hover:bg-warm-50 transition-colors"
+          >
+            Sobre Mim
+          </a>
+        </div>
+      </div>
+
+      {/* Decorative code snippet */}
+      <div class="hidden md:block">
+        <div class="bg-ink-950 rounded-lg p-6 shadow-2xl transform rotate-1">
+          <div class="flex items-center gap-2 mb-4">
+            <div class="w-3 h-3 rounded-full bg-warm-500"></div>
+            <div class="w-3 h-3 rounded-full bg-warm-300"></div>
+            <div class="w-3 h-3 rounded-full bg-warm-200"></div>
+            <span class="ml-2 text-xs text-ink-500 font-mono">ifc_extract.py</span>
+          </div>
+          <pre class="text-sm font-mono leading-relaxed"><code><span class="text-code-400">import</span> <span class="text-warm-300">ifcopenshell</span>
+
+<span class="text-ink-500"># Abrir modelo IFC</span>
+model = ifcopenshell.open(<span class="text-warm-400">"projeto.ifc"</span>)
+
+<span class="text-ink-500"># Extrair paredes</span>
+walls = model.by_type(<span class="text-warm-400">"IfcWall"</span>)
+
+<span class="text-code-400">for</span> wall <span class="text-code-400">in</span> walls:
+    psets = ifcopenshell.util.element
+        .get_psets(wall)
+    area = psets[<span class="text-warm-400">"Qto_WallBaseQuantities"</span>]
+    <span class="text-code-300">print</span>(<span class="text-warm-400">f"</span>{'{'}wall.Name{'}'}: {'{'}area{'}'}<span class="text-warm-400">"</span>)</code></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {/* Subtle background gradient */}
+  <div class="absolute inset-0 -z-10 bg-gradient-to-b from-warm-100 via-warm-50 to-transparent"></div>
+</section>

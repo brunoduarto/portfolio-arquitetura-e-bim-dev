@@ -1,0 +1,62 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+@theme {
+  /* Warm editorial palette */
+  --color-warm-50: #fdf8f3;
+  --color-warm-100: #faeee0;
+  --color-warm-200: #f4dbbf;
+  --color-warm-300: #ecc494;
+  --color-warm-400: #e2a562;
+  --color-warm-500: #db8e3e;
+  --color-warm-600: #cc7633;
+  --color-warm-700: #aa5e2b;
+  --color-warm-800: #884c29;
+  --color-warm-900: #6e3f24;
+  --color-warm-950: #3b1f11;
+
+  /* Ink tones — warm neutrals for text and dark areas */
+  --color-ink-50: #f6f5f3;
+  --color-ink-100: #e8e5df;
+  --color-ink-200: #d2cec4;
+  --color-ink-300: #b8b1a3;
+  --color-ink-400: #9d9381;
+  --color-ink-500: #8a7f6d;
+  --color-ink-600: #756a5b;
+  --color-ink-700: #5f564b;
+  --color-ink-800: #514a41;
+  --color-ink-900: #47413a;
+  --color-ink-950: #282420;
+
+  /* Code accent — muted green for technical elements */
+  --color-code-50: #f0f9f4;
+  --color-code-100: #dbf0e3;
+  --color-code-200: #b9e1ca;
+  --color-code-300: #89cba8;
+  --color-code-400: #57b082;
+  --color-code-500: #349568;
+  --color-code-600: #247853;
+  --color-code-700: #1d6044;
+  --color-code-800: #1a4d38;
+  --color-code-900: #173f2f;
+  --color-code-950: #0c231a;
+
+  /* Typography */
+  --font-display: "Playfair Display", Georgia, "Times New Roman", serif;
+  --font-body: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", "Fira Code", ui-monospace, monospace;
+}
+
+/* Prose customization for warm palette */
+.prose {
+  --tw-prose-body: var(--color-ink-700);
+  --tw-prose-headings: var(--color-ink-950);
+  --tw-prose-links: var(--color-warm-700);
+  --tw-prose-code: var(--color-code-700);
+  --tw-prose-pre-bg: var(--color-ink-950);
+  --tw-prose-pre-code: var(--color-ink-200);
+  --tw-prose-hr: var(--color-warm-200);
+  --tw-prose-quotes: var(--color-ink-600);
+  --tw-prose-quote-borders: var(--color-warm-300);
+  --tw-prose-bold: var(--color-ink-900);
+}

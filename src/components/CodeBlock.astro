@@ -1,0 +1,21 @@
+---
+import { Code } from 'astro:components';
+
+interface Props {
+  code: string;
+  lang?: string;
+  title?: string;
+}
+
+const { code, lang = 'python', title } = Astro.props;
+---
+
+<div class="rounded-lg overflow-hidden border border-ink-200 my-6">
+  {title && (
+    <div class="bg-ink-900 text-ink-300 px-4 py-2 text-xs font-mono flex items-center gap-2">
+      <span class="w-2 h-2 rounded-full bg-warm-500"></span>
+      {title}
+    </div>
+  )}
+  <Code code={code} lang={lang} theme="github-dark" />
+</div>

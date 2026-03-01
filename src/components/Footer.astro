@@ -1,0 +1,43 @@
+---
+const currentYear = new Date().getFullYear();
+---
+
+<footer class="bg-ink-950 text-ink-300 mt-20">
+  <div class="max-w-6xl mx-auto px-4 py-16">
+    <div class="grid md:grid-cols-3 gap-12">
+      {/* Brand */}
+      <div>
+        <a href="/" class="font-display text-xl text-warm-50">
+          bruno<span class="text-warm-500">.arq</span>
+        </a>
+        <p class="mt-4 text-sm leading-relaxed text-ink-400">
+          BIM Scripting & Computational Design.
+          Automatizando fluxos de trabalho para a indústria AEC.
+        </p>
+      </div>
+
+      {/* Links */}
+      <div>
+        <h3 class="text-sm font-medium text-ink-200 uppercase tracking-wider mb-4">Navegação</h3>
+        <ul class="space-y-2">
+          <li><a href="/projects" class="text-sm hover:text-warm-400 transition-colors">Projetos</a></li>
+          <li><a href="/about" class="text-sm hover:text-warm-400 transition-colors">Sobre</a></li>
+          <li><a href="/contact" class="text-sm hover:text-warm-400 transition-colors">Contato</a></li>
+        </ul>
+      </div>
+
+      {/* Social */}
+      <div>
+        <h3 class="text-sm font-medium text-ink-200 uppercase tracking-wider mb-4">Links</h3>
+        <ul class="space-y-2">
+          <li><a href="https://github.com" class="text-sm hover:text-warm-400 transition-colors">GitHub</a></li>
+          <li><a href="https://linkedin.com" class="text-sm hover:text-warm-400 transition-colors">LinkedIn</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="mt-12 pt-8 border-t border-ink-800 text-xs text-ink-500">
+      &copy; {currentYear} Bruno Arq. Todos os direitos reservados.
+    </div>
+  </div>
+</footer>

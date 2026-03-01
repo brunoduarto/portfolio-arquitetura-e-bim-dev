@@ -1,0 +1,115 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import { getCollection } from 'astro:content';
+
+const allProjects = await getCollection('projects', ({ data }) => !data.draft);
+const featured = allProjects.filter((p) => p.data.featured);
+const recent = allProjects
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  .slice(0, 4);
+
+const skills = [
+  { name: 'Revit API / pyRevit', level: 'Avançado' },
+  { name: 'IFC / ifcopenshell', level: 'Avançado' },
+  { name: 'Python (AEC)', level: 'Avançado' },
+  { name: 'C# / .NET', level: 'Intermediário' },
+  { name: 'Dynamo', level: 'Avançado' },
+  { name: 'Grasshopper / Rhino', level: 'Intermediário' },
+  { name: 'TypeScript / Node.js', level: 'Intermediário' },
+];
+---
+
+<BaseLayout title="Home">
+  <Hero />
+
+  {/* Featured Projects */}
+  <section class="max-w-6xl mx-auto px-4 py-20">
+    <SectionHeading
+      title="Projetos em Destaque"
+      subtitle="Ferramentas e scripts para o fluxo BIM"
+    />
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {featured.map((project) => (
+        <ProjectCard
+          title={project.data.title}
+          description={project.data.description}
+          category={project.data.category}
+          technologies={project.data.technologies}
+          language={project.data.language}
+          slug={project.id}
+        />
+      ))}
+    </div>
+    <div class="mt-8 text-center">
+      <a
+        href="/projects"
+        class="inline-flex items-center gap-2 text-sm text-warm-700 hover:text-warm-900 font-medium transition-colors"
+      >
+        Ver todos os projetos &rarr;
+      </a>
+    </div>
+  </section>
+
+  {/* Skills / Expertise */}
+  <section class="bg-ink-950 text-ink-200 py-20">
+    <div class="max-w-6xl mx-auto px-4">
+      <div class="mb-12">
+        <h2 class="font-display text-3xl md:text-4xl text-warm-50">Expertise</h2>
+        <p class="text-ink-400 mt-2 text-lg">Tecnologias e ferramentas do dia a dia</p>
+        <div class="mt-4 w-16 h-0.5 bg-warm-500"></div>
+      </div>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        {skills.map(({ name, level }) => (
+          <div class="flex items-center justify-between bg-ink-900/50 rounded-lg px-5 py-4 border border-ink-800">
+            <span class="font-mono text-sm text-ink-200">{name}</span>
+            <span class="text-xs text-warm-500 font-medium">{level}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  {/* Recent Work */}
+  <section class="max-w-6xl mx-auto px-4 py-20">
+    <SectionHeading
+      title="Trabalho Recente"
+      subtitle="Últimos projetos e contribuições"
+    />
+    <div class="grid md:grid-cols-2 gap-6">
+      {recent.map((project) => (
+        <ProjectCard
+          title={project.data.title}
+          description={project.data.description}
+          category={project.data.category}
+          technologies={project.data.technologies}
+          language={project.data.language}
+          slug={project.id}
+        />
+      ))}
+    </div>
+  </section>
+
+  {/* About Teaser */}
+  <section class="border-t border-warm-200 bg-warm-100/50">
+    <div class="max-w-6xl mx-auto px-4 py-20">
+      <div class="max-w-2xl">
+        <h2 class="font-display text-3xl text-ink-950">Sobre</h2>
+        <div class="mt-4 w-16 h-0.5 bg-warm-500"></div>
+        <p class="mt-6 text-lg text-ink-600 leading-relaxed">
+          Arquiteto com foco em automação BIM e design computacional.
+          Desenvolvo ferramentas que otimizam fluxos de trabalho na indústria AEC,
+          desde scripts Revit até parsers IFC e dashboards de qualidade.
+        </p>
+        <a
+          href="/about"
+          class="inline-flex items-center gap-2 mt-6 text-sm text-warm-700 hover:text-warm-900 font-medium transition-colors"
+        >
+          Saiba mais &rarr;
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
