@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm install tailwindcss @tailwindcss/vite @tailwindcss/typography)",
+      "Bash(npx astro build)",
+      "Bash(git status -u)",
+      "Bash(git remote add origin https://github.com/brunoduarto/site-pessoal.git)"
+    ]
+  }
+}
