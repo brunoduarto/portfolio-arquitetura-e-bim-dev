@@ -1,0 +1,27 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Página não encontrada" description="Esta página não existe.">
+  <section class="max-w-3xl mx-auto px-4 py-32 text-center">
+    <p class="font-mono text-xs text-warm-500 uppercase tracking-widest mb-4">Erro 404</p>
+    <h1 class="font-display text-5xl text-ink-950 mb-6">Página não encontrada</h1>
+    <p class="text-ink-500 text-lg mb-10 max-w-md mx-auto leading-relaxed">
+      Esse endereço não existe ou foi movido. Mas fique à vontade para explorar o restante do portfólio.
+    </p>
+    <div class="flex flex-wrap justify-center gap-4">
+      <a
+        href="/"
+        class="inline-flex items-center px-6 py-3 bg-ink-950 text-warm-50 rounded-lg text-sm font-medium hover:bg-ink-800 transition-colors"
+      >
+        Início
+      </a>
+      <a
+        href="/projects"
+        class="inline-flex items-center px-6 py-3 border border-warm-300 text-ink-700 rounded-lg text-sm font-medium hover:border-warm-500 hover:bg-warm-50 transition-colors"
+      >
+        Projetos
+      </a>
+    </div>
+  </section>
+</BaseLayout>

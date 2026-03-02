@@ -40,9 +40,12 @@ const articleSchema = {
       >
         &larr; Voltar aos projetos
       </a>
-      <p class="text-warm-600 font-mono text-sm uppercase tracking-wider mb-2">
+      <a
+        href={`/projects?filter=${category}`}
+        class="text-warm-600 font-mono text-sm uppercase tracking-wider mb-2 hover:text-warm-800 transition-colors"
+      >
         {categoryLabel}
-      </p>
+      </a>
       <h1 class="font-display text-4xl md:text-5xl text-ink-950 mb-4">
         {title}
       </h1>

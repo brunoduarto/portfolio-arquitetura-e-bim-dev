@@ -5,16 +5,16 @@
   The carousel shows a styled fallback (abbr) if no logo file is found.
 */
 const tools = [
-  { name: 'Revit',         file: 'revit',        abbr: 'RV' },
-  { name: 'Rhino 3D',      file: 'rhino',        abbr: 'RH' },
-  { name: 'Grasshopper',   file: 'grasshopper',  abbr: 'GH' },
-  { name: 'Dynamo',        file: 'dynamo',        abbr: 'DY' },
-  { name: 'Python',        file: 'python',        abbr: 'PY' },
-  { name: 'C# / .NET',     file: 'csharp',       abbr: 'C#' },
-  { name: 'TypeScript',    file: 'typescript',   abbr: 'TS' },
-  { name: 'ifcopenshell',  file: 'ifcopenshell', abbr: 'IFC' },
-  { name: 'pyRevit',       file: 'pyrevit',      abbr: 'pRV' },
-  { name: 'SketchUp',      file: 'sketchup',     abbr: 'SKP' },
+  { name: 'Revit',         file: 'revit',        abbr: 'RV',  ext: 'svg' },
+  { name: 'Rhino 3D',      file: 'rhino',        abbr: 'RH',  ext: 'svg' },
+  { name: 'Grasshopper',   file: 'grasshopper',  abbr: 'GH',  ext: 'png' },
+  { name: 'Dynamo',        file: 'dynamo',        abbr: 'DY',  ext: 'png' },
+  { name: 'Python',        file: 'python',        abbr: 'PY',  ext: 'svg' },
+  { name: 'C# / .NET',     file: 'csharp',       abbr: 'C#',  ext: 'svg' },
+  { name: 'TypeScript',    file: 'typescript',   abbr: 'TS',  ext: 'svg' },
+  { name: 'ifcopenshell',  file: 'ifcopenshell', abbr: 'IFC', ext: 'png' },
+  { name: 'pyRevit',       file: 'pyrevit',      abbr: 'pRV', ext: 'svg' },
+  { name: 'SketchUp',      file: 'sketchup',     abbr: 'SKP', ext: 'svg' },
 ];
 
 // Duplicate for seamless loop
@@ -131,16 +131,16 @@ const loopedTools = [...tools, ...tools];
 
         <div class="overflow-hidden">
           <div class="carousel-track flex gap-6">
-            {loopedTools.map(({ name, file, abbr }) => (
+            {loopedTools.map(({ name, file, abbr, ext }) => (
               <div class="flex-shrink-0 flex flex-col items-center gap-2 w-20">
                 <div class="w-16 h-16 rounded-xl bg-white border border-warm-200 shadow-sm flex items-center justify-center overflow-hidden">
                   <img
-                    src={`/logos/${file}.svg`}
+                    src={`/logos/${file}.${ext}`}
                     alt={name}
                     class="w-10 h-10 object-contain"
-                    onerror="this.replaceWith(this.nextElementSibling)"
+                    onerror="this.style.display='none'; this.nextElementSibling.style.display='';"
                   />
-                  <span class="font-mono text-xs font-bold text-warm-600 text-center leading-tight px-1">{abbr}</span>
+                  <span style="display:none" class="font-mono text-xs font-bold text-warm-600 text-center leading-tight px-1">{abbr}</span>
                 </div>
                 <span class="text-xs text-ink-400 font-mono text-center leading-tight whitespace-nowrap">{name}</span>
               </div>

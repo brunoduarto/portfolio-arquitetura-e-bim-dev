@@ -96,7 +96,18 @@ const tags = [
     });
   }
 
+  // Apply filter from URL param on load
+  const initial = new URLSearchParams(location.search).get('filter') ?? 'all';
+  applyFilter(initial);
+
   buttons.forEach((btn) => {
-    btn.addEventListener('click', () => applyFilter(btn.dataset.filter!));
+    btn.addEventListener('click', () => {
+      const filter = btn.dataset.filter!;
+      applyFilter(filter);
+      const url = new URL(location.href);
+      if (filter === 'all') url.searchParams.delete('filter');
+      else url.searchParams.set('filter', filter);
+      history.replaceState({}, '', url.toString());
+    });
   });
 </script>
