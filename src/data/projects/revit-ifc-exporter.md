@@ -7,7 +7,7 @@ category: "scripting"
 technologies: ["Revit API", "IFC4", "C#", ".NET", "pyRevit"]
 language: "csharp"
 featured: true
-repoUrl: "https://github.com/brunoarq/revit-ifc-exporter"
+repoUrl: "https://github.com/brunoduarto/revit-ifc-exporter"
 ---
 
 ## Visão Geral

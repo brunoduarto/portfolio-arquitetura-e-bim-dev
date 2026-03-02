@@ -6,7 +6,7 @@ category: "scripting"
 technologies: ["TypeScript", "React", "ifcopenshell", "Node.js", "SQLite"]
 language: "typescript"
 featured: false
-repoUrl: "https://github.com/brunoarq/bim-qc"
+repoUrl: "https://github.com/brunoduarto/bim-qc"
 ---
 
 ## Visão Geral

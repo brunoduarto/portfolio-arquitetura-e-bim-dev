@@ -6,7 +6,7 @@ category: "scripting"
 technologies: ["Python", "ifcopenshell", "IFC4", "pandas", "CLI"]
 language: "python"
 featured: true
-repoUrl: "https://github.com/brunoarq/ifc-parser"
+repoUrl: "https://github.com/brunoduarto/ifc-parser"
 ---
 
 ## Visão Geral

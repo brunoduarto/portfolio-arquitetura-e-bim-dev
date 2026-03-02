@@ -6,7 +6,7 @@ category: "scripting"
 technologies: ["Dynamo", "Python", "Revit API", "JSON"]
 language: "python"
 featured: true
-repoUrl: "https://github.com/brunoarq/dynamo-batch"
+repoUrl: "https://github.com/brunoduarto/dynamo-batch"
 ---
 
 ## Visão Geral
