@@ -1,12 +1,16 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Hero from '../components/Hero.astro';
+import FeaturedCarousel from '../components/FeaturedCarousel.astro';
 import ProjectCard from '../components/ProjectCard.astro';
 import SectionHeading from '../components/SectionHeading.astro';
 import { getCollection } from 'astro:content';
 
 const allProjects = await getCollection('projects', ({ data }) => !data.draft);
-const featured = allProjects.filter((p) => p.data.featured);
+const featured = allProjects
+  .filter((p) => p.data.featured)
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
 const recent = allProjects
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
   .slice(0, 4);
@@ -22,27 +26,28 @@ const skills = [
 ];
 ---
 
-<BaseLayout title="Home">
+<BaseLayout
+  title="Bruno Arq — Arquiteto & Desenvolvedor BIM"
+  description="Portfólio de arquitetura, automação BIM e design computacional. Projetos executivos, modelagem 3D, renders e ferramentas para a indústria AEC."
+  fullTitle={true}
+>
   <Hero />
 
-  {/* Featured Projects */}
+  {/* Featured Projects — Carousel */}
   <section class="max-w-6xl mx-auto px-4 py-20">
     <SectionHeading
       title="Projetos em Destaque"
-      subtitle="Ferramentas e scripts para o fluxo BIM"
+      subtitle="Uma seleção de trabalhos em arquitetura e automação BIM"
     />
-    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-      {featured.map((project) => (
-        <ProjectCard
-          title={project.data.title}
-          description={project.data.description}
-          category={project.data.category}
-          technologies={project.data.technologies}
-          language={project.data.language}
-          slug={project.id}
-        />
-      ))}
-    </div>
+    <FeaturedCarousel
+      projects={featured.map((p) => ({
+        slug: p.id,
+        title: p.data.title,
+        description: p.data.description,
+        category: p.data.category,
+        coverImage: p.data.coverImage ?? p.data.images?.[0]?.src,
+      }))}
+    />
     <div class="mt-8 text-center">
       <a
         href="/projects"
@@ -86,6 +91,7 @@ const skills = [
           category={project.data.category}
           technologies={project.data.technologies}
           language={project.data.language}
+          coverImage={project.data.coverImage ?? project.data.images?.[0]?.src}
           slug={project.id}
         />
       ))}

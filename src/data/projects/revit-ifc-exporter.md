@@ -3,7 +3,7 @@ title: "Revit IFC Exporter"
 description: "Exportador IFC customizado para Revit com mapeamento de property sets e sistemas de classificação."
 longDescription: "Ferramenta que estende a exportação nativa do Revit com definições de property sets customizados, mapeamento de sistemas de classificação (OmniClass, Uniclass) e exportação em lote para grandes projetos BIM."
 pubDate: 2024-08-15
-category: "ifc-tools"
+category: "scripting"
 technologies: ["Revit API", "IFC4", "C#", ".NET", "pyRevit"]
 language: "csharp"
 featured: true

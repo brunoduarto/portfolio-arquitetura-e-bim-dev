@@ -3,33 +3,59 @@ interface Props {
   title: string;
   description: string;
   category: string;
-  technologies: string[];
-  language: string;
+  technologies?: string[];
+  language?: string;
   slug: string;
+  coverImage?: string;
 }
 
-const { title, description, category, technologies, language, slug } = Astro.props;
+const { title, description, category, technologies, language, slug, coverImage } = Astro.props;
 
-const categoryLabel = category.replace(/-/g, ' ');
+const categoryLabels: Record<string, string> = {
+  'scripting':           'Automação BIM',
+  '3d-modeling':         '3D Modeling',
+  'executive-projects':  'Proj. Executivo',
+  '3d-renders':          '3D Render',
+  'general-projects':    'Geral',
+};
+
+const categoryLabel = categoryLabels[category] ?? category.replace(/-/g, ' ');
 ---
 
 <a
   href={`/projects/${slug}`}
-  class="group block bg-white rounded-lg border border-warm-200 p-6 hover:border-warm-400 hover:shadow-lg transition-all duration-200"
+  class="group block bg-white rounded-lg border border-warm-200 overflow-hidden hover:border-warm-400 hover:shadow-lg transition-all duration-200"
 >
-  <div class="flex items-center gap-2 mb-3">
-    <span class="text-xs font-mono uppercase tracking-wider text-warm-600 bg-warm-100 px-2 py-1 rounded">
-      {categoryLabel}
-    </span>
-    <span class="text-xs font-mono text-code-600">{language}</span>
-  </div>
-  <h3 class="font-display text-xl text-ink-900 group-hover:text-warm-700 transition-colors">
-    {title}
-  </h3>
-  <p class="text-ink-500 mt-2 text-sm leading-relaxed">{description}</p>
-  <div class="flex flex-wrap gap-1.5 mt-4">
-    {technologies.slice(0, 4).map((tech) => (
-      <span class="text-xs bg-ink-50 text-ink-600 px-2 py-0.5 rounded">{tech}</span>
-    ))}
+  {/* Thumbnail */}
+  {coverImage ? (
+    <div class="h-40 bg-warm-100 overflow-hidden">
+      <img src={coverImage} alt={title} class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+    </div>
+  ) : (
+    <div class="h-40 bg-warm-100 flex items-center justify-center">
+      <span class="font-mono text-xs text-warm-400 uppercase tracking-wider">{categoryLabel}</span>
+    </div>
+  )}
+
+  <div class="p-6">
+    <div class="flex items-center gap-2 mb-3">
+      <span class="text-xs font-mono uppercase tracking-wider text-warm-600 bg-warm-100 px-2 py-1 rounded">
+        {categoryLabel}
+      </span>
+      {language && (
+        <span class="text-xs font-mono text-code-600">{language}</span>
+      )}
+    </div>
+    <h3 class="font-display text-xl text-ink-900 group-hover:text-warm-700 transition-colors">
+      {title}
+    </h3>
+    <p class="text-ink-500 mt-2 text-sm leading-relaxed">{description}</p>
+    {technologies && technologies.length > 0 && (
+      <div class="flex flex-wrap gap-1.5 mt-4">
+        {technologies.slice(0, 4).map((tech) => (
+          <span class="text-xs bg-ink-50 text-ink-600 px-2 py-0.5 rounded">{tech}</span>
+        ))}
+      </div>
+    )}
   </div>
 </a>

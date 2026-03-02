@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(head -5 c:/Users/PC/Documents/Repos/bruno.arq.br/src/data/projects/*.md)",
+      "Bash(grep -n \"^category:\" c:/Users/PC/Documents/Repos/bruno.arq.br/src/data/projects/*.md)",
+      "WebFetch(domain:du.arq.br)"
+    ]
+  }
+}

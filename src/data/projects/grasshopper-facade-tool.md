@@ -2,7 +2,7 @@
 title: "Grasshopper Facade Generator"
 description: "Plugin Grasshopper para geração paramétrica de fachadas com painéis modulares e otimização solar."
 pubDate: 2024-04-10
-category: "computational-design"
+category: "scripting"
 technologies: ["Grasshopper", "Rhino", "C#", "Ladybug", "Galapagos"]
 language: "csharp"
 featured: false

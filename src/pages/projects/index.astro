@@ -10,51 +10,93 @@ const sorted = allProjects.sort(
   (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
 );
 
-const categories = [
-  { value: 'all', label: 'Todos' },
-  { value: 'revit-scripts', label: 'Revit Scripts' },
-  { value: 'ifc-tools', label: 'IFC Tools' },
-  { value: 'dynamo-nodes', label: 'Dynamo' },
-  { value: 'python-aec', label: 'Python AEC' },
-  { value: 'computational-design', label: 'Design Computacional' },
-  { value: 'bim-automation', label: 'BIM Automation' },
+const tags = [
+  { value: 'all',                label: 'Todos' },
+  { value: 'scripting',          label: 'Automação BIM' },
+  { value: '3d-modeling',        label: '3D Modeling' },
+  { value: 'executive-projects', label: 'Projetos Executivos' },
+  { value: '3d-renders',         label: '3D Renders' },
+  { value: 'general-projects',   label: 'Projetos Gerais' },
 ];
 ---
 
-<BaseLayout title="Projetos" description="Ferramentas, scripts e automações para fluxos BIM e AEC.">
+<BaseLayout title="Projetos" description="Projetos de arquitetura, automação BIM e design computacional.">
   <section class="max-w-6xl mx-auto px-4 py-16">
     <SectionHeading
       title="Projetos"
-      subtitle="Ferramentas, scripts e automações para fluxos BIM e AEC"
+      subtitle="Arquitetura, automação BIM e design computacional"
     />
 
-    {/* Category filter — static for now, can add JS filtering later */}
-    <div class="flex flex-wrap gap-2 mb-12">
-      {categories.map(({ value, label }) => (
-        <span
+    {/* Tag filter */}
+    <div class="flex flex-wrap gap-2 mb-12" id="tag-filters">
+      {tags.map(({ value, label }) => (
+        <button
+          data-filter={value}
           class:list={[
-            'text-sm px-3 py-1.5 rounded-full border cursor-default transition-colors',
+            'tag-btn text-sm px-4 py-1.5 rounded-full border transition-colors cursor-pointer',
             value === 'all'
-              ? 'bg-ink-950 text-warm-50 border-ink-950'
+              ? 'active bg-ink-950 text-warm-50 border-ink-950'
               : 'bg-white text-ink-600 border-warm-200 hover:border-warm-400',
           ]}
         >
           {label}
-        </span>
+        </button>
       ))}
     </div>
 
-    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+    {/* Project grid */}
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6" id="project-grid">
       {sorted.map((project) => (
-        <ProjectCard
-          title={project.data.title}
-          description={project.data.description}
-          category={project.data.category}
-          technologies={project.data.technologies}
-          language={project.data.language}
-          slug={project.id}
-        />
+        <div data-category={project.data.category} class="project-item">
+          <ProjectCard
+            title={project.data.title}
+            description={project.data.description}
+            category={project.data.category}
+            technologies={project.data.technologies}
+            language={project.data.language}
+            coverImage={project.data.coverImage ?? project.data.images?.[0]?.src}
+            slug={project.id}
+          />
+        </div>
       ))}
     </div>
+
+    {/* Empty state */}
+    <p id="empty-state" class="hidden text-center text-ink-400 font-mono text-sm py-16">
+      Nenhum projeto nesta categoria ainda.
+    </p>
   </section>
 </BaseLayout>
+
+<script>
+  const buttons = document.querySelectorAll<HTMLButtonElement>('.tag-btn');
+  const items   = document.querySelectorAll<HTMLElement>('.project-item');
+  const empty   = document.getElementById('empty-state')!;
+
+  function applyFilter(filter: string) {
+    let visible = 0;
+
+    items.forEach((item) => {
+      const match = filter === 'all' || item.dataset.category === filter;
+      item.style.display = match ? '' : 'none';
+      if (match) visible++;
+    });
+
+    empty.classList.toggle('hidden', visible > 0);
+
+    buttons.forEach((btn) => {
+      const active = btn.dataset.filter === filter;
+      btn.classList.toggle('active', active);
+      btn.classList.toggle('bg-ink-950', active);
+      btn.classList.toggle('text-warm-50', active);
+      btn.classList.toggle('border-ink-950', active);
+      btn.classList.toggle('bg-white', !active);
+      btn.classList.toggle('text-ink-600', !active);
+      btn.classList.toggle('border-warm-200', !active);
+    });
+  }
+
+  buttons.forEach((btn) => {
+    btn.addEventListener('click', () => applyFilter(btn.dataset.filter!));
+  });
+</script>

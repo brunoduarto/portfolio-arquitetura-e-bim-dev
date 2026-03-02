@@ -1,24 +1,106 @@
 ---
+/*
+  Background image: drop any photo/render at public/hero-bg.jpg
+  Logos: drop SVG/PNG files at public/logos/{file}.svg  (e.g. public/logos/python.svg)
+  The carousel shows a styled fallback (abbr) if no logo file is found.
+*/
+const tools = [
+  { name: 'Revit',         file: 'revit',        abbr: 'RV' },
+  { name: 'Rhino 3D',      file: 'rhino',        abbr: 'RH' },
+  { name: 'Grasshopper',   file: 'grasshopper',  abbr: 'GH' },
+  { name: 'Dynamo',        file: 'dynamo',        abbr: 'DY' },
+  { name: 'Python',        file: 'python',        abbr: 'PY' },
+  { name: 'C# / .NET',     file: 'csharp',       abbr: 'C#' },
+  { name: 'TypeScript',    file: 'typescript',   abbr: 'TS' },
+  { name: 'ifcopenshell',  file: 'ifcopenshell', abbr: 'IFC' },
+  { name: 'pyRevit',       file: 'pyrevit',      abbr: 'pRV' },
+  { name: 'SketchUp',      file: 'sketchup',     abbr: 'SKP' },
+];
 
+// Duplicate for seamless loop
+const loopedTools = [...tools, ...tools];
 ---
 
 <section class="relative overflow-hidden">
-  <div class="max-w-6xl mx-auto px-4 py-24 md:py-32">
-    <div class="grid md:grid-cols-2 gap-12 items-center">
-      {/* Text side */}
-      <div>
-        <p class="font-mono text-sm text-warm-600 tracking-wider uppercase mb-4">
-          BIM Scripting & Computational Design
+
+  {/* Background image — shows through overlay; fallback is warm-100 if file missing */}
+  <div
+    class="absolute inset-0 -z-20 bg-warm-100 bg-cover bg-center bg-no-repeat"
+    style="background-image: url('/hero-bg.jpg')"
+  ></div>
+  {/* Semi-transparent overlay so text stays readable */}
+  <div class="absolute inset-0 -z-10 bg-warm-50/88"></div>
+
+  <div class="max-w-6xl mx-auto px-4 pt-16 pb-10 md:pt-24 md:pb-12">
+
+    {/* ── Photo + Mini-CV ────────────────────────────────── */}
+    <div class="grid md:grid-cols-[auto_1fr] gap-10 md:gap-16 items-start">
+
+      {/* Photo */}
+      <div class="flex justify-center md:justify-start">
+        <div class="w-64 h-80 md:w-72 md:h-96 rounded-2xl bg-warm-200 border border-warm-300 overflow-hidden shadow-md">
+          <img src="/headshot_profissional.jpg" alt="Bruno" class="w-full h-full object-cover" />
+        </div>
+      </div>
+
+      {/* Mini-CV */}
+      <div class="flex flex-col justify-start">
+
+        <p class="font-mono text-xs text-warm-600 tracking-widest uppercase mb-2">
+          Arquiteto &amp; Desenvolvedor BIM
         </p>
-        <h1 class="font-display text-4xl md:text-5xl lg:text-6xl text-ink-950 leading-tight">
-          Automatizando o
-          <span class="text-warm-600"> fluxo BIM</span>
+
+        <h1 class="font-display text-4xl md:text-5xl text-ink-950 leading-tight mb-5">
+          Bruno<!-- Adicione seu sobrenome aqui -->
         </h1>
-        <p class="mt-6 text-lg text-ink-500 leading-relaxed max-w-lg">
-          Scripts, ferramentas e automações para Revit, IFC e design computacional.
-          Transformando processos manuais em workflows eficientes para a indústria AEC.
+
+        <p class="text-ink-600 leading-relaxed mb-3 max-w-xl">
+          Arquiteto com paixão por tecnologia e automação. Trabalho na interseção entre
+          arquitetura e programação, desenvolvendo ferramentas que tornam o fluxo BIM
+          mais eficiente e menos propenso a erros.
         </p>
-        <div class="mt-8 flex flex-wrap gap-4">
+        <p class="text-ink-600 leading-relaxed mb-7 max-w-xl">
+          Acredito que a automação não substitui o arquiteto — ela libera tempo para
+          que possamos focar no que realmente importa: projetar bons espaços.
+        </p>
+
+        {/* Contact links */}
+        <div class="flex flex-wrap items-center gap-5 mb-7">
+          <a
+            href="mailto:contato@bruno.arq.br"
+            class="inline-flex items-center gap-1.5 text-sm text-ink-500 hover:text-warm-700 transition-colors"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+            </svg>
+            contato@bruno.arq.br
+          </a>
+          <a
+            href="https://github.com/brunoarq"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center gap-1.5 text-sm text-ink-500 hover:text-warm-700 transition-colors"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" />
+            </svg>
+            github.com/brunoarq
+          </a>
+          <a
+            href="https://linkedin.com/in/brunoarq"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center gap-1.5 text-sm text-ink-500 hover:text-warm-700 transition-colors"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z M4 6a2 2 0 100-4 2 2 0 000 4z" />
+            </svg>
+            linkedin.com/in/brunoarq
+          </a>
+        </div>
+
+        {/* CTAs */}
+        <div class="flex flex-wrap gap-4">
           <a
             href="/projects"
             class="inline-flex items-center px-6 py-3 bg-ink-950 text-warm-50 rounded-lg text-sm font-medium hover:bg-ink-800 transition-colors"
@@ -29,38 +111,60 @@
             href="/about"
             class="inline-flex items-center px-6 py-3 border border-warm-300 text-ink-700 rounded-lg text-sm font-medium hover:border-warm-500 hover:bg-warm-50 transition-colors"
           >
-            Sobre Mim
+            Trajetória
           </a>
         </div>
+
       </div>
+    </div>
 
-      {/* Decorative code snippet */}
-      <div class="hidden md:block">
-        <div class="bg-ink-950 rounded-lg p-6 shadow-2xl transform rotate-1">
-          <div class="flex items-center gap-2 mb-4">
-            <div class="w-3 h-3 rounded-full bg-warm-500"></div>
-            <div class="w-3 h-3 rounded-full bg-warm-300"></div>
-            <div class="w-3 h-3 rounded-full bg-warm-200"></div>
-            <span class="ml-2 text-xs text-ink-500 font-mono">ifc_extract.py</span>
+    {/* ── Tools carousel ─────────────────────────────────── */}
+    <div class="mt-12 pt-10 border-t border-warm-200/70">
+      <p class="font-mono text-xs text-warm-600 uppercase tracking-wider mb-5 text-center">
+        Ferramentas &amp; Expertise
+      </p>
+
+      {/* Fade masks on the edges */}
+      <div class="relative">
+        <div class="pointer-events-none absolute left-0 top-0 bottom-0 w-16 z-10 bg-gradient-to-r from-warm-50/88 to-transparent"></div>
+        <div class="pointer-events-none absolute right-0 top-0 bottom-0 w-16 z-10 bg-gradient-to-l from-warm-50/88 to-transparent"></div>
+
+        <div class="overflow-hidden">
+          <div class="carousel-track flex gap-6">
+            {loopedTools.map(({ name, file, abbr }) => (
+              <div class="flex-shrink-0 flex flex-col items-center gap-2 w-20">
+                <div class="w-16 h-16 rounded-xl bg-white border border-warm-200 shadow-sm flex items-center justify-center overflow-hidden">
+                  <img
+                    src={`/logos/${file}.svg`}
+                    alt={name}
+                    class="w-10 h-10 object-contain"
+                    onerror="this.replaceWith(this.nextElementSibling)"
+                  />
+                  <span class="font-mono text-xs font-bold text-warm-600 text-center leading-tight px-1">{abbr}</span>
+                </div>
+                <span class="text-xs text-ink-400 font-mono text-center leading-tight whitespace-nowrap">{name}</span>
+              </div>
+            ))}
           </div>
-          <pre class="text-sm font-mono leading-relaxed"><code><span class="text-code-400">import</span> <span class="text-warm-300">ifcopenshell</span>
-
-<span class="text-ink-500"># Abrir modelo IFC</span>
-model = ifcopenshell.open(<span class="text-warm-400">"projeto.ifc"</span>)
-
-<span class="text-ink-500"># Extrair paredes</span>
-walls = model.by_type(<span class="text-warm-400">"IfcWall"</span>)
-
-<span class="text-code-400">for</span> wall <span class="text-code-400">in</span> walls:
-    psets = ifcopenshell.util.element
-        .get_psets(wall)
-    area = psets[<span class="text-warm-400">"Qto_WallBaseQuantities"</span>]
-    <span class="text-code-300">print</span>(<span class="text-warm-400">f"</span>{'{'}wall.Name{'}'}: {'{'}area{'}'}<span class="text-warm-400">"</span>)</code></pre>
         </div>
       </div>
     </div>
-  </div>
 
-  {/* Subtle background gradient */}
-  <div class="absolute inset-0 -z-10 bg-gradient-to-b from-warm-100 via-warm-50 to-transparent"></div>
+  </div>
 </section>
+
+<style>
+  .carousel-track {
+    width: max-content;
+    animation: marquee 30s linear infinite;
+  }
+
+  .carousel-track:hover {
+    animation-play-state: paused;
+  }
+
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+</style>

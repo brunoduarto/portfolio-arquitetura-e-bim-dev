@@ -2,7 +2,7 @@
 title: "BIM QC Dashboard"
 description: "Dashboard web para controle de qualidade de modelos BIM com verificações automáticas e relatórios."
 pubDate: 2024-11-20
-category: "bim-automation"
+category: "scripting"
 technologies: ["TypeScript", "React", "ifcopenshell", "Node.js", "SQLite"]
 language: "typescript"
 featured: false

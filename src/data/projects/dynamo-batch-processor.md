@@ -2,7 +2,7 @@
 title: "Dynamo Batch Processor"
 description: "Processador em lote para scripts Dynamo com logging e tratamento de erros automático."
 pubDate: 2024-06-20
-category: "dynamo-nodes"
+category: "scripting"
 technologies: ["Dynamo", "Python", "Revit API", "JSON"]
 language: "python"
 featured: true

@@ -2,7 +2,7 @@
 title: "Revit Room Tagger"
 description: "Plugin Revit para tagueamento automático de ambientes com dados de acabamentos e áreas."
 pubDate: 2024-02-05
-category: "revit-scripts"
+category: "scripting"
 technologies: ["Revit API", "C#", "WPF", ".NET", "pyRevit"]
 language: "csharp"
 featured: false

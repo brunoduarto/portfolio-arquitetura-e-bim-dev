@@ -1,0 +1,147 @@
+---
+interface Project {
+  slug: string;
+  title: string;
+  description: string;
+  category: string;
+  coverImage?: string;
+}
+
+interface Props {
+  projects: Project[];
+}
+
+const { projects } = Astro.props;
+
+const categoryLabels: Record<string, string> = {
+  'scripting':           'Automação BIM',
+  '3d-modeling':         '3D Modeling',
+  'executive-projects':  'Proj. Executivo',
+  '3d-renders':          '3D Render',
+  'general-projects':    'Geral',
+};
+---
+
+<div class="relative" id="featured-carousel">
+
+  {/*
+    All slides sit in the same grid cell (col-start-1 row-start-1) so they stack.
+    Active slide fades in via opacity-100; inactive fades out via opacity-0.
+    The container height is fixed so all slides are the same size.
+  */}
+  <div class="grid h-[340px] md:h-[400px] rounded-2xl overflow-hidden border border-warm-200 shadow-sm">
+    {projects.map((project, i) => (
+      <div
+        class:list={[
+          'carousel-slide col-start-1 row-start-1 grid md:grid-cols-[3fr_2fr]',
+          'transition-opacity duration-500',
+          i === 0 ? 'opacity-100' : 'opacity-0 pointer-events-none',
+        ]}
+        data-index={i}
+      >
+        {/* Image / placeholder */}
+        <div class="bg-warm-200 flex items-center justify-center overflow-hidden">
+          {project.coverImage ? (
+            <img
+              src={project.coverImage}
+              alt={project.title}
+              class="w-full h-full object-cover"
+            />
+          ) : (
+            <span class="font-mono text-sm text-warm-400 uppercase tracking-widest">
+              {categoryLabels[project.category] ?? project.category}
+            </span>
+          )}
+        </div>
+
+        {/* Text */}
+        <div class="bg-white px-8 py-6 flex flex-col justify-center gap-3 overflow-hidden">
+          <span class="text-xs font-mono uppercase tracking-wider text-warm-600 bg-warm-100 px-2 py-1 rounded self-start">
+            {categoryLabels[project.category] ?? project.category}
+          </span>
+          <a href={`/projects/${project.slug}`} class="group/title">
+            <h3 class="font-display text-2xl md:text-3xl text-ink-950 group-hover/title:text-warm-700 transition-colors leading-snug line-clamp-2">
+              {project.title}
+            </h3>
+          </a>
+          <p class="text-ink-500 text-sm leading-relaxed line-clamp-3">
+            {project.description}
+          </p>
+          <a
+            href={`/projects/${project.slug}`}
+            class="inline-flex items-center gap-2 text-sm text-warm-700 hover:text-warm-900 font-medium transition-colors self-start mt-1"
+          >
+            Ver projeto &rarr;
+          </a>
+        </div>
+      </div>
+    ))}
+  </div>
+
+  {/* Prev / Next */}
+  <button
+    id="carousel-prev"
+    class="absolute left-3 top-1/2 -translate-y-1/2 z-10 w-9 h-9 bg-white/90 hover:bg-white rounded-full shadow-md flex items-center justify-center transition"
+    aria-label="Anterior"
+  >
+    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-ink-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+    </svg>
+  </button>
+  <button
+    id="carousel-next"
+    class="absolute right-3 top-1/2 -translate-y-1/2 z-10 w-9 h-9 bg-white/90 hover:bg-white rounded-full shadow-md flex items-center justify-center transition"
+    aria-label="Próximo"
+  >
+    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-ink-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+    </svg>
+  </button>
+
+  {/* Dots */}
+  <div class="flex justify-center gap-2 mt-5">
+    {projects.map((_, i) => (
+      <button
+        class:list={['carousel-dot h-2 rounded-full transition-all duration-300', i === 0 ? 'w-6 bg-ink-950' : 'w-2 bg-ink-300']}
+        data-dot={i}
+        aria-label={`Slide ${i + 1}`}
+      />
+    ))}
+  </div>
+</div>
+
+<script>
+  const slides = Array.from(document.querySelectorAll<HTMLElement>('#featured-carousel .carousel-slide'));
+  const dots   = Array.from(document.querySelectorAll<HTMLElement>('#featured-carousel .carousel-dot'));
+  let current  = 0;
+  let timer: ReturnType<typeof setInterval>;
+
+  function goTo(n: number) {
+    slides[current].classList.remove('opacity-100');
+    slides[current].classList.add('opacity-0', 'pointer-events-none');
+    dots[current].classList.remove('w-6', 'bg-ink-950');
+    dots[current].classList.add('w-2', 'bg-ink-300');
+
+    current = ((n % slides.length) + slides.length) % slides.length;
+
+    slides[current].classList.remove('opacity-0', 'pointer-events-none');
+    slides[current].classList.add('opacity-100');
+    dots[current].classList.remove('w-2', 'bg-ink-300');
+    dots[current].classList.add('w-6', 'bg-ink-950');
+  }
+
+  function startTimer() {
+    timer = setInterval(() => goTo(current + 1), 5000);
+  }
+
+  function resetTimer() {
+    clearInterval(timer);
+    startTimer();
+  }
+
+  document.getElementById('carousel-prev')!.addEventListener('click', () => { goTo(current - 1); resetTimer(); });
+  document.getElementById('carousel-next')!.addEventListener('click', () => { goTo(current + 1); resetTimer(); });
+  dots.forEach((dot, i) => dot.addEventListener('click', () => { goTo(i); resetTimer(); }));
+
+  startTimer();
+</script>

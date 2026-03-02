@@ -8,12 +8,30 @@ interface Props {
 }
 
 const { project } = Astro.props;
-const { title, description, category, technologies, pubDate, repoUrl } = project.data;
+const { title, description, category, technologies, pubDate, repoUrl, coverImage } = project.data;
 
-const categoryLabel = category.replace(/-/g, ' ');
+const categoryLabels: Record<string, string> = {
+  'scripting':           'Automação BIM',
+  '3d-modeling':         '3D Modeling',
+  'executive-projects':  'Proj. Executivo',
+  '3d-renders':          '3D Render',
+  'general-projects':    'Geral',
+};
+const categoryLabel = categoryLabels[category] ?? category.replace(/-/g, ' ');
+
+const articleSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareSourceCode',
+  name: title,
+  description,
+  datePublished: pubDate.toISOString(),
+  author: { '@type': 'Person', name: 'Bruno', url: 'https://bruno.arq.br' },
+  ...(repoUrl ? { codeRepository: repoUrl } : {}),
+};
 ---
 
-<BaseLayout title={title} description={description}>
+<BaseLayout title={title} description={description} ogType="article" ogImage={coverImage}>
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(articleSchema)} />
   <article class="max-w-3xl mx-auto px-4 py-16">
     <header class="mb-12 border-b border-warm-200 pb-8">
       <a
@@ -29,9 +47,11 @@ const categoryLabel = category.replace(/-/g, ' ');
         {title}
       </h1>
       <p class="text-ink-500 text-lg leading-relaxed">{description}</p>
-      <div class="flex flex-wrap gap-2 mt-6">
-        {technologies.map((tech) => <TagBadge label={tech} />)}
-      </div>
+      {technologies && technologies.length > 0 && (
+        <div class="flex flex-wrap gap-2 mt-6">
+          {technologies.map((tech) => <TagBadge label={tech} />)}
+        </div>
+      )}
       <div class="flex items-center gap-4 mt-6 text-sm text-ink-400">
         <time datetime={pubDate.toISOString()}>
           {pubDate.toLocaleDateString('pt-BR', { year: 'numeric', month: 'long' })}

@@ -2,7 +2,7 @@
 title: "IFC Parser Python"
 description: "Biblioteca Python para parsing e análise de arquivos IFC com foco em extração de quantitativos."
 pubDate: 2024-10-01
-category: "ifc-tools"
+category: "scripting"
 technologies: ["Python", "ifcopenshell", "IFC4", "pandas", "CLI"]
 language: "python"
 featured: true
