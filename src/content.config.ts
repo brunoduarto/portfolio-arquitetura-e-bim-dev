@@ -11,11 +11,11 @@ const projects = defineCollection({
     pubDate: z.coerce.date(),
     updatedDate: z.coerce.date().optional(),
     category: z.enum([
-      'scripting',           // BIM scripts, automation tools, coding projects
-      '3d-modeling',         // IFC / BIM models (will use IFC viewer)
-      'executive-projects',  // Technical drawings, PDFs (will use PDF reader)
-      '3d-renders',          // Rendered images (image gallery)
-      'general-projects',    // Mixed media — images + text
+      'scripting',
+      '3d-modeling',
+      'executive-projects',
+      '3d-renders',
+      'general-projects',
     ]),
     technologies: z.array(z.string()).optional(),
     language: z.enum(['python', 'csharp', 'javascript', 'typescript', 'dynamo', 'grasshopper']).optional(),
@@ -32,4 +32,17 @@ const projects = defineCollection({
   }),
 });
 
-export const collections = { projects };
+const blog = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/data/blog' }),
+  schema: z.object({
+    title: z.string(),
+    description: z.string(),
+    pubDate: z.coerce.date(),
+    updatedDate: z.coerce.date().optional(),
+    category: z.string().optional(),
+    coverImage: z.string().optional(),
+    draft: z.boolean().default(false),
+  }),
+});
+
+export const collections = { projects, blog };

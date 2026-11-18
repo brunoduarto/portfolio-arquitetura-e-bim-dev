@@ -2,7 +2,9 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Hero from '../components/Hero.astro';
 import FeaturedCarousel from '../components/FeaturedCarousel.astro';
-import ProjectCard from '../components/ProjectCard.astro';
+import ServiceCard from '../components/ServiceCard.astro';
+import TestimonialCard from '../components/TestimonialCard.astro';
+import BlogPostCard from '../components/BlogPostCard.astro';
 import SectionHeading from '../components/SectionHeading.astro';
 import { getCollection } from 'astro:content';
 
@@ -11,110 +13,204 @@ const featured = allProjects
   .filter((p) => p.data.featured)
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 
-const recent = allProjects
-  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
-  .slice(0, 4);
+const services = [
+  {
+    title: 'Projeto Residencial',
+    description: 'Casas e apartamentos do conceito ao executivo. Acompanhamento completo, desde a escolha do terreno até a entrega da obra.',
+    icon: 'M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6',
+  },
+  {
+    title: 'Projeto Comercial',
+    description: 'Escritórios, lojas e restaurantes. Espaços que refletem a identidade da sua marca e atendem às necessidades do seu negócio.',
+    icon: 'M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4',
+  },
+  {
+    title: 'Design de Interiores',
+    description: 'Ambientes funcionais e com personalidade. Seleção de materiais, mobiliário, iluminação e acabamentos.',
+    icon: 'M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z',
+  },
+  {
+    title: 'Outros',
+    description: 'Urbanismo, instalações efêmeras, projetos especiais e consultorias. Me conta o que você precisa.',
+    icon: 'M11 4a2 2 0 114 0v1a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-1a2 2 0 100 4h1a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-1a2 2 0 10-4 0v1a1 1 0 01-1 1H7a1 1 0 01-1-1v-3a1 1 0 00-1-1H4a2 2 0 110-4h1a1 1 0 001-1V7a1 1 0 011-1h3a1 1 0 001-1V4z',
+  },
+];
 
-const skills = [
-  { name: 'Revit API / pyRevit', level: 'Avançado' },
-  { name: 'IFC / ifcopenshell', level: 'Avançado' },
-  { name: 'Python (AEC)', level: 'Avançado' },
-  { name: 'C# / .NET', level: 'Intermediário' },
-  { name: 'Dynamo', level: 'Avançado' },
-  { name: 'Grasshopper / Rhino', level: 'Intermediário' },
-  { name: 'TypeScript / Node.js', level: 'Intermediário' },
+const testimonials = [
+  {
+    quote: 'Ele entendeu o que a gente queria sem precisar de muita explicação. A casa ficou exatamente como a gente imaginava, mas melhor.',
+    name: 'Ana Carolina M.',
+    role: 'Projeto residencial em Nova Lima',
+  },
+  {
+    quote: 'Reformamos o apartamento inteiro com ele. O que mais impressionou foi o controle do orçamento — nada de surpresa no final.',
+    name: 'Ricardo e Fernanda S.',
+    role: 'Reforma em Savassi, BH',
+  },
+  {
+    quote: 'O escritório novo mudou a rotina da equipe. O pessoal para de reclamar do calor, do barulho... resolveu tudo de uma vez.',
+    name: 'Marcelo T.',
+    role: 'Projeto comercial no Funcionários',
+  },
+];
+
+const blogPosts = [
+  {
+    title: 'Como escolher o terreno ideal para construir',
+    description: 'Topografia, orientação solar, infraestrutura e documentação: o que avaliar antes de comprar.',
+    slug: 'como-escolher-terreno-ideal',
+    date: '2025-09-12',
+    category: 'Dicas',
+  },
+  {
+    title: '5 erros comuns em reformas residenciais',
+    description: 'Problemas que você pode evitar com planejamento e acompanhamento profissional.',
+    slug: '5-erros-comuns-reformas',
+    date: '2025-07-20',
+    category: 'Reformas',
+  },
+  {
+    title: 'Tendências de design de interiores em 2026',
+    description: 'Materiais naturais, iluminação inteligente e espaços multifuncionais estão em alta.',
+    slug: 'tendencias-design-interiores-2026',
+    date: '2025-11-05',
+    category: 'Interiores',
+  },
 ];
 ---
 
 <BaseLayout
-  title="Bruno Duarte — Arquiteto, Urbanista, e Especialista em BIM"
-  description="Portfólio de arquitetura, automação BIM e design computacional. Projetos executivos, modelagem 3D, renders e ferramentas para a indústria AEC."
+  title="Bruno Duarte — Arquiteto e Urbanista em Belo Horizonte"
+  description="Projetos de arquitetura residencial, comercial e design de interiores em Belo Horizonte e Minas Gerais. Do conceito ao executivo."
   fullTitle={true}
 >
   <Hero />
 
-  {/* Featured Projects — Carousel */}
-  <section class="max-w-6xl mx-auto px-4 py-20">
+  {/* Services */}
+  <section id="servicos" class="max-w-6xl mx-auto px-4 py-20">
     <SectionHeading
-      title="Projetos em Destaque"
-      subtitle="Uma seleção de trabalhos em arquitetura e automação BIM"
+      title="Serviços"
+      subtitle="Soluções completas em arquitetura e design"
     />
-    <FeaturedCarousel
-      projects={featured.map((p) => ({
-        slug: p.id,
-        title: p.data.title,
-        description: p.data.description,
-        category: p.data.category,
-        coverImage: p.data.coverImage ?? p.data.images?.[0]?.src,
-      }))}
-    />
-    <div class="mt-8 text-center">
+    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      {services.map((service) => (
+        <ServiceCard {...service} />
+      ))}
+    </div>
+  </section>
+
+  {/* Featured Projects — Full bleed carousel */}
+  <section class="bg-ink-950 text-ink-200 py-20">
+    <div class="max-w-6xl mx-auto px-4">
+      <div class="mb-12">
+        <h2 class="font-display text-3xl md:text-4xl text-warm-50">Projetos em Destaque</h2>
+        <p class="text-ink-400 mt-2 text-lg">Uma seleção de trabalhos recentes</p>
+        <div class="mt-4 w-16 h-0.5 bg-warm-500"></div>
+      </div>
+    </div>
+    <div class="max-w-[100vw] overflow-hidden">
+      <div class="max-w-6xl mx-auto px-4">
+        <FeaturedCarousel
+          projects={featured.map((p) => ({
+            slug: p.id,
+            title: p.data.title,
+            description: p.data.description,
+            category: p.data.category,
+            coverImage: p.data.coverImage ?? p.data.images?.[0]?.src,
+          }))}
+        />
+      </div>
+    </div>
+    <div class="max-w-6xl mx-auto px-4 mt-8 text-center">
       <a
         href="/projects"
-        class="inline-flex items-center gap-2 text-sm text-warm-700 hover:text-warm-900 font-medium transition-colors"
+        class="inline-flex items-center gap-2 text-sm text-warm-400 hover:text-warm-300 font-medium transition-colors"
       >
         Ver todos os projetos &rarr;
       </a>
     </div>
   </section>
 
-  {/* Skills / Expertise */}
-  <section class="bg-ink-950 text-ink-200 py-20">
-    <div class="max-w-6xl mx-auto px-4">
-      <div class="mb-12">
-        <h2 class="font-display text-3xl md:text-4xl text-warm-50">Expertise</h2>
-        <p class="text-ink-400 mt-2 text-lg">Tecnologias e ferramentas do dia a dia</p>
-        <div class="mt-4 w-16 h-0.5 bg-warm-500"></div>
-      </div>
-      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        {skills.map(({ name, level }) => (
-          <div class="flex items-center justify-between bg-ink-900/50 rounded-lg px-5 py-4 border border-ink-800">
-            <span class="font-mono text-sm text-ink-200">{name}</span>
-            <span class="text-xs text-warm-500 font-medium">{level}</span>
-          </div>
+  {/* Testimonials */}
+  <section class="bg-warm-100/50 border-y border-warm-200">
+    <div class="max-w-6xl mx-auto px-4 py-20">
+      <SectionHeading
+        title="O que dizem os clientes"
+        subtitle="Quem já trabalhou comigo"
+      />
+      <div class="grid md:grid-cols-3 gap-6">
+        {testimonials.map((t) => (
+          <TestimonialCard {...t} />
         ))}
       </div>
     </div>
   </section>
 
-  {/* Recent Work */}
-  <section class="max-w-6xl mx-auto px-4 py-20">
-    <SectionHeading
-      title="Trabalho Recente"
-      subtitle="Últimos projetos e contribuições"
-    />
-    <div class="grid md:grid-cols-2 gap-6">
-      {recent.map((project) => (
-        <ProjectCard
-          title={project.data.title}
-          description={project.data.description}
-          category={project.data.category}
-          technologies={project.data.technologies}
-          language={project.data.language}
-          coverImage={project.data.coverImage ?? project.data.images?.[0]?.src}
-          slug={project.id}
-        />
-      ))}
+  {/* Briefing CTA */}
+  <section class="bg-ink-950 text-white py-24">
+    <div class="max-w-6xl mx-auto px-4 text-center">
+      <h2 class="font-display text-3xl md:text-5xl text-warm-50 mb-4">
+        Tem um projeto em mente?
+      </h2>
+      <p class="text-xl text-ink-300 mb-10">
+        Preencha um briefing rápido e eu entro em contato.
+      </p>
+      <a
+        href="/quiz"
+        class="inline-flex items-center px-8 py-4 bg-white text-ink-950 text-sm font-medium hover:bg-warm-100 transition-colors"
+      >
+        Preencher Briefing
+      </a>
     </div>
   </section>
 
-  {/* About Teaser */}
+  {/* Blog */}
+  <section class="max-w-6xl mx-auto px-4 py-20">
+    <SectionHeading
+      title="Blog"
+      subtitle="Dicas e artigos sobre arquitetura"
+    />
+    <div class="grid md:grid-cols-3 gap-8">
+      {blogPosts.map((post) => (
+        <BlogPostCard {...post} />
+      ))}
+    </div>
+    <div class="mt-8 text-center">
+      <a
+        href="/blog"
+        class="inline-flex items-center gap-2 text-sm text-warm-700 hover:text-warm-900 font-medium transition-colors"
+      >
+        Ver todos os artigos &rarr;
+      </a>
+    </div>
+  </section>
+
+  {/* About with photo */}
   <section class="border-t border-warm-200 bg-warm-100/50">
     <div class="max-w-6xl mx-auto px-4 py-20">
-      <div class="max-w-2xl">
-        <h2 class="font-display text-3xl text-ink-950">Sobre</h2>
-        <div class="mt-4 w-16 h-0.5 bg-warm-500"></div>
-        <p class="mt-6 text-lg text-ink-600 leading-relaxed">
-          Arquiteto com foco em automação BIM e design computacional.
-          Desenvolvo ferramentas que otimizam fluxos de trabalho na indústria AEC,
-          desde scripts Revit até parsers IFC e dashboards de qualidade.
-        </p>
-        <a
-          href="/about"
-          class="inline-flex items-center gap-2 mt-6 text-sm text-warm-700 hover:text-warm-900 font-medium transition-colors"
-        >
-          Saiba mais &rarr;
-        </a>
+      <div class="grid md:grid-cols-[auto_1fr] gap-12 items-center">
+        <div class="w-48 h-60 overflow-hidden bg-warm-200 shrink-0">
+          <img
+            src="/headshot_profissional.jpg"
+            alt="Bruno Duarte - Arquiteto e Urbanista"
+            class="w-full h-full object-cover"
+          />
+        </div>
+        <div>
+          <h2 class="font-display text-3xl text-ink-950">Sobre</h2>
+          <div class="mt-4 w-16 h-0.5 bg-warm-500"></div>
+          <p class="mt-6 text-lg text-ink-600 leading-relaxed">
+            Arquiteto e urbanista em Belo Horizonte, com experiência em projetos residenciais,
+            comerciais e reformas. Acredito que bons espaços nascem da escuta atenta
+            e do equilíbrio entre estética e funcionalidade.
+          </p>
+          <a
+            href="/about"
+            class="inline-flex items-center gap-2 mt-6 text-sm text-warm-700 hover:text-warm-900 font-medium transition-colors"
+          >
+            Saiba mais &rarr;
+          </a>
+        </div>
       </div>
     </div>
   </section>

@@ -3,12 +3,14 @@ const currentPath = Astro.url.pathname;
 
 const navLinks = [
   { href: '/projects', label: 'Projetos' },
+  { href: '/#servicos', label: 'Serviços' },
   { href: '/about', label: 'Sobre' },
+  { href: '/blog', label: 'Blog' },
   { href: '/contact', label: 'Contato' },
 ];
 ---
 
-<header class="sticky top-0 z-50 bg-warm-50/95 backdrop-blur-sm border-b border-warm-200">
+<header class="sticky top-0 z-50 bg-warm-50/95 backdrop-blur-sm border-b border-warm-200" id="site-header">
   <div class="max-w-6xl mx-auto px-4 flex items-center justify-between h-16">
     <a href="/" class="font-display text-xl text-ink-950 hover:text-warm-700 transition-colors">
       bruno<span class="text-warm-600">.arq</span>

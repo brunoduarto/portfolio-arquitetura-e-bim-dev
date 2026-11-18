@@ -1,0 +1,38 @@
+---
+interface Props {
+  title: string;
+  description: string;
+  slug: string;
+  date: string;
+  coverImage?: string;
+  category?: string;
+}
+
+const { title, description, slug, date, coverImage, category } = Astro.props;
+
+const formattedDate = new Date(date).toLocaleDateString('pt-BR', {
+  day: 'numeric',
+  month: 'long',
+  year: 'numeric',
+});
+---
+
+<a href={`/blog/${slug}`} class="group block">
+  {coverImage && (
+    <div class="aspect-[16/9] overflow-hidden mb-4 bg-warm-100">
+      <img
+        src={coverImage}
+        alt={title}
+        class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+      />
+    </div>
+  )}
+  {category && (
+    <span class="text-xs font-medium text-warm-600 uppercase tracking-wider">{category}</span>
+  )}
+  <h3 class="font-display text-xl text-ink-950 mt-1 mb-2 group-hover:text-warm-700 transition-colors">
+    {title}
+  </h3>
+  <p class="text-ink-500 text-sm leading-relaxed mb-3 line-clamp-2">{description}</p>
+  <time class="text-xs text-ink-400">{formattedDate}</time>
+</a>

@@ -1,0 +1,215 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Briefing de Projeto" description="Preencha um briefing rápido para eu entender melhor o que você precisa. Sem compromisso.">
+  <section class="max-w-3xl mx-auto px-4 py-16">
+    <div class="mb-12">
+      <h1 class="font-display text-4xl md:text-5xl text-ink-950 mb-4">Briefing de Projeto</h1>
+      <p class="text-lg text-ink-500 max-w-xl">
+        Responda o que souber. Não precisa preencher tudo — qualquer informação já ajuda a gente a começar a conversa.
+      </p>
+    </div>
+
+    <form id="briefing-form" class="space-y-10">
+      {/* 1. Sobre você */}
+      <fieldset class="space-y-5">
+        <legend class="font-display text-xl text-ink-950 mb-4 pb-2 border-b border-warm-200 w-full">Sobre você</legend>
+        <div>
+          <label for="name" class="block text-sm text-ink-600 mb-1">Nome</label>
+          <input type="text" id="name" name="name" class="w-full px-4 py-3 bg-white border border-warm-200 text-ink-800 text-sm focus:outline-none focus:border-warm-500 transition-colors" placeholder="Seu nome" />
+        </div>
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label for="email" class="block text-sm text-ink-600 mb-1">Email</label>
+            <input type="email" id="email" name="email" class="w-full px-4 py-3 bg-white border border-warm-200 text-ink-800 text-sm focus:outline-none focus:border-warm-500 transition-colors" placeholder="seu@email.com" />
+          </div>
+          <div>
+            <label for="phone" class="block text-sm text-ink-600 mb-1">Telefone / WhatsApp</label>
+            <input type="tel" id="phone" name="phone" class="w-full px-4 py-3 bg-white border border-warm-200 text-ink-800 text-sm focus:outline-none focus:border-warm-500 transition-colors" placeholder="(31) 99999-9999" />
+          </div>
+        </div>
+      </fieldset>
+
+      {/* 2. O projeto */}
+      <fieldset class="space-y-5">
+        <legend class="font-display text-xl text-ink-950 mb-4 pb-2 border-b border-warm-200 w-full">O projeto</legend>
+        <div>
+          <label for="project-type" class="block text-sm text-ink-600 mb-1">Que tipo de projeto?</label>
+          <select id="project-type" name="project-type" class="w-full px-4 py-3 bg-white border border-warm-200 text-ink-800 text-sm focus:outline-none focus:border-warm-500 transition-colors">
+            <option value="">Selecione...</option>
+            <option value="casa-nova">Construção de casa</option>
+            <option value="reforma">Reforma</option>
+            <option value="apartamento">Projeto de apartamento</option>
+            <option value="comercial">Projeto comercial</option>
+            <option value="interiores">Design de interiores</option>
+            <option value="outro">Outro</option>
+          </select>
+        </div>
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label for="area" class="block text-sm text-ink-600 mb-1">Área estimada (m²)</label>
+            <input type="text" id="area" name="area" class="w-full px-4 py-3 bg-white border border-warm-200 text-ink-800 text-sm focus:outline-none focus:border-warm-500 transition-colors" placeholder="Ex: 120" />
+          </div>
+          <div>
+            <label for="location" class="block text-sm text-ink-600 mb-1">Localização</label>
+            <input type="text" id="location" name="location" class="w-full px-4 py-3 bg-white border border-warm-200 text-ink-800 text-sm focus:outline-none focus:border-warm-500 transition-colors" placeholder="Bairro, cidade" />
+          </div>
+        </div>
+        <div>
+          <label for="has-land" class="block text-sm text-ink-600 mb-1">Já tem terreno ou imóvel?</label>
+          <select id="has-land" name="has-land" class="w-full px-4 py-3 bg-white border border-warm-200 text-ink-800 text-sm focus:outline-none focus:border-warm-500 transition-colors">
+            <option value="">Selecione...</option>
+            <option value="sim">Sim, já tenho</option>
+            <option value="procurando">Estou procurando</option>
+            <option value="nao">Ainda não</option>
+          </select>
+        </div>
+        <div>
+          <label for="timeline" class="block text-sm text-ink-600 mb-1">Quando pretende começar?</label>
+          <select id="timeline" name="timeline" class="w-full px-4 py-3 bg-white border border-warm-200 text-ink-800 text-sm focus:outline-none focus:border-warm-500 transition-colors">
+            <option value="">Selecione...</option>
+            <option value="agora">O mais rápido possível</option>
+            <option value="3-meses">Nos próximos 3 meses</option>
+            <option value="6-meses">Nos próximos 6 meses</option>
+            <option value="planejando">Só estou planejando por enquanto</option>
+          </select>
+        </div>
+      </fieldset>
+
+      {/* 3. Programa de necessidades */}
+      <fieldset class="space-y-5">
+        <legend class="font-display text-xl text-ink-950 mb-4 pb-2 border-b border-warm-200 w-full">O que você precisa</legend>
+        <div>
+          <label for="rooms" class="block text-sm text-ink-600 mb-1">Ambientes desejados</label>
+          <textarea id="rooms" name="rooms" rows="3" class="w-full px-4 py-3 bg-white border border-warm-200 text-ink-800 text-sm focus:outline-none focus:border-warm-500 transition-colors resize-none" placeholder="Ex: 3 quartos (1 suíte), sala integrada, cozinha americana, varanda, home office..."></textarea>
+        </div>
+        <div>
+          <label for="people" class="block text-sm text-ink-600 mb-1">Quantas pessoas vão usar o espaço?</label>
+          <input type="text" id="people" name="people" class="w-full px-4 py-3 bg-white border border-warm-200 text-ink-800 text-sm focus:outline-none focus:border-warm-500 transition-colors" placeholder="Ex: casal + 2 filhos + 1 cachorro" />
+        </div>
+        <div>
+          <label for="priorities" class="block text-sm text-ink-600 mb-1">O que é mais importante pra você?</label>
+          <textarea id="priorities" name="priorities" rows="2" class="w-full px-4 py-3 bg-white border border-warm-200 text-ink-800 text-sm focus:outline-none focus:border-warm-500 transition-colors resize-none" placeholder="Ex: muita luz natural, privacidade, espaço pra receber amigos, home office silencioso..."></textarea>
+        </div>
+      </fieldset>
+
+      {/* 4. Estilo e referências */}
+      <fieldset class="space-y-5">
+        <legend class="font-display text-xl text-ink-950 mb-4 pb-2 border-b border-warm-200 w-full">Estilo e referências</legend>
+        <div>
+          <label for="style" class="block text-sm text-ink-600 mb-1">Como você descreveria o estilo que gosta?</label>
+          <textarea id="style" name="style" rows="2" class="w-full px-4 py-3 bg-white border border-warm-200 text-ink-800 text-sm focus:outline-none focus:border-warm-500 transition-colors resize-none" placeholder="Ex: clean e moderno, rústico com madeira, industrial, não sei ainda..."></textarea>
+        </div>
+        <div>
+          <label for="references" class="block text-sm text-ink-600 mb-1">Tem referências? (links do Pinterest, Instagram, fotos)</label>
+          <textarea id="references" name="references" rows="2" class="w-full px-4 py-3 bg-white border border-warm-200 text-ink-800 text-sm focus:outline-none focus:border-warm-500 transition-colors resize-none" placeholder="Cole links ou descreva o que você viu e gostou"></textarea>
+        </div>
+      </fieldset>
+
+      {/* 5. Orçamento */}
+      <fieldset class="space-y-5">
+        <legend class="font-display text-xl text-ink-950 mb-4 pb-2 border-b border-warm-200 w-full">Orçamento</legend>
+        <div>
+          <label for="budget" class="block text-sm text-ink-600 mb-1">Tem uma faixa de orçamento em mente?</label>
+          <select id="budget" name="budget" class="w-full px-4 py-3 bg-white border border-warm-200 text-ink-800 text-sm focus:outline-none focus:border-warm-500 transition-colors">
+            <option value="">Prefiro não dizer / Não sei ainda</option>
+            <option value="ate-100k">Até R$100 mil</option>
+            <option value="100-300k">R$100 a R$300 mil</option>
+            <option value="300-500k">R$300 a R$500 mil</option>
+            <option value="acima-500k">Acima de R$500 mil</option>
+          </select>
+        </div>
+        <div>
+          <label for="extra" class="block text-sm text-ink-600 mb-1">Mais alguma coisa que queira contar?</label>
+          <textarea id="extra" name="extra" rows="3" class="w-full px-4 py-3 bg-white border border-warm-200 text-ink-800 text-sm focus:outline-none focus:border-warm-500 transition-colors resize-none" placeholder="Qualquer informação extra que achar relevante..."></textarea>
+        </div>
+      </fieldset>
+
+      {/* Submit */}
+      <div class="pt-4 flex flex-col sm:flex-row gap-4">
+        <button
+          type="button"
+          id="send-whatsapp"
+          class="flex-1 inline-flex items-center justify-center gap-3 px-8 py-4 bg-[#25D366] text-white font-medium hover:bg-[#20BD5A] transition-colors"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+          </svg>
+          Enviar pelo WhatsApp
+        </button>
+        <button
+          type="submit"
+          class="flex-1 inline-flex items-center justify-center px-8 py-4 bg-ink-950 text-white font-medium hover:bg-ink-800 transition-colors"
+        >
+          Enviar por email
+        </button>
+      </div>
+      <p class="text-xs text-ink-400 text-center">
+        O envio por email ainda não está conectado. Por enquanto, use o botão do WhatsApp.
+      </p>
+    </form>
+  </section>
+</BaseLayout>
+
+<script>
+  document.getElementById('send-whatsapp')!.addEventListener('click', () => {
+    const form = document.getElementById('briefing-form') as HTMLFormElement;
+    const data = new FormData(form);
+
+    const lines: string[] = ['Oi! Preenchi o briefing no site. Seguem as informações:'];
+    lines.push('');
+
+    const name = data.get('name');
+    if (name) lines.push(`*Nome:* ${name}`);
+
+    const email = data.get('email');
+    if (email) lines.push(`*Email:* ${email}`);
+
+    const phone = data.get('phone');
+    if (phone) lines.push(`*Telefone:* ${phone}`);
+
+    const projectType = data.get('project-type');
+    if (projectType) lines.push(`*Tipo:* ${projectType}`);
+
+    const area = data.get('area');
+    if (area) lines.push(`*Área:* ${area}m²`);
+
+    const location = data.get('location');
+    if (location) lines.push(`*Local:* ${location}`);
+
+    const hasLand = data.get('has-land');
+    if (hasLand) lines.push(`*Tem terreno/imóvel:* ${hasLand}`);
+
+    const timeline = data.get('timeline');
+    if (timeline) lines.push(`*Prazo:* ${timeline}`);
+
+    lines.push('');
+
+    const rooms = data.get('rooms');
+    if (rooms) lines.push(`*Ambientes:* ${rooms}`);
+
+    const people = data.get('people');
+    if (people) lines.push(`*Moradores:* ${people}`);
+
+    const priorities = data.get('priorities');
+    if (priorities) lines.push(`*Prioridades:* ${priorities}`);
+
+    lines.push('');
+
+    const style = data.get('style');
+    if (style) lines.push(`*Estilo:* ${style}`);
+
+    const references = data.get('references');
+    if (references) lines.push(`*Referências:* ${references}`);
+
+    const budget = data.get('budget');
+    if (budget) lines.push(`*Orçamento:* ${budget}`);
+
+    const extra = data.get('extra');
+    if (extra) lines.push(`*Obs:* ${extra}`);
+
+    const msg = lines.filter(l => l !== undefined).join('\n');
+    window.open(`https://wa.me/5531987760114?text=${encodeURIComponent(msg)}`, '_blank');
+  });
+</script>
