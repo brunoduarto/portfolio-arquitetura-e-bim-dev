@@ -10,6 +10,8 @@ export const site = {
   whatsappMessage: 'Oi, Bruno! Vi seu site e quero conversar sobre um projeto.',
   instagram: 'https://www.instagram.com/bruno.arq.br/',
   linkedin: 'https://www.linkedin.com/in/bruno-duarte-deoliveira/',
+  // Google Tag Manager container (GA4 is configured inside GTM)
+  gtmId: 'GTM-KDHK6DJM',
 };
 
 export const whatsappUrl = `https://wa.me/${site.whatsapp}?text=${encodeURIComponent(site.whatsappMessage)}`;
