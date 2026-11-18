@@ -1,113 +1,137 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import ProjectCard from '../../components/ProjectCard.astro';
-import SectionHeading from '../../components/SectionHeading.astro';
+import ProjectTile from '../../components/ProjectTile.astro';
 import { getCollection } from 'astro:content';
 
-const allProjects = await getCollection('projects', ({ data }) => !data.draft);
-
-const sorted = allProjects.sort(
-  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+const projects = (await getCollection('projects', ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
 );
 
-const tags = [
-  { value: 'all',                label: 'Todos' },
-  { value: 'scripting',          label: 'Automação BIM' },
-  { value: '3d-modeling',        label: '3D Modeling' },
-  { value: 'executive-projects', label: 'Projetos Executivos' },
-  { value: '3d-renders',         label: '3D Renders' },
-  { value: 'general-projects',   label: 'Projetos Gerais' },
+const categoryLabels: Record<string, string> = {
+  'executive-projects': 'Projetos executivos',
+  '3d-renders': 'Interiores e renders',
+  '3d-modeling': 'Modelagem 3D',
+  'general-projects': 'Projetos gerais',
+  'scripting': 'Automação BIM',
+};
+
+// Only offer filters for categories that actually have projects.
+const counts = projects.reduce<Record<string, number>>((acc, p) => {
+  acc[p.data.category] = (acc[p.data.category] ?? 0) + 1;
+  return acc;
+}, {});
+const filters = [
+  { value: 'all', label: 'Todos', count: projects.length },
+  ...Object.keys(categoryLabels)
+    .filter((c) => counts[c])
+    .map((c) => ({ value: c, label: categoryLabels[c], count: counts[c] })),
 ];
 ---
 
-<BaseLayout title="Projetos" description="Projetos de arquitetura, automação BIM e design computacional.">
-  <section class="max-w-6xl mx-auto px-4 py-16">
-    <SectionHeading
-      title="Projetos"
-      subtitle="Arquitetura, automação BIM e design computacional"
-    />
+<BaseLayout
+  title="Projetos"
+  description="Projetos de arquitetura, interiores e projetos executivos em Belo Horizonte e Minas Gerais."
+>
+  <section class="max-w-7xl mx-auto px-5 md:px-10 pt-16 md:pt-24 pb-24 md:pb-32">
+    <header class="grid lg:grid-cols-12 gap-8 items-end" data-reveal>
+      <div class="lg:col-span-7">
+        <p class="eyebrow">Portfólio</p>
+        <h1 class="mt-5 font-display text-5xl md:text-7xl leading-[1.02] text-ink-950">Projetos</h1>
+      </div>
+      <p class="lg:col-span-4 lg:col-start-9 text-ink-600 leading-relaxed">
+        Residências, interiores e projetos executivos — do estudo inicial ao detalhamento para obra.
+      </p>
+    </header>
 
-    {/* Tag filter */}
-    <div class="flex flex-wrap gap-2 mb-12" id="tag-filters">
-      {tags.map(({ value, label }) => (
-        <button
-          data-filter={value}
-          class:list={[
-            'tag-btn text-sm px-4 py-1.5 rounded-full border transition-colors cursor-pointer',
-            value === 'all'
-              ? 'active bg-ink-950 text-warm-50 border-ink-950'
-              : 'bg-white text-ink-600 border-warm-200 hover:border-warm-400',
-          ]}
-        >
-          {label}
-        </button>
-      ))}
-    </div>
+    {filters.length > 2 && (
+      <nav class="mt-14 md:mt-20 border-y border-warm-300 overflow-x-auto" aria-label="Filtrar projetos">
+        <ul class="flex gap-8 md:gap-10 min-w-max">
+          {filters.map(({ value, label, count }) => (
+            <li>
+              <button
+                type="button"
+                data-filter={value}
+                aria-pressed={value === 'all' ? 'true' : 'false'}
+                class="filter-btn relative py-5 text-[0.8rem] tracking-[0.12em] uppercase text-ink-500 hover:text-ink-950 transition-colors cursor-pointer aria-pressed:text-ink-950"
+              >
+                {label}
+                <sup class="index-num normal-case tracking-normal ml-0.5">{count}</sup>
+              </button>
+            </li>
+          ))}
+        </ul>
+      </nav>
+    )}
 
-    {/* Project grid */}
-    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6" id="project-grid">
-      {sorted.map((project) => (
-        <div data-category={project.data.category} class="project-item">
-          <ProjectCard
-            title={project.data.title}
-            description={project.data.description}
-            category={project.data.category}
-            technologies={project.data.technologies}
-            language={project.data.language}
-            coverImage={project.data.coverImage ?? project.data.images?.[0]?.src}
-            slug={project.id}
+    <div id="project-grid" class="mt-14 md:mt-20 grid md:grid-cols-2 gap-x-8 lg:gap-x-12 gap-y-16 md:gap-y-24">
+      {projects.map((p, i) => (
+        <div class="project-item" data-category={p.data.category} data-reveal style={`--reveal-delay:${(i % 2) * 120}ms`}>
+          <ProjectTile
+            slug={p.id}
+            title={p.data.title}
+            image={p.data.coverImage ?? p.data.images?.[0]?.src}
+            type={p.data.type}
+            scope={p.data.scope}
+            location={p.data.location}
+            year={p.data.pubDate.getFullYear()}
+            aspect="aspect-[4/3]"
+            eager={i < 2}
           />
         </div>
       ))}
     </div>
 
-    {/* Empty state */}
-    <p id="empty-state" class="hidden text-center text-ink-400 font-mono text-sm py-16">
+    <p id="empty-state" class="hidden py-24 text-center text-ink-500">
       Nenhum projeto nesta categoria ainda.
     </p>
   </section>
 </BaseLayout>
 
+<style>
+  /* Active filter: thin line on the bottom border */
+  .filter-btn[aria-pressed='true']::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -1px;
+    height: 1px;
+    background: var(--color-ink-950);
+  }
+</style>
+
 <script>
-  const buttons = document.querySelectorAll<HTMLButtonElement>('.tag-btn');
-  const items   = document.querySelectorAll<HTMLElement>('.project-item');
-  const empty   = document.getElementById('empty-state')!;
+  const buttons = document.querySelectorAll<HTMLButtonElement>('.filter-btn');
+  const items = document.querySelectorAll<HTMLElement>('.project-item');
+  const empty = document.getElementById('empty-state')!;
+  const valid = new Set([...buttons].map((b) => b.dataset.filter));
 
-  function applyFilter(filter: string) {
+  function applyFilter(filter: string, revealNow = false) {
+    if (!valid.has(filter)) filter = 'all';
     let visible = 0;
-
     items.forEach((item) => {
       const match = filter === 'all' || item.dataset.category === filter;
-      item.style.display = match ? '' : 'none';
-      if (match) visible++;
+      item.hidden = !match;
+      if (match) {
+        visible++;
+        // After a click, show matches at once instead of waiting for the scroll reveal
+        if (revealNow) item.classList.add('is-visible');
+      }
     });
-
     empty.classList.toggle('hidden', visible > 0);
-
-    buttons.forEach((btn) => {
-      const active = btn.dataset.filter === filter;
-      btn.classList.toggle('active', active);
-      btn.classList.toggle('bg-ink-950', active);
-      btn.classList.toggle('text-warm-50', active);
-      btn.classList.toggle('border-ink-950', active);
-      btn.classList.toggle('bg-white', !active);
-      btn.classList.toggle('text-ink-600', !active);
-      btn.classList.toggle('border-warm-200', !active);
-    });
+    buttons.forEach((btn) => btn.setAttribute('aria-pressed', String(btn.dataset.filter === filter)));
   }
 
-  // Apply filter from URL param on load
-  const initial = new URLSearchParams(location.search).get('filter') ?? 'all';
-  applyFilter(initial);
+  applyFilter(new URLSearchParams(location.search).get('filter') ?? 'all');
 
   buttons.forEach((btn) => {
     btn.addEventListener('click', () => {
       const filter = btn.dataset.filter!;
-      applyFilter(filter);
+      applyFilter(filter, true);
       const url = new URL(location.href);
       if (filter === 'all') url.searchParams.delete('filter');
       else url.searchParams.set('filter', filter);
-      history.replaceState({}, '', url.toString());
+      history.replaceState({}, '', url);
     });
   });
 </script>

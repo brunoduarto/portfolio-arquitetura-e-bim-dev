@@ -32,24 +32,16 @@ const articleSchema = {
 
 <BaseLayout title={title} description={description} ogType="article" ogImage={coverImage}>
   <script slot="head" type="application/ld+json" set:html={JSON.stringify(articleSchema)} />
-  <article class="max-w-3xl mx-auto px-4 py-16">
-    <header class="mb-12 border-b border-warm-200 pb-8">
-      <a
-        href="/projects"
-        class="inline-flex items-center gap-1 text-sm text-ink-400 hover:text-ink-600 transition-colors mb-6"
-      >
-        &larr; Voltar aos projetos
-      </a>
-      <a
-        href={`/projects?filter=${category}`}
-        class="text-warm-600 font-mono text-sm uppercase tracking-wider mb-2 hover:text-warm-800 transition-colors"
-      >
+  <article class="max-w-3xl mx-auto px-5 md:px-10 pt-10 md:pt-16 pb-24">
+    <header class="mb-12 border-b border-warm-300 pb-10">
+      <a href="/projects" class="link-line text-ink-500">&larr; Projetos</a>
+      <a href={`/projects?filter=${category}`} class="eyebrow block mt-12 hover:text-warm-700 transition-colors">
         {categoryLabel}
       </a>
-      <h1 class="font-display text-4xl md:text-5xl text-ink-950 mb-4">
+      <h1 class="mt-5 font-display text-5xl md:text-6xl leading-[1.05] text-ink-950">
         {title}
       </h1>
-      <p class="text-ink-500 text-lg leading-relaxed">{description}</p>
+      <p class="mt-6 text-ink-600 text-lg leading-relaxed">{description}</p>
       {technologies && technologies.length > 0 && (
         <div class="flex flex-wrap gap-2 mt-6">
           {technologies.map((tech) => <TagBadge label={tech} />)}
