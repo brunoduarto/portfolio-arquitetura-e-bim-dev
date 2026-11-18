@@ -1,6 +1,8 @@
 ---
 title: "Restaurante e Peixaria Piraka"
 description: "Projeto de restaurante conjugado a uma indústria focada em aquaponia — criação de peixes e cultivo de plantas no mesmo ambiente. Elaboração de plantas, layouts, identidade visual e mockups de produtos."
+type: "Comercial"
+scope: "Projeto acadêmico · Identidade visual"
 pubDate: 2022-06-01
 category: "general-projects"
 technologies: ["AutoCAD", "SketchUp", "Photoshop"]

@@ -1,6 +1,8 @@
 ---
 title: "HIS — Habitação de Interesse Social"
 description: "Projeto de habitação de interesse social com foco em implantação urbana, eficiência construtiva e qualidade espacial. Renderizações de entrada, conjunto geral e quadra."
+type: "Habitação social"
+scope: "Projeto acadêmico"
 pubDate: 2023-01-01
 category: "3d-renders"
 technologies: ["Revit", "Enscape", "AutoCAD", "Photoshop"]

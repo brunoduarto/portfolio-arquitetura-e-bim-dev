@@ -1,0 +1,54 @@
+---
+// Editorial project card: image, kicker (type · scope · location), title, year.
+interface Props {
+  slug: string;
+  title: string;
+  image?: string;
+  type?: string;
+  scope?: string;
+  location?: string;
+  year?: number;
+  /** Tailwind aspect class for the image, e.g. "aspect-[4/5]" */
+  aspect?: string;
+  eager?: boolean;
+  class?: string;
+}
+
+const {
+  slug,
+  title,
+  image,
+  type,
+  scope,
+  location,
+  year,
+  aspect = 'aspect-[4/5]',
+  eager = false,
+  class: className,
+} = Astro.props;
+
+const kicker = [type, scope, location].filter(Boolean).join(' · ');
+---
+
+<a href={`/projects/${slug}`} class:list={['group block', className]}>
+  <div class:list={['img-zoom bg-warm-200', aspect]}>
+    {image && (
+      <img
+        src={image}
+        alt={title}
+        class="w-full h-full object-cover"
+        loading={eager ? 'eager' : 'lazy'}
+        decoding="async"
+      />
+    )}
+  </div>
+  <div class="mt-5 flex items-start justify-between gap-6">
+    <div>
+      {kicker && <p class="eyebrow">{kicker}</p>}
+      <h3 class="mt-2 font-display text-2xl md:text-[1.7rem] text-ink-950 leading-tight group-hover:text-warm-700 transition-colors">
+        {title}
+      </h3>
+    </div>
+    {year && <span class="index-num text-lg shrink-0 pt-0.5">{year}</span>}
+  </div>
+</a>

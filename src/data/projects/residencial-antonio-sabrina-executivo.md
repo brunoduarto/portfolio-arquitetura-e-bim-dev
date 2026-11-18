@@ -1,6 +1,8 @@
 ---
 title: "Residencial — Projeto Executivo"
 description: "Projeto executivo residencial de dois pavimentos com documentação técnica completa para aprovação em prefeitura. Plantas, cortes, fachadas, planta de cobertura e detalhamentos."
+type: "Residencial"
+scope: "Projeto executivo"
 pubDate: 2025-08-01
 category: "executive-projects"
 technologies: ["Revit", "VRay", "AutoCAD"]

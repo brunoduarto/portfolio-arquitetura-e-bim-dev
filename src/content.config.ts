@@ -8,6 +8,14 @@ const projects = defineCollection({
     title: z.string(),
     description: z.string(),
     longDescription: z.string().optional(),
+    // Redesign fields — card kicker reads "type · scope · location"
+    type: z.string().optional(),       // Residencial, Comercial, Cultural…
+    scope: z.string().optional(),      // Interiores, Projeto executivo, Projeto acadêmico…
+    location: z.string().optional(),   // Bairro, cidade
+    // Project page sections: O contexto / A atuação / O resultado
+    context: z.string().optional(),
+    approach: z.string().optional(),
+    result: z.string().optional(),
     pubDate: z.coerce.date(),
     updatedDate: z.coerce.date().optional(),
     category: z.enum([

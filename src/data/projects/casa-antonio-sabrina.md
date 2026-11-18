@@ -1,11 +1,13 @@
 ---
 title: "Casa Antônio e Sabrina"
 description: "Reforma com projeto de interiores completo para o térreo de residência recém-finalizada. Além das visualizações 3D, o escopo incluiu planta de revestimento, luminotécnica, hidráulica e detalhamento de móveis planejados."
+type: "Residencial"
+scope: "Interiores · Reforma do térreo"
 pubDate: 2025-10-01
 category: "3d-renders"
 technologies: ["SketchUp", "VRay", "LayOut"]
 featured: true
-coverImage: "/projects/casa-antonio-sabrina/2.png"
+coverImage: "/projects/casa-antonio-sabrina/13.png"
 images:
   - src: "/projects/casa-antonio-sabrina/2.png"
     caption: "Sala de estar — perspectiva principal"

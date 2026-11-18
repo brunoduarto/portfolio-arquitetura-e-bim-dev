@@ -1,6 +1,8 @@
 ---
 title: "Jessamy — Sala de TV"
 description: "Projeto de design de interiores para sala de TV com foco em marcenaria planejada, painel ripado e roupeiro. Inclui perspectivas 3D, planta baixa, vistas técnicas e fotos de execução."
+type: "Residencial"
+scope: "Interiores · Marcenaria"
 pubDate: 2024-06-01
 category: "3d-renders"
 technologies: ["SketchUp", "VRay"]

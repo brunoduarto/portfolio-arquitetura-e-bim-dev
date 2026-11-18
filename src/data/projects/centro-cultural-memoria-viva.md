@@ -1,6 +1,9 @@
 ---
 title: "Centro Cultural Memória Viva"
 description: "Trabalho de Conclusão de Curso propondo a criação de um centro cultural popular na cidade de Ipatinga. Design focado em público de grande fluxo, espaços multiuso e exibições de curto, médio e longo prazo com ênfase na cultura local."
+type: "Cultural"
+scope: "Trabalho de conclusão de curso"
+location: "Ipatinga, MG"
 pubDate: 2025-01-01
 category: "3d-renders"
 technologies: ["Revit", "VRay", "Photoshop"]

@@ -1,81 +1,75 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import Hero from '../components/Hero.astro';
-import FeaturedCarousel from '../components/FeaturedCarousel.astro';
-import ServiceCard from '../components/ServiceCard.astro';
+import ProjectTile from '../components/ProjectTile.astro';
 import TestimonialCard from '../components/TestimonialCard.astro';
-import BlogPostCard from '../components/BlogPostCard.astro';
-import SectionHeading from '../components/SectionHeading.astro';
 import { getCollection } from 'astro:content';
 
-const allProjects = await getCollection('projects', ({ data }) => !data.draft);
-const featured = allProjects
+const projects = await getCollection('projects', ({ data }) => !data.draft);
+const featured = projects
   .filter((p) => p.data.featured)
-  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  .slice(0, 3);
+
+const posts = (await getCollection('blog', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  .slice(0, 3);
+
+const formatDate = (d: Date) =>
+  d.toLocaleDateString('pt-BR', { month: 'short', year: 'numeric' }).replace('.', '');
+
+const principles = [
+  {
+    title: 'Escuta antes do traço',
+    text: 'O projeto começa entendendo a sua rotina, o orçamento e o que não pode faltar. O desenho vem depois.',
+  },
+  {
+    title: 'Você vê antes de construir',
+    text: 'Perspectivas 3D realistas de cada ambiente, para decidir materiais, cores e iluminação com segurança.',
+  },
+  {
+    title: 'Detalhe que vira obra',
+    text: 'Plantas de revestimento, luminotécnica, hidráulica e marcenaria detalhadas — o que evita improviso no canteiro.',
+  },
+  {
+    title: 'Direto com o arquiteto',
+    text: 'Sem intermediários: quem conversa com você é quem projeta, do estudo inicial à entrega.',
+  },
+];
 
 const services = [
   {
-    title: 'Projeto Residencial',
-    description: 'Casas e apartamentos do conceito ao executivo. Acompanhamento completo, desde a escolha do terreno até a entrega da obra.',
-    icon: 'M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6',
+    title: 'Projeto residencial',
+    text: 'Casas e apartamentos do conceito ao executivo, com acompanhamento da escolha do terreno até a entrega da obra.',
   },
   {
-    title: 'Projeto Comercial',
-    description: 'Escritórios, lojas e restaurantes. Espaços que refletem a identidade da sua marca e atendem às necessidades do seu negócio.',
-    icon: 'M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4',
+    title: 'Design de interiores',
+    text: 'Ambientes funcionais e com personalidade: layout, materiais, mobiliário, iluminação e marcenaria planejada.',
   },
   {
-    title: 'Design de Interiores',
-    description: 'Ambientes funcionais e com personalidade. Seleção de materiais, mobiliário, iluminação e acabamentos.',
-    icon: 'M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z',
+    title: 'Projeto comercial',
+    text: 'Escritórios, lojas e restaurantes que traduzem a identidade da marca e funcionam para quem trabalha neles.',
   },
   {
-    title: 'Outros',
-    description: 'Urbanismo, instalações efêmeras, projetos especiais e consultorias. Me conta o que você precisa.',
-    icon: 'M11 4a2 2 0 114 0v1a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-1a2 2 0 100 4h1a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-1a2 2 0 10-4 0v1a1 1 0 01-1 1H7a1 1 0 01-1-1v-3a1 1 0 00-1-1H4a2 2 0 110-4h1a1 1 0 001-1V7a1 1 0 011-1h3a1 1 0 001-1V4z',
+    title: 'Projeto executivo e aprovação',
+    text: 'Documentação técnica completa em BIM para aprovação na prefeitura e execução sem surpresas.',
+  },
+  {
+    title: 'Projetos especiais',
+    text: 'Urbanismo, instalações efêmeras e consultorias. Se não está na lista, vale a conversa.',
   },
 ];
 
+const steps = [
+  { title: 'Briefing', text: 'Você responde algumas perguntas rápidas sobre o espaço, o prazo e o orçamento.' },
+  { title: 'Conversa', text: 'Marcamos um papo para alinhar expectativas e definir o escopo do projeto.' },
+  { title: 'Proposta', text: 'Você recebe uma proposta com etapas, entregas e valores claros.' },
+  { title: 'Projeto', text: 'Estudo, 3D, ajustes e executivo — com você aprovando cada etapa.' },
+];
+
+// Placeholder quotes — set to true only once real client testimonials are in.
+const showTestimonials = false;
 const testimonials = [
-  {
-    quote: 'Ele entendeu o que a gente queria sem precisar de muita explicação. A casa ficou exatamente como a gente imaginava, mas melhor.',
-    name: 'Ana Carolina M.',
-    role: 'Projeto residencial em Nova Lima',
-  },
-  {
-    quote: 'Reformamos o apartamento inteiro com ele. O que mais impressionou foi o controle do orçamento — nada de surpresa no final.',
-    name: 'Ricardo e Fernanda S.',
-    role: 'Reforma em Savassi, BH',
-  },
-  {
-    quote: 'O escritório novo mudou a rotina da equipe. O pessoal para de reclamar do calor, do barulho... resolveu tudo de uma vez.',
-    name: 'Marcelo T.',
-    role: 'Projeto comercial no Funcionários',
-  },
-];
-
-const blogPosts = [
-  {
-    title: 'Como escolher o terreno ideal para construir',
-    description: 'Topografia, orientação solar, infraestrutura e documentação: o que avaliar antes de comprar.',
-    slug: 'como-escolher-terreno-ideal',
-    date: '2025-09-12',
-    category: 'Dicas',
-  },
-  {
-    title: '5 erros comuns em reformas residenciais',
-    description: 'Problemas que você pode evitar com planejamento e acompanhamento profissional.',
-    slug: '5-erros-comuns-reformas',
-    date: '2025-07-20',
-    category: 'Reformas',
-  },
-  {
-    title: 'Tendências de design de interiores em 2026',
-    description: 'Materiais naturais, iluminação inteligente e espaços multifuncionais estão em alta.',
-    slug: 'tendencias-design-interiores-2026',
-    date: '2025-11-05',
-    category: 'Interiores',
-  },
+  { quote: 'Depoimento do cliente.', name: 'Nome do cliente', role: 'Projeto, bairro' },
 ];
 ---
 
@@ -84,134 +78,245 @@ const blogPosts = [
   description="Projetos de arquitetura residencial, comercial e design de interiores em Belo Horizonte e Minas Gerais. Do conceito ao executivo."
   fullTitle={true}
 >
-  <Hero />
-
-  {/* Services */}
-  <section id="servicos" class="max-w-6xl mx-auto px-4 py-20">
-    <SectionHeading
-      title="Serviços"
-      subtitle="Soluções completas em arquitetura e design"
-    />
-    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-      {services.map((service) => (
-        <ServiceCard {...service} />
-      ))}
-    </div>
-  </section>
-
-  {/* Featured Projects — Full bleed carousel */}
-  <section class="bg-ink-950 text-ink-200 py-20">
-    <div class="max-w-6xl mx-auto px-4">
-      <div class="mb-12">
-        <h2 class="font-display text-3xl md:text-4xl text-warm-50">Projetos em Destaque</h2>
-        <p class="text-ink-400 mt-2 text-lg">Uma seleção de trabalhos recentes</p>
-        <div class="mt-4 w-16 h-0.5 bg-warm-500"></div>
+  {/* ───────────── Hero ───────────── */}
+  <section class="max-w-7xl mx-auto px-5 md:px-10 pt-10 md:pt-16 pb-20 md:pb-28">
+    <div class="grid lg:grid-cols-[1.15fr_1fr] gap-10 lg:gap-16 items-end">
+      <div class="lg:pb-6">
+        <p class="eyebrow" data-reveal>Arquitetura · Interiores · Belo Horizonte</p>
+        <h1
+          class="mt-6 font-display text-[2.9rem] leading-[1.02] sm:text-6xl lg:text-[5.4rem] text-ink-950"
+          data-reveal
+          style="--reveal-delay: 80ms"
+        >
+          Arquitetura que começa <em class="text-warm-700">pela escuta</em>.
+        </h1>
+        <p class="mt-8 max-w-md text-lg leading-relaxed text-ink-600" data-reveal style="--reveal-delay: 160ms">
+          Projetos residenciais, comerciais e de interiores em BH e região — do primeiro estudo
+          ao detalhamento executivo.
+        </p>
+        <div class="mt-10 flex flex-wrap gap-3" data-reveal style="--reveal-delay: 240ms">
+          <a href="/projects" class="btn btn-dark">Ver projetos</a>
+          <a href="/quiz" class="btn btn-outline text-ink-950">Iniciar projeto</a>
+        </div>
       </div>
-    </div>
-    <div class="max-w-[100vw] overflow-hidden">
-      <div class="max-w-6xl mx-auto px-4">
-        <FeaturedCarousel
-          projects={featured.map((p) => ({
-            slug: p.id,
-            title: p.data.title,
-            description: p.data.description,
-            category: p.data.category,
-            coverImage: p.data.coverImage ?? p.data.images?.[0]?.src,
-          }))}
-        />
-      </div>
-    </div>
-    <div class="max-w-6xl mx-auto px-4 mt-8 text-center">
-      <a
-        href="/projects"
-        class="inline-flex items-center gap-2 text-sm text-warm-400 hover:text-warm-300 font-medium transition-colors"
-      >
-        Ver todos os projetos &rarr;
-      </a>
-    </div>
-  </section>
 
-  {/* Testimonials */}
-  <section class="bg-warm-100/50 border-y border-warm-200">
-    <div class="max-w-6xl mx-auto px-4 py-20">
-      <SectionHeading
-        title="O que dizem os clientes"
-        subtitle="Quem já trabalhou comigo"
-      />
-      <div class="grid md:grid-cols-3 gap-6">
-        {testimonials.map((t) => (
-          <TestimonialCard {...t} />
-        ))}
-      </div>
-    </div>
-  </section>
-
-  {/* Briefing CTA */}
-  <section class="bg-ink-950 text-white py-24">
-    <div class="max-w-6xl mx-auto px-4 text-center">
-      <h2 class="font-display text-3xl md:text-5xl text-warm-50 mb-4">
-        Tem um projeto em mente?
-      </h2>
-      <p class="text-xl text-ink-300 mb-10">
-        Preencha um briefing rápido e eu entro em contato.
-      </p>
-      <a
-        href="/quiz"
-        class="inline-flex items-center px-8 py-4 bg-white text-ink-950 text-sm font-medium hover:bg-warm-100 transition-colors"
-      >
-        Preencher Briefing
-      </a>
-    </div>
-  </section>
-
-  {/* Blog */}
-  <section class="max-w-6xl mx-auto px-4 py-20">
-    <SectionHeading
-      title="Blog"
-      subtitle="Dicas e artigos sobre arquitetura"
-    />
-    <div class="grid md:grid-cols-3 gap-8">
-      {blogPosts.map((post) => (
-        <BlogPostCard {...post} />
-      ))}
-    </div>
-    <div class="mt-8 text-center">
-      <a
-        href="/blog"
-        class="inline-flex items-center gap-2 text-sm text-warm-700 hover:text-warm-900 font-medium transition-colors"
-      >
-        Ver todos os artigos &rarr;
-      </a>
-    </div>
-  </section>
-
-  {/* About with photo */}
-  <section class="border-t border-warm-200 bg-warm-100/50">
-    <div class="max-w-6xl mx-auto px-4 py-20">
-      <div class="grid md:grid-cols-[auto_1fr] gap-12 items-center">
-        <div class="w-48 h-60 overflow-hidden bg-warm-200 shrink-0">
+      <figure data-reveal style="--reveal-delay: 120ms">
+        <div class="aspect-[4/5] bg-warm-200 overflow-hidden">
           <img
-            src="/headshot_profissional.jpg"
-            alt="Bruno Duarte - Arquiteto e Urbanista"
+            src="/projects/casa-antonio-sabrina/7.png"
+            alt="Sala de estar com painel de madeira e iluminação embutida"
+            width="1200"
+            height="1500"
             class="w-full h-full object-cover"
+            fetchpriority="high"
+            decoding="async"
           />
         </div>
+        <figcaption class="mt-3 flex justify-between eyebrow">
+          <span>Casa Antônio e Sabrina</span>
+          <span>Interiores</span>
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
+  {/* ───────────── Studio / principles ───────────── */}
+  <section class="border-t border-warm-200">
+    <div class="max-w-7xl mx-auto px-5 md:px-10 py-20 md:py-32 grid lg:grid-cols-12 gap-12">
+      <div class="lg:col-span-5" data-reveal>
+        <p class="eyebrow">O escritório</p>
+        <h2 class="mt-5 font-display text-4xl md:text-5xl leading-[1.08] text-ink-950">
+          Um arquiteto do começo <em>ao fim</em> do seu projeto.
+        </h2>
+        <p class="mt-6 text-ink-600 leading-relaxed max-w-md">
+          Sou arquiteto e urbanista em Belo Horizonte. Trabalho com poucos projetos por vez para
+          acompanhar cada um de perto — da primeira conversa ao último detalhe da obra.
+        </p>
+        <a href="/about" class="link-line mt-8">Conheça o escritório</a>
+      </div>
+
+      <ol class="lg:col-span-6 lg:col-start-7 grid sm:grid-cols-2 gap-x-10 gap-y-12">
+        {principles.map((p, i) => (
+          <li data-reveal style={`--reveal-delay: ${i * 90}ms`}>
+            <span class="index-num text-2xl">{String(i + 1).padStart(2, '0')}</span>
+            <h3 class="mt-3 font-display text-2xl text-ink-950">{p.title}</h3>
+            <p class="mt-3 text-[0.95rem] leading-relaxed text-ink-600">{p.text}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  {/* ───────────── Selected projects ───────────── */}
+  <section class="bg-warm-100">
+    <div class="max-w-7xl mx-auto px-5 md:px-10 py-20 md:py-32">
+      <div class="flex flex-wrap items-end justify-between gap-6 mb-14 md:mb-20" data-reveal>
         <div>
-          <h2 class="font-display text-3xl text-ink-950">Sobre</h2>
-          <div class="mt-4 w-16 h-0.5 bg-warm-500"></div>
-          <p class="mt-6 text-lg text-ink-600 leading-relaxed">
-            Arquiteto e urbanista em Belo Horizonte, com experiência em projetos residenciais,
-            comerciais e reformas. Acredito que bons espaços nascem da escuta atenta
-            e do equilíbrio entre estética e funcionalidade.
-          </p>
-          <a
-            href="/about"
-            class="inline-flex items-center gap-2 mt-6 text-sm text-warm-700 hover:text-warm-900 font-medium transition-colors"
-          >
-            Saiba mais &rarr;
-          </a>
+          <p class="eyebrow">Projetos selecionados</p>
+          <h2 class="mt-5 font-display text-4xl md:text-5xl text-ink-950">Trabalhos recentes</h2>
         </div>
+        <a href="/projects" class="link-line">Ver todos os projetos</a>
+      </div>
+
+      <div class="grid md:grid-cols-12 gap-x-8 gap-y-16">
+        {featured.map((p, i) => {
+          const layout = [
+            { cls: 'md:col-span-7', aspect: 'aspect-[4/5]' },
+            { cls: 'md:col-span-5 md:pt-40', aspect: 'aspect-[4/5]' },
+            { cls: 'md:col-span-8 md:col-start-3', aspect: 'aspect-[16/9]' },
+          ][i];
+          return (
+            <div class={layout.cls} data-reveal>
+              <ProjectTile
+                slug={p.id}
+                title={p.data.title}
+                image={p.data.coverImage ?? p.data.images?.[0]?.src}
+                type={p.data.type}
+                scope={p.data.scope}
+                location={p.data.location}
+                year={p.data.pubDate.getFullYear()}
+                aspect={layout.aspect}
+              />
+            </div>
+          );
+        })}
       </div>
     </div>
   </section>
+
+  {/* ───────────── Services ───────────── */}
+  <section id="servicos" class="scroll-mt-20">
+    <div class="max-w-7xl mx-auto px-5 md:px-10 py-20 md:py-32 grid lg:grid-cols-12 gap-12">
+      <div class="lg:col-span-4" data-reveal>
+        <div class="lg:sticky lg:top-32">
+          <p class="eyebrow">Serviços</p>
+          <h2 class="mt-5 font-display text-4xl md:text-5xl leading-[1.08] text-ink-950">
+            O que eu <em>faço</em>
+          </h2>
+          <p class="mt-6 text-ink-600 leading-relaxed max-w-sm">
+            Do estudo de viabilidade ao acompanhamento da obra — você contrata só as etapas de que precisa.
+          </p>
+        </div>
+      </div>
+
+      <ol class="lg:col-span-7 lg:col-start-6 border-t border-warm-300">
+        {services.map((s, i) => (
+          <li class="group grid grid-cols-[3rem_1fr] md:grid-cols-[4.5rem_1fr] gap-x-4 py-8 md:py-10 border-b border-warm-300" data-reveal>
+            <span class="index-num text-xl md:text-2xl pt-1">{String(i + 1).padStart(2, '0')}</span>
+            <div>
+              <h3 class="font-display text-2xl md:text-3xl text-ink-950 group-hover:text-warm-700 transition-colors">
+                {s.title}
+              </h3>
+              <p class="mt-3 text-ink-600 leading-relaxed max-w-lg">{s.text}</p>
+            </div>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  {/* ───────────── How to start (briefing) ───────────── */}
+  <section class="bg-ink-950 text-ink-300">
+    <div class="max-w-7xl mx-auto px-5 md:px-10 py-20 md:py-32">
+      <div class="grid lg:grid-cols-12 gap-12 items-end mb-16 md:mb-20" data-reveal>
+        <div class="lg:col-span-7">
+          <p class="eyebrow text-ink-400">Como começar</p>
+          <h2 class="mt-5 font-display text-4xl md:text-6xl leading-[1.05] text-warm-50">
+            Do briefing ao projeto em <em class="text-warm-300">quatro passos</em>.
+          </h2>
+        </div>
+        <div class="lg:col-span-4 lg:col-start-9 lg:text-right">
+          <a href="/quiz" class="btn btn-light">Preencher briefing</a>
+        </div>
+      </div>
+
+      <ol class="grid sm:grid-cols-2 lg:grid-cols-4 gap-px bg-ink-800 border border-ink-800">
+        {steps.map((s, i) => (
+          <li class="bg-ink-950 p-8 md:p-10" data-reveal style={`--reveal-delay: ${i * 90}ms`}>
+            <span class="index-num text-3xl text-warm-400">{String(i + 1).padStart(2, '0')}</span>
+            <h3 class="mt-6 font-display text-2xl text-warm-50">{s.title}</h3>
+            <p class="mt-3 text-sm leading-relaxed text-ink-400">{s.text}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  {/* ───────────── Testimonials (hidden until real) ───────────── */}
+  {showTestimonials && (
+    <section class="border-b border-warm-200">
+      <div class="max-w-7xl mx-auto px-5 md:px-10 py-20 md:py-32">
+        <p class="eyebrow mb-12">O que dizem os clientes</p>
+        <div class="grid md:grid-cols-3 gap-6">
+          {testimonials.map((t) => <TestimonialCard {...t} />)}
+        </div>
+      </div>
+    </section>
+  )}
+
+  {/* ───────────── About ───────────── */}
+  <section>
+    <div class="max-w-7xl mx-auto px-5 md:px-10 py-20 md:py-32 grid md:grid-cols-12 gap-10 md:gap-16 items-center">
+      <div class="md:col-span-5 lg:col-span-4" data-reveal>
+        <div class="aspect-[3/4] bg-warm-200 overflow-hidden">
+          <img
+            src="/headshot_profissional.jpg"
+            alt="Bruno Duarte, arquiteto e urbanista"
+            width="2556"
+            height="3408"
+            class="w-full h-full object-cover"
+            loading="lazy"
+            decoding="async"
+          />
+        </div>
+      </div>
+      <div class="md:col-span-7 lg:col-span-6 lg:col-start-6" data-reveal style="--reveal-delay: 100ms">
+        <p class="eyebrow">Sobre</p>
+        <blockquote class="mt-6 font-display text-3xl md:text-4xl leading-[1.2] text-ink-950">
+          “Bons espaços nascem da escuta atenta e do equilíbrio entre
+          <em class="text-warm-700">estética e funcionalidade</em>.”
+        </blockquote>
+        <p class="mt-8 text-ink-600 leading-relaxed max-w-lg">
+          Bruno Duarte — arquiteto e urbanista em Belo Horizonte, com experiência em projetos
+          residenciais, comerciais, reformas e modelagem BIM.
+        </p>
+        <a href="/about" class="link-line mt-8">Mais sobre mim</a>
+      </div>
+    </div>
+  </section>
+
+  {/* ───────────── Blog ───────────── */}
+  {posts.length > 0 && (
+    <section class="bg-warm-100">
+      <div class="max-w-7xl mx-auto px-5 md:px-10 py-20 md:py-28">
+        <div class="flex flex-wrap items-end justify-between gap-6 mb-12" data-reveal>
+          <div>
+            <p class="eyebrow">Blog</p>
+            <h2 class="mt-5 font-display text-4xl md:text-5xl text-ink-950">Notas de projeto</h2>
+          </div>
+          <a href="/blog" class="link-line">Ver todos os artigos</a>
+        </div>
+
+        <ul class="border-t border-warm-300">
+          {posts.map((post) => (
+            <li class="border-b border-warm-300" data-reveal>
+              <a
+                href={`/blog/${post.id}`}
+                class="group grid md:grid-cols-[9rem_1fr_auto] gap-x-8 gap-y-2 py-7 md:py-8 items-baseline"
+              >
+                <span class="eyebrow">{formatDate(post.data.pubDate)}{post.data.category && ` · ${post.data.category}`}</span>
+                <div>
+                  <h3 class="font-display text-2xl md:text-[1.75rem] text-ink-950 group-hover:text-warm-700 transition-colors">
+                    {post.data.title}
+                  </h3>
+                  <p class="mt-2 text-ink-600 text-[0.95rem] max-w-2xl">{post.data.description}</p>
+                </div>
+                <span class="hidden md:block text-ink-400 group-hover:text-warm-700 group-hover:translate-x-1 transition-all" aria-hidden="true">→</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  )}
 </BaseLayout>

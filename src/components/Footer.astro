@@ -1,46 +1,55 @@
 ---
+import { site, whatsappUrl, navLinks } from '../data/site';
+
 const currentYear = new Date().getFullYear();
 ---
 
 <footer class="bg-ink-950 text-ink-300">
-  <div class="max-w-6xl mx-auto px-4 py-16">
-    <div class="grid md:grid-cols-3 gap-12">
-      {/* Brand */}
-      <div>
-        <a href="/" class="font-display text-xl text-warm-50">
-          bruno<span class="text-warm-500">.arq</span>
+  <div class="max-w-7xl mx-auto px-5 md:px-10 pt-20 md:pt-28 pb-10">
+    {/* Closing call to action */}
+    <div class="grid lg:grid-cols-[1.4fr_1fr] gap-10 items-end pb-16 md:pb-24 border-b border-ink-800">
+      <h2 class="font-display text-4xl md:text-6xl text-warm-50 leading-[1.05]">
+        Vamos projetar <em class="text-warm-300">o seu espaço</em>?
+      </h2>
+      <div class="flex flex-wrap gap-3 lg:justify-end">
+        <a href="/quiz" class="btn btn-light">Iniciar projeto</a>
+        <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" class="btn btn-outline text-warm-50 hover:bg-warm-50 hover:text-ink-950 hover:border-warm-50">
+          WhatsApp
         </a>
-        <p class="mt-4 text-sm leading-relaxed text-ink-400">
-          Arquitetura residencial, comercial e design de interiores
-          em Belo Horizonte e Minas Gerais.
+      </div>
+    </div>
+
+    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-10 pt-14">
+      <div class="lg:col-span-2">
+        <a href="/" class="font-display text-2xl text-warm-50">Bruno Duarte</a>
+        <p class="mt-4 text-sm leading-relaxed text-ink-400 max-w-sm">
+          Arquitetura, interiores e acompanhamento de obra em Belo Horizonte e região.
         </p>
       </div>
 
-      {/* Links */}
       <div>
-        <h3 class="text-sm font-medium text-ink-200 uppercase tracking-wider mb-4">Navegação</h3>
-        <ul class="space-y-2">
-          <li><a href="/projects" class="text-sm hover:text-warm-400 transition-colors">Projetos</a></li>
-          <li><a href="/about" class="text-sm hover:text-warm-400 transition-colors">Sobre</a></li>
-          <li><a href="/blog" class="text-sm hover:text-warm-400 transition-colors">Blog</a></li>
-          <li><a href="/contact" class="text-sm hover:text-warm-400 transition-colors">Contato</a></li>
+        <h3 class="eyebrow text-ink-500 mb-5">Navegação</h3>
+        <ul class="space-y-2.5">
+          {navLinks.map(({ href, label }) => (
+            <li><a href={href} class="text-sm hover:text-warm-50 transition-colors">{label}</a></li>
+          ))}
         </ul>
       </div>
 
-      {/* Contact */}
       <div>
-        <h3 class="text-sm font-medium text-ink-200 uppercase tracking-wider mb-4">Contato</h3>
-        <ul class="space-y-2">
-          <li><a href="mailto:contato@bruno.arq.br" class="text-sm hover:text-warm-400 transition-colors">contato@bruno.arq.br</a></li>
-          <li><a href="https://www.linkedin.com/in/bruno-duarte-deoliveira/" target="_blank" rel="noopener noreferrer" class="text-sm hover:text-warm-400 transition-colors">LinkedIn</a></li>
-          <li><a href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer" class="text-sm hover:text-warm-400 transition-colors">Instagram</a></li>
+        <h3 class="eyebrow text-ink-500 mb-5">Contato</h3>
+        <ul class="space-y-2.5 text-sm">
+          <li><a href={`mailto:${site.email}`} class="hover:text-warm-50 transition-colors">{site.email}</a></li>
+          <li><a href={whatsappUrl} target="_blank" rel="noopener noreferrer" class="hover:text-warm-50 transition-colors">WhatsApp</a></li>
+          <li><a href={site.instagram} target="_blank" rel="noopener noreferrer" class="hover:text-warm-50 transition-colors">Instagram</a></li>
+          <li><a href={site.linkedin} target="_blank" rel="noopener noreferrer" class="hover:text-warm-50 transition-colors">LinkedIn</a></li>
         </ul>
       </div>
     </div>
 
-    <div class="mt-12 pt-8 border-t border-ink-800 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-ink-500">
-      <span>&copy; {currentYear} Bruno Duarte — Arquiteto e Urbanista. Todos os direitos reservados.</span>
-      <span>Belo Horizonte, MG</span>
+    <div class="mt-16 pt-8 border-t border-ink-800 flex flex-col md:flex-row justify-between gap-3 text-xs text-ink-500">
+      <span>&copy; {currentYear} {site.name} — {site.role}</span>
+      <span>{site.city}</span>
     </div>
   </div>
 </footer>
