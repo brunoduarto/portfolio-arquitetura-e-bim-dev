@@ -1,5 +1,6 @@
 ---
 import { navLinks, site } from '../data/site';
+import Brand from './Brand.astro';
 
 const currentPath = Astro.url.pathname;
 const isActive = (href: string) => !href.includes('#') && currentPath.startsWith(href);
@@ -13,7 +14,7 @@ const isActive = (href: string) => !href.includes('#') && currentPath.startsWith
     <a href="/" class="flex items-center gap-3 text-ink-950" aria-label={`${site.studio} — início`}>
       <img src="/logos/logo-duarq.svg" alt="" width="44" height="44" class="w-10 h-10 md:w-11 md:h-11" />
       <span class="flex flex-col gap-1">
-        <span class="font-display text-xl md:text-[1.35rem] font-normal tracking-tight leading-none">{site.studio}</span>
+        <Brand class="font-display text-xl md:text-[1.35rem] font-normal tracking-tight leading-none" />
         <span class="eyebrow text-[0.62rem] leading-none">{site.name}</span>
       </span>
     </a>

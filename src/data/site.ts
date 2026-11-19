@@ -2,7 +2,7 @@
 // WhatsApp button. Change them here and every page follows.
 
 export const site = {
-  studio: 'Estúdio duarq',
+  studio: 'estúdio duarq',
   name: 'Bruno Duarte',
   fullName: 'Bruno Duarte de Oliveira',
   role: 'Arquiteto e Urbanista',

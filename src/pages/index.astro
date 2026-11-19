@@ -1,7 +1,9 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ProjectTile from '../components/ProjectTile.astro';
-import TestimonialCard from '../components/TestimonialCard.astro';
+import GoogleReviews from '../components/GoogleReviews.astro';
+import Brand from '../components/Brand.astro';
+import { reviewsAreReal } from '../data/reviews';
 import BlogPostCard from '../components/BlogPostCard.astro';
 import { site } from '../data/site';
 import { getCollection } from 'astro:content';
@@ -84,87 +86,87 @@ const steps = [
   { title: 'Projeto', text: 'Estudo, 3D, ajustes e executivo — com você aprovando cada etapa.' },
 ];
 
-// Placeholder quotes — set to true only once real client testimonials are in.
-const showTestimonials = false;
-const testimonials = [
-  { quote: 'Depoimento do cliente.', name: 'Nome do cliente', role: 'Projeto, bairro' },
-];
+// Google reviews replace the quote once they're real; sample reviews show only in `npm run dev`.
+const showReviews = reviewsAreReal || import.meta.env.DEV;
 
 const pad = (n: number) => String(n).padStart(2, '0');
 ---
 
 <BaseLayout
   title={`${site.studio} — ${site.name} | Arquitetura e interiores em Belo Horizonte`}
-  description="Estúdio duarq, de Bruno Duarte: arquitetura residencial, comercial e design de interiores em Belo Horizonte e Minas Gerais. Do conceito ao executivo."
+  description="estúdio duarq, de Bruno Duarte: arquitetura residencial, comercial e design de interiores em Belo Horizonte e Minas Gerais. Do conceito ao executivo."
   fullTitle={true}
 >
-  {/* ───────────── Hero: full-width slideshow ───────────── */}
-  <section id="hero" class="relative w-full h-[calc(100svh-4.5rem)] md:h-[calc(100svh-5rem)] min-h-[34rem] max-h-[60rem] overflow-hidden bg-warm-100" aria-roledescription="carrossel" aria-label="Projetos em destaque">
-    {slides.map((s, i) => (
-      <div class:list={['hero-slide absolute inset-0', i === 0 && 'is-active']} data-slide={i} aria-hidden={i === 0 ? 'false' : 'true'}>
-        <img
-          src={s.src}
-          alt={s.title}
-          class="w-full h-full object-cover"
-          fetchpriority={i === 0 ? 'high' : 'low'}
-          loading={i === 0 ? 'eager' : 'lazy'}
-          decoding="async"
-        />
-      </div>
-    ))}
-
-    {/* Shade so the text stays readable on any image */}
-    <div class="absolute inset-0 bg-gradient-to-t from-warm-50 via-warm-50/45 to-warm-50/10 pointer-events-none"></div>
-    <div class="absolute inset-0 bg-gradient-to-r from-warm-50/70 via-transparent to-transparent pointer-events-none"></div>
-
-    <div class="relative h-full max-w-7xl mx-auto px-5 md:px-10 pb-10 md:pb-14 flex flex-col justify-end">
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-end">
-        <div class="lg:col-span-8 min-w-0">
-          <p class="eyebrow text-ink-800" data-reveal>{site.studio} · Arquitetura · Interiores · Belo Horizonte</p>
-          <h1
-            class="mt-6 font-display text-[2.8rem] leading-[1] sm:text-6xl lg:text-[5.6rem] font-extralight text-ink-950"
-            data-reveal
-            style="--reveal-delay: 80ms"
-          >
-            Arquitetura que começa <em>pela escuta</em>.
-          </h1>
-          <div class="mt-10 flex flex-wrap gap-3" data-reveal style="--reveal-delay: 160ms">
-            <a href="/projects" class="btn btn-dark">Ver projetos</a>
-            <a href="/quiz" class="btn btn-outline text-ink-950">Iniciar projeto</a>
-          </div>
+  {/* ───────────── Hero: text left, slideshow in the right half ───────────── */}
+  <section id="hero" class="relative w-full lg:h-[calc(100svh-5rem)] lg:min-h-[36rem] lg:max-h-[56rem] bg-warm-50" aria-roledescription="carrossel" aria-label="Projetos em destaque">
+    {/* Slideshow: full width on phones, right 50% from lg up */}
+    <div class="relative h-[58svh] min-h-[22rem] lg:absolute lg:inset-y-0 lg:right-0 lg:h-auto lg:min-h-0 lg:w-1/2 overflow-hidden bg-warm-100">
+      {slides.map((s, i) => (
+        <div class:list={['hero-slide absolute inset-0', i === 0 && 'is-active']} data-slide={i} aria-hidden={i === 0 ? 'false' : 'true'}>
+          <img
+            src={s.src}
+            alt={s.title}
+            class="w-full h-full object-cover"
+            fetchpriority={i === 0 ? 'high' : 'low'}
+            loading={i === 0 ? 'eager' : 'lazy'}
+            decoding="async"
+          />
         </div>
+      ))}
 
-        {slides.length > 0 && (
-          <div class="lg:col-span-4 lg:justify-self-end w-full lg:max-w-xs" data-reveal style="--reveal-delay: 240ms">
-            <a id="hero-caption" href={`/projects/${slides[0].id}`} class="group block">
-              <span class="eyebrow text-ink-700" id="hero-kicker">{slides[0].kicker}</span>
-              <span class="mt-2 flex items-center justify-between gap-4 text-lg text-ink-950 group-hover:text-warm-700 transition-colors">
-                <span id="hero-title">{slides[0].title}</span>
-                <span aria-hidden="true">→</span>
-              </span>
-            </a>
-            {slides.length > 1 && (
-              <div class="mt-5 flex items-center gap-4">
-                <span class="index-num text-sm text-ink-800 w-14" id="hero-count">{pad(1)} / {pad(slides.length)}</span>
-                <div class="flex-1 flex gap-1.5" role="tablist" aria-label="Escolher imagem">
-                  {slides.map((s, i) => (
-                    <button
-                      type="button"
-                      class="hero-dot group/dot relative flex-1 h-6 cursor-pointer"
-                      data-go={i}
-                      role="tab"
-                      aria-selected={i === 0 ? 'true' : 'false'}
-                      aria-label={`${i + 1}: ${s.title}`}
-                    >
-                      <span class="absolute inset-x-0 top-1/2 h-px bg-ink-950/30 group-hover/dot:bg-ink-950/60"></span>
-                      <span class="hero-bar absolute left-0 top-1/2 h-px bg-warm-600"></span>
-                    </button>
-                  ))}
-                </div>
+      {/* Caption and progress over the bottom of the image */}
+      {slides.length > 0 && (
+        <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-warm-50/90 via-warm-50/50 to-transparent px-5 md:px-8 pt-20 pb-5 md:pb-7">
+          <a id="hero-caption" href={`/projects/${slides[0].id}`} class="group block max-w-md">
+            <span class="eyebrow text-ink-700" id="hero-kicker">{slides[0].kicker}</span>
+            <span class="mt-1.5 flex items-center justify-between gap-4 text-lg text-ink-950 group-hover:text-warm-700 transition-colors">
+              <span id="hero-title">{slides[0].title}</span>
+              <span aria-hidden="true">→</span>
+            </span>
+          </a>
+          {slides.length > 1 && (
+            <div class="mt-4 flex items-center gap-4 max-w-md">
+              <span class="index-num text-sm text-ink-800 w-14" id="hero-count">{pad(1)} / {pad(slides.length)}</span>
+              <div class="flex-1 flex gap-1.5" role="tablist" aria-label="Escolher imagem">
+                {slides.map((s, i) => (
+                  <button
+                    type="button"
+                    class="hero-dot group/dot relative flex-1 h-6 cursor-pointer"
+                    data-go={i}
+                    role="tab"
+                    aria-selected={i === 0 ? 'true' : 'false'}
+                    aria-label={`${i + 1}: ${s.title}`}
+                  >
+                    <span class="absolute inset-x-0 top-1/2 h-px bg-ink-950/30 group-hover/dot:bg-ink-950/60"></span>
+                    <span class="hero-bar absolute left-0 top-1/2 h-px bg-warm-600"></span>
+                  </button>
+                ))}
               </div>
-            )}
-          </div>
-        )}
+            </div>
+          )}
+        </div>
+      )}
+    </div>
+
+    {/* Text: left half on large screens */}
+    <div class="relative h-full max-w-7xl mx-auto px-5 md:px-10 flex items-center">
+      <div class="w-full lg:w-1/2 lg:pr-14 xl:pr-20 py-14 md:py-20 lg:py-0">
+        <p class="eyebrow" data-reveal>Arquitetura · Interiores · Belo Horizonte</p>
+        <h1
+          class="mt-6 font-display text-[2.7rem] leading-[1.02] sm:text-6xl xl:text-[4.9rem] font-extralight text-ink-950"
+          data-reveal
+          style="--reveal-delay: 80ms"
+        >
+          Arquitetura que começa <em>pela escuta</em>.
+        </h1>
+        <p class="mt-7 max-w-md text-lg leading-relaxed text-ink-600" data-reveal style="--reveal-delay: 140ms">
+          Projetos residenciais, comerciais e de interiores em BH e região — do primeiro estudo
+          ao detalhamento executivo.
+        </p>
+        <div class="mt-10 flex flex-wrap gap-3" data-reveal style="--reveal-delay: 200ms">
+          <a href="/projects" class="btn btn-dark">Ver projetos</a>
+          <a href="/quiz" class="btn btn-outline text-ink-950">Iniciar projeto</a>
+        </div>
       </div>
     </div>
   </section>
@@ -178,7 +180,7 @@ const pad = (n: number) => String(n).padStart(2, '0');
           Um arquiteto do começo <em>ao fim</em> do seu projeto.
         </h2>
         <p class="mt-6 text-ink-600 leading-relaxed max-w-md">
-          O {site.studio} é o escritório de {site.name}, arquiteto e urbanista em Belo Horizonte.
+          O <Brand /> é o escritório de {site.name}, arquiteto e urbanista em Belo Horizonte.
           Poucos projetos por vez, para acompanhar cada um de perto — da primeira conversa ao último
           detalhe da obra.
         </p>
@@ -309,19 +311,8 @@ const pad = (n: number) => String(n).padStart(2, '0');
     </div>
   </section>
 
-  {/* ───────────── Testimonials (hidden until real) ───────────── */}
-  {showTestimonials && (
-    <section class="border-b border-warm-300">
-      <div class="max-w-7xl mx-auto px-5 md:px-10 py-20 md:py-32">
-        <p class="eyebrow mb-12">O que dizem os clientes</p>
-        <div class="grid md:grid-cols-3 gap-6">
-          {testimonials.map((t) => <TestimonialCard {...t} />)}
-        </div>
-      </div>
-    </section>
-  )}
-
-  {/* ───────────── Quote ───────────── */}
+  {/* ───────────── Sobre: Google reviews (live only once real) / quote ───────────── */}
+  {showReviews ? <GoogleReviews /> : (
   <section>
     <div class="max-w-5xl mx-auto px-5 md:px-10 py-20 md:py-32" data-reveal>
       <p class="eyebrow">Sobre</p>
@@ -336,6 +327,7 @@ const pad = (n: number) => String(n).padStart(2, '0');
       <a href="/about" class="link-line mt-8">Mais sobre mim</a>
     </div>
   </section>
+  )}
 
   {/* ───────────── Blog ───────────── */}
   {posts.length > 0 && (

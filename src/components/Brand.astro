@@ -1,0 +1,9 @@
+---
+// The studio name as a wordmark: "estúdio duarq", lowercase, with "arq" in the accent red.
+interface Props {
+  class?: string;
+}
+const { class: className } = Astro.props;
+---
+
+<span class:list={['normal-case', className]}>estúdio du<span class="text-warm-700">arq</span></span>

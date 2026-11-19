@@ -1,61 +1,54 @@
 ---
 import { site, whatsappUrl, navLinks } from '../data/site';
+import Brand from './Brand.astro';
 
 const currentYear = new Date().getFullYear();
 ---
 
 <footer class="band text-ink-300 border-t border-ink-800">
-  <div class="max-w-7xl mx-auto px-5 md:px-10 pt-20 md:pt-28 pb-10">
+  <div class="max-w-7xl mx-auto px-5 md:px-10 py-10 md:py-12">
     {/* Closing call to action */}
-    <div class="grid lg:grid-cols-[1.4fr_1fr] gap-10 items-end pb-16 md:pb-24 border-b border-ink-800">
-      <h2 class="font-display text-4xl md:text-6xl text-warm-50 leading-[1.05]">
-        Vamos projetar <em class="text-warm-300">o seu espaço</em>?
-      </h2>
-      <div class="flex flex-wrap gap-3 lg:justify-end">
-        <a href="/quiz" class="btn btn-dark">Iniciar projeto</a>
-        <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" class="btn btn-outline text-warm-50 hover:bg-warm-50 hover:text-ink-950 hover:border-warm-50">
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-5 pb-8 border-b border-ink-800">
+      <p class="font-display font-light tracking-tight text-2xl md:text-3xl text-warm-50">
+        Vamos projetar <em class="not-italic text-warm-300">o seu espaço</em>?
+      </p>
+      <div class="flex flex-wrap gap-3">
+        <a href="/quiz" class="btn btn-dark py-3 px-5">Iniciar projeto</a>
+        <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" class="btn btn-outline py-3 px-5 text-warm-50">
           WhatsApp
         </a>
       </div>
     </div>
 
-    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-10 pt-14">
-      <div class="lg:col-span-2">
-        <a href="/" class="inline-flex items-center gap-3 text-warm-50">
-          <img src="/logos/logo-duarq.svg" alt="" width="44" height="44" class="w-11 h-11" />
-          <span class="flex flex-col gap-1">
-            <span class="font-display text-2xl leading-none">{site.studio}</span>
-            <span class="eyebrow text-[0.62rem] leading-none">{site.name} · {site.role}</span>
-          </span>
-        </a>
-        <p class="mt-4 text-sm leading-relaxed text-ink-400 max-w-sm">
-          Arquitetura, interiores e acompanhamento de obra em Belo Horizonte e região.
-        </p>
-      </div>
+    <div class="pt-8 grid md:grid-cols-[1.2fr_1fr_1fr] gap-x-10 gap-y-6 text-sm">
+      <a href="/" class="inline-flex items-center gap-3 text-warm-50 self-start">
+        <img src="/logos/logo-duarq.svg" alt="" width="36" height="36" class="w-9 h-9" />
+        <span class="flex flex-col gap-1">
+          <Brand class="font-display text-lg leading-none" />
+          <span class="eyebrow text-[0.6rem] leading-none">{site.name} · {site.role}</span>
+        </span>
+      </a>
 
-      <div>
-        <h3 class="eyebrow text-ink-500 mb-5">Navegação</h3>
-        <ul class="space-y-2.5">
+      <nav aria-label="Rodapé">
+        <ul class="flex flex-wrap gap-x-5 gap-y-2">
           {navLinks.map(({ href, label }) => (
-            <li><a href={href} class="text-sm hover:text-warm-50 transition-colors">{label}</a></li>
+            <li><a href={href} class="hover:text-warm-50 transition-colors">{label}</a></li>
           ))}
         </ul>
-      </div>
+      </nav>
 
-      <div>
-        <h3 class="eyebrow text-ink-500 mb-5">Contato</h3>
-        <ul class="space-y-2.5 text-sm">
-          <li><a href={`mailto:${site.email}`} class="hover:text-warm-50 transition-colors">{site.email}</a></li>
-          <li><a href={whatsappUrl} target="_blank" rel="noopener noreferrer" class="hover:text-warm-50 transition-colors">WhatsApp</a></li>
-          <li><a href={site.instagram} target="_blank" rel="noopener noreferrer" class="hover:text-warm-50 transition-colors">Instagram</a></li>
-          <li><a href={site.linkedin} target="_blank" rel="noopener noreferrer" class="hover:text-warm-50 transition-colors">LinkedIn</a></li>
-        </ul>
-      </div>
+      <ul class="flex flex-wrap gap-x-5 gap-y-2">
+        <li><a href={`mailto:${site.email}`} class="hover:text-warm-50 transition-colors">{site.email}</a></li>
+        <li><a href={site.instagram} target="_blank" rel="noopener noreferrer" class="hover:text-warm-50 transition-colors">Instagram</a></li>
+        <li><a href={site.linkedin} target="_blank" rel="noopener noreferrer" class="hover:text-warm-50 transition-colors">LinkedIn</a></li>
+      </ul>
     </div>
 
-    <div class="mt-16 pt-8 border-t border-ink-800 flex flex-col md:flex-row justify-between gap-3 text-xs text-ink-500">
-      <span>&copy; {currentYear} {site.studio} — {site.name}, {site.role}</span>
-      <span>{site.city}</span>
+    <div class="mt-8 flex flex-col sm:flex-row justify-between gap-2 text-xs text-ink-500">
+      <span>&copy; {currentYear} <Brand /> — {site.name}, {site.role} · {site.city}</span>
+      <button type="button" data-cookie-settings class="self-start hover:text-warm-50 transition-colors cursor-pointer">
+        Preferências de cookies
+      </button>
     </div>
   </div>
 </footer>

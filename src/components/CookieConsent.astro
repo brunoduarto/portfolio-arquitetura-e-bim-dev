@@ -1,0 +1,55 @@
+---
+// Cookie banner (LGPD). Works with Google Consent Mode: BaseLayout sets every
+// storage type to "denied" before Tag Manager loads; "Aceitar" grants analytics only.
+// The choice is kept in localStorage under CONSENT_KEY. Any element with
+// [data-cookie-settings] reopens the banner.
+---
+
+<div
+  id="cookie-banner"
+  role="dialog"
+  aria-live="polite"
+  aria-label="Aviso de cookies"
+  hidden
+  class="fixed z-50 left-4 right-4 bottom-24 sm:right-auto sm:bottom-6 sm:left-6 sm:max-w-sm bg-warm-100 border border-warm-300 shadow-2xl shadow-black/60 p-5"
+>
+  <p class="text-sm leading-relaxed text-ink-700">
+    Usamos cookies do Google Analytics para entender como o site é usado e melhorá-lo. Nada é
+    ativado sem a sua permissão.
+  </p>
+  <div class="mt-4 flex gap-3">
+    <button type="button" data-consent="granted" class="btn btn-dark py-2.5 px-4 flex-1 cursor-pointer">Aceitar</button>
+    <button type="button" data-consent="denied" class="btn btn-outline py-2.5 px-4 flex-1 text-ink-900 cursor-pointer">Recusar</button>
+  </div>
+</div>
+
+<script>
+  const CONSENT_KEY = 'duarq-consent';
+  const banner = document.getElementById('cookie-banner')!;
+
+  const read = () => {
+    try { return localStorage.getItem(CONSENT_KEY); } catch { return null; }
+  };
+  const save = (value: string) => {
+    try { localStorage.setItem(CONSENT_KEY, value); } catch { /* private mode: ask again next visit */ }
+  };
+
+  // window.gtag is defined inline in BaseLayout's <head> (it must push `arguments`,
+  // not an array, or Tag Manager ignores consent commands).
+  const gtag = (window as any).gtag as ((...args: unknown[]) => void) | undefined;
+
+  if (!read()) banner.hidden = false;
+
+  banner.querySelectorAll<HTMLButtonElement>('[data-consent]').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const value = btn.dataset.consent!;
+      save(value);
+      gtag?.('consent', 'update', { analytics_storage: value });
+      banner.hidden = true;
+    });
+  });
+
+  document.querySelectorAll('[data-cookie-settings]').forEach((el) =>
+    el.addEventListener('click', () => { banner.hidden = false; }),
+  );
+</script>
