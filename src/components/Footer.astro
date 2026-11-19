@@ -4,7 +4,7 @@ import { site, whatsappUrl, navLinks } from '../data/site';
 const currentYear = new Date().getFullYear();
 ---
 
-<footer class="bg-ink-950 text-ink-300">
+<footer class="band text-ink-300 border-t border-ink-800">
   <div class="max-w-7xl mx-auto px-5 md:px-10 pt-20 md:pt-28 pb-10">
     {/* Closing call to action */}
     <div class="grid lg:grid-cols-[1.4fr_1fr] gap-10 items-end pb-16 md:pb-24 border-b border-ink-800">
@@ -12,7 +12,7 @@ const currentYear = new Date().getFullYear();
         Vamos projetar <em class="text-warm-300">o seu espaço</em>?
       </h2>
       <div class="flex flex-wrap gap-3 lg:justify-end">
-        <a href="/quiz" class="btn btn-light">Iniciar projeto</a>
+        <a href="/quiz" class="btn btn-dark">Iniciar projeto</a>
         <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" class="btn btn-outline text-warm-50 hover:bg-warm-50 hover:text-ink-950 hover:border-warm-50">
           WhatsApp
         </a>
@@ -21,9 +21,12 @@ const currentYear = new Date().getFullYear();
 
     <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-10 pt-14">
       <div class="lg:col-span-2">
-        <a href="/" class="inline-flex items-center gap-3 font-display text-2xl text-warm-50">
+        <a href="/" class="inline-flex items-center gap-3 text-warm-50">
           <img src="/logos/logo-duarq.svg" alt="" width="44" height="44" class="w-11 h-11" />
-          Bruno Duarte
+          <span class="flex flex-col gap-1">
+            <span class="font-display text-2xl leading-none">{site.studio}</span>
+            <span class="eyebrow text-[0.62rem] leading-none">{site.name} · {site.role}</span>
+          </span>
         </a>
         <p class="mt-4 text-sm leading-relaxed text-ink-400 max-w-sm">
           Arquitetura, interiores e acompanhamento de obra em Belo Horizonte e região.
@@ -51,7 +54,7 @@ const currentYear = new Date().getFullYear();
     </div>
 
     <div class="mt-16 pt-8 border-t border-ink-800 flex flex-col md:flex-row justify-between gap-3 text-xs text-ink-500">
-      <span>&copy; {currentYear} {site.name} — {site.role}</span>
+      <span>&copy; {currentYear} {site.studio} — {site.name}, {site.role}</span>
       <span>{site.city}</span>
     </div>
   </div>

@@ -2,6 +2,7 @@
 title: "Como escolher o terreno ideal para construir"
 description: "Topografia, orientação solar, infraestrutura e documentação: o que avaliar antes de comprar."
 pubDate: 2025-09-12
+coverImage: "/projects/his/render-geral.png"
 category: "Dicas"
 ---
 

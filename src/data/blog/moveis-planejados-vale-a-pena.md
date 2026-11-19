@@ -2,6 +2,7 @@
 title: "Móveis planejados: quando vale a pena e quando é desperdício"
 description: "Nem todo cômodo precisa de marcenaria sob medida. Saiba quando investir e quando economizar."
 pubDate: 2025-08-03
+coverImage: "/projects/casa-antonio-sabrina/9.png"
 category: "Interiores"
 ---
 

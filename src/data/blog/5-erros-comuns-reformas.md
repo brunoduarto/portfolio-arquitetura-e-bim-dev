@@ -2,6 +2,7 @@
 title: "5 erros comuns em reformas residenciais"
 description: "Problemas que você pode evitar com planejamento e acompanhamento profissional."
 pubDate: 2025-07-20
+coverImage: "/projects/casa-antonio-sabrina/2.png"
 category: "Reformas"
 ---
 

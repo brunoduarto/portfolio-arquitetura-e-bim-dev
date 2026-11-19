@@ -224,11 +224,11 @@ const articleSchema = {
     margin: 0;
     padding: 0;
     border: 0;
-    background: var(--color-ink-950);
-    color: var(--color-warm-50);
+    background: var(--color-warm-50);
+    color: var(--color-ink-950);
   }
   .lightbox::backdrop {
-    background: var(--color-ink-950);
+    background: var(--color-warm-50);
   }
   .lb-frame {
     height: 100%;
@@ -242,9 +242,8 @@ const articleSchema = {
     justify-content: space-between;
   }
   .lb-counter {
-    font-family: var(--font-display);
-    font-style: italic;
-    color: var(--color-warm-300);
+    font-variant-numeric: tabular-nums;
+    color: var(--color-warm-700);
   }
   .lb-stage {
     position: relative;
@@ -260,18 +259,18 @@ const articleSchema = {
   }
   .lb-btn {
     padding: 0.5rem;
-    color: var(--color-ink-300);
+    color: var(--color-ink-600);
     transition: color 0.2s;
     cursor: pointer;
   }
   .lb-btn:hover {
-    color: var(--color-warm-50);
+    color: var(--color-ink-950);
   }
   .lb-arrow {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    background: color-mix(in srgb, var(--color-ink-950) 60%, transparent);
+    background: color-mix(in srgb, var(--color-warm-50) 60%, transparent);
   }
   #lb-prev { left: 0; }
   #lb-next { right: 0; }
@@ -280,7 +279,7 @@ const articleSchema = {
     margin-top: 1rem;
     text-align: center;
     font-size: 0.9rem;
-    color: var(--color-ink-300);
+    color: var(--color-ink-600);
   }
   @media (min-width: 768px) {
     .lb-frame { padding: 1.5rem 2.5rem 2rem; }

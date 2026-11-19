@@ -2,6 +2,7 @@
 title: "Arquitetura efêmera: projetos que não precisam durar para sempre"
 description: "Stands, instalações, cenografia e eventos — quando o projeto tem data de validade."
 pubDate: 2025-04-22
+coverImage: "/projects/projeto-6/r2.png"
 category: "Projetos"
 ---
 

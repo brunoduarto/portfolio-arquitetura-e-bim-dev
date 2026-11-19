@@ -2,6 +2,7 @@
 title: "Arquiteto barato em BH: como encontrar um bom profissional sem gastar demais"
 description: "Dicas para contratar um arquiteto em Belo Horizonte com bom custo-benefício, sem comprometer a qualidade do projeto."
 pubDate: 2025-02-14
+coverImage: "/projects/casa-antonio-sabrina/11.png"
 category: "Dicas"
 ---
 

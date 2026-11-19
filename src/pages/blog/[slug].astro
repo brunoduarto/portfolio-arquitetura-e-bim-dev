@@ -12,43 +12,46 @@ export async function getStaticPaths() {
 
 const { post } = Astro.props;
 const { Content } = await render(post);
+const { title, description, category, pubDate, coverImage } = post.data;
 
-const formattedDate = post.data.pubDate.toLocaleDateString('pt-BR', {
+const formattedDate = pubDate.toLocaleDateString('pt-BR', {
   day: 'numeric',
   month: 'long',
   year: 'numeric',
 });
 ---
 
-<BaseLayout
-  title={post.data.title}
-  description={post.data.description}
-  ogType="article"
->
-  <article class="max-w-3xl mx-auto px-4 py-16">
-    <header class="mb-12">
-      {post.data.category && (
-        <span class="text-xs font-medium text-warm-600 uppercase tracking-wider">{post.data.category}</span>
-      )}
-      <h1 class="font-display text-3xl md:text-4xl text-ink-950 mt-2 mb-4 leading-tight">
-        {post.data.title}
+<BaseLayout title={title} description={description} ogType="article" ogImage={coverImage}>
+  <article>
+    <header class="max-w-4xl mx-auto px-5 md:px-10 pt-10 md:pt-16 pb-12">
+      <a href="/blog" class="link-line text-ink-500">&larr; Blog</a>
+      <p class="mt-12 eyebrow" data-reveal>
+        <time datetime={pubDate.toISOString()}>{formattedDate}</time>
+        {category && <span class="text-warm-600"> · {category}</span>}
+      </p>
+      <h1 class="mt-5 font-display text-4xl md:text-6xl leading-[1.05] text-ink-950" data-reveal style="--reveal-delay: 80ms">
+        {title}
       </h1>
-      <time class="text-sm text-ink-400">{formattedDate}</time>
+      <p class="mt-6 text-lg md:text-xl leading-relaxed text-ink-600" data-reveal style="--reveal-delay: 160ms">{description}</p>
     </header>
 
-    <div class="prose prose-lg max-w-none">
-      <Content />
-    </div>
-
-    <footer class="mt-16 pt-8 border-t border-warm-200">
-      <div class="flex items-center justify-between">
-        <a href="/blog" class="text-sm text-warm-700 hover:text-warm-900 font-medium transition-colors">
-          &larr; Voltar para o Blog
-        </a>
-        <a href="/contact" class="text-sm text-warm-700 hover:text-warm-900 font-medium transition-colors">
-          Fale comigo &rarr;
-        </a>
+    {coverImage && (
+      <div class="max-w-6xl mx-auto px-5 md:px-10" data-reveal>
+        <div class="aspect-[16/9] bg-warm-200 overflow-hidden">
+          <img src={coverImage} alt="" class="w-full h-full object-cover" loading="eager" decoding="async" />
+        </div>
       </div>
-    </footer>
+    )}
+
+    <div class="max-w-3xl mx-auto px-5 md:px-10 py-16 md:py-24">
+      <div class="prose prose-lg max-w-none">
+        <Content />
+      </div>
+
+      <footer class="mt-16 pt-8 border-t border-warm-300 flex flex-wrap items-center justify-between gap-6">
+        <a href="/blog" class="link-line">&larr; Todos os artigos</a>
+        <a href="/quiz" class="btn btn-dark">Iniciar projeto</a>
+      </footer>
+    </div>
   </article>
 </BaseLayout>

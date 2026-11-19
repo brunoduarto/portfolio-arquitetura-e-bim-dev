@@ -167,7 +167,7 @@ const software = {
   <div class="cv-layout">
 
       <!-- Sidebar -->
-      <aside class="cv-sidebar">
+      <aside class="cv-sidebar band">
         <div class="relative z-10 flex flex-col gap-8 p-7 h-full">
 
           <!-- Photo -->
@@ -319,7 +319,7 @@ const software = {
     </div>
 
   <!-- Software + Competências (full-width footer) -->
-  <section class="cv-skills">
+  <section class="cv-skills band">
       <div class="max-w-6xl mx-auto px-6 space-y-10">
 
         <div>
@@ -367,7 +367,7 @@ const software = {
   .about-hero {
     display: grid;
     grid-template-columns: 1fr;
-    background-color: #282420;
+    background-color: var(--color-warm-100);
     min-height: 60vh;
   }
   @media (min-width: 768px) {
@@ -382,7 +382,7 @@ const software = {
     flex-direction: column;
     justify-content: center;
     padding: 3.5rem 2rem;
-    color: #f6f5f3;
+    color: var(--color-ink-950);
   }
   @media (min-width: 768px) {
     .hero-text {
@@ -395,21 +395,21 @@ const software = {
     font-size: 0.6875rem;
     text-transform: uppercase;
     letter-spacing: 0.15em;
-    color: #db8e3e;
+    color: var(--color-warm-600);
     margin-bottom: 1.25rem;
   }
 
   .hero-name {
     font-size: clamp(2rem, 4vw, 3.25rem);
     line-height: 1.1;
-    color: #fdf8f3;
+    color: var(--color-ink-950);
     font-weight: 400;
   }
 
   .hero-divider {
     width: 3.5rem;
     height: 2px;
-    background-color: #db8e3e;
+    background-color: var(--color-warm-600);
     margin: 1.5rem 0;
   }
 
@@ -422,7 +422,7 @@ const software = {
   .hero-paragraphs p {
     font-size: 0.9375rem;
     line-height: 1.8;
-    color: #b8b1a3;
+    color: var(--color-ink-600);
   }
 
   .hero-photo {
@@ -442,11 +442,11 @@ const software = {
 
   /* ── Tools carousel ── */
   .tools-section {
-    background-color: #fdf8f3;
+    background-color: var(--color-warm-50);
   }
 
   .tools-divider {
-    border-top: 1px solid #f4dbbf;
+    border-top: 1px solid var(--color-warm-300);
   }
 
   .tools-inner {
@@ -460,7 +460,7 @@ const software = {
     font-size: 0.6875rem;
     text-transform: uppercase;
     letter-spacing: 0.15em;
-    color: #db8e3e;
+    color: var(--color-warm-600);
     text-align: center;
     margin-bottom: 1.5rem;
   }
@@ -471,7 +471,7 @@ const software = {
     left: 0; top: 0; bottom: 0;
     width: 5rem;
     z-index: 10;
-    background: linear-gradient(to right, #fdf8f3, transparent);
+    background: linear-gradient(to right, var(--color-warm-50), transparent);
   }
 
   .tools-fade-right {
@@ -480,7 +480,7 @@ const software = {
     right: 0; top: 0; bottom: 0;
     width: 5rem;
     z-index: 10;
-    background: linear-gradient(to left, #fdf8f3, transparent);
+    background: linear-gradient(to left, var(--color-warm-50), transparent);
   }
 
   .tools-track {
@@ -508,7 +508,7 @@ const software = {
     height: 5rem;
     border-radius: 0.875rem;
     background-color: #fff;
-    border: 1px solid #f4dbbf;
+    border: 1px solid var(--color-warm-300);
     box-shadow: 0 1px 3px rgba(0,0,0,0.06);
     display: flex;
     align-items: center;
@@ -518,7 +518,7 @@ const software = {
 
   .tools-name {
     font-size: 0.75rem;
-    color: #8a7f6d;
+    color: var(--color-ink-500);
     font-family: var(--font-mono);
     text-align: center;
     line-height: 1.25;
@@ -545,7 +545,7 @@ const software = {
   /* Sidebar */
   .cv-sidebar {
     position: relative;
-    background-color: #282420;
+    background-color: var(--color-warm-100);
     overflow: hidden;
   }
 
@@ -558,7 +558,7 @@ const software = {
 
   /* Main content */
   .cv-main {
-    background-color: #fdf8f3;
+    background-color: var(--color-warm-50);
     padding: 2.5rem 1.5rem;
   }
   @media (min-width: 768px) {
@@ -569,7 +569,7 @@ const software = {
 
   /* Skills footer */
   .cv-skills {
-    background-color: #282420;
+    background-color: var(--color-warm-100);
     padding: 3.5rem 0;
   }
 
@@ -577,7 +577,7 @@ const software = {
   .cv-block {
     padding-bottom: 2rem;
     margin-bottom: 2rem;
-    border-bottom: 1px solid #f4dbbf;
+    border-bottom: 1px solid var(--color-warm-300);
   }
   .cv-block:last-child {
     border-bottom: none;
@@ -596,7 +596,7 @@ const software = {
     top: 6px;
     bottom: 6px;
     width: 1px;
-    background-color: #f4dbbf;
+    background-color: var(--color-warm-300);
   }
 
   .tl-item {
@@ -614,9 +614,9 @@ const software = {
     width: 11px;
     height: 11px;
     border-radius: 9999px;
-    background-color: #db8e3e;
-    border: 2px solid #fdf8f3;
-    box-shadow: 0 0 0 1px #db8e3e;
+    background-color: var(--color-warm-600);
+    border: 2px solid var(--color-warm-50);
+    box-shadow: 0 0 0 1px var(--color-warm-600);
   }
 
   .tl-body {
@@ -628,26 +628,26 @@ const software = {
   .tl-period {
     font-family: var(--font-mono);
     font-size: 0.6875rem;
-    color: #9d9381;
+    color: var(--color-ink-500);
     line-height: 1.5;
   }
 
   .tl-org {
     font-size: 0.8125rem;
     font-weight: 600;
-    color: #514a41;
+    color: var(--color-ink-700);
     margin-top: 0.1rem;
   }
 
   .tl-role {
     font-size: 0.875rem;
-    color: #282420;
+    color: var(--color-ink-950);
     font-weight: 500;
   }
 
   .tl-desc {
     font-size: 0.8125rem;
-    color: #9d9381;
+    color: var(--color-ink-500);
     line-height: 1.6;
     margin-top: 0.2rem;
   }

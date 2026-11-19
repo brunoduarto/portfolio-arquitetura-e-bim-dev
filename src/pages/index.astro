@@ -2,20 +2,29 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ProjectTile from '../components/ProjectTile.astro';
 import TestimonialCard from '../components/TestimonialCard.astro';
+import BlogPostCard from '../components/BlogPostCard.astro';
+import { site } from '../data/site';
 import { getCollection } from 'astro:content';
 
-const projects = await getCollection('projects', ({ data }) => !data.draft);
-const featured = projects
-  .filter((p) => p.data.featured)
-  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
-  .slice(0, 3);
+const projects = (await getCollection('projects', ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+);
+const byId = new Map(projects.map((p) => [p.id, p]));
+const coverOf = (p: (typeof projects)[number]) => p.data.coverImage ?? p.data.images?.[0]?.src;
+
+// Hero slideshow: one cover per project, featured first, no repeated images.
+const slides: { id: string; title: string; kicker: string; src: string }[] = [];
+for (const p of [...projects.filter((p) => p.data.featured), ...projects.filter((p) => !p.data.featured)]) {
+  const src = coverOf(p);
+  if (!src || slides.some((s) => s.src === src) || slides.length >= 6) continue;
+  slides.push({ id: p.id, title: p.data.title, kicker: [p.data.type, p.data.scope].filter(Boolean).join(' · '), src });
+}
+
+const featured = projects.filter((p) => p.data.featured).slice(0, 3);
 
 const posts = (await getCollection('blog', ({ data }) => !data.draft))
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
   .slice(0, 3);
-
-const formatDate = (d: Date) =>
-  d.toLocaleDateString('pt-BR', { month: 'short', year: 'numeric' }).replace('.', '');
 
 const principles = [
   {
@@ -36,28 +45,37 @@ const principles = [
   },
 ];
 
+// Each service links to the project that best shows it. Change `project` to point elsewhere.
 const services = [
   {
     title: 'Projeto residencial',
     text: 'Casas e apartamentos do conceito ao executivo, com acompanhamento da escolha do terreno até a entrega da obra.',
+    project: 'casa-antonio-sabrina',
   },
   {
     title: 'Design de interiores',
     text: 'Ambientes funcionais e com personalidade: layout, materiais, mobiliário, iluminação e marcenaria planejada.',
+    project: 'jessamy-sala-tv',
   },
   {
     title: 'Projeto comercial',
     text: 'Escritórios, lojas e restaurantes que traduzem a identidade da marca e funcionam para quem trabalha neles.',
+    project: 'restaurante-piraka',
   },
   {
     title: 'Projeto executivo e aprovação',
     text: 'Documentação técnica completa em BIM para aprovação na prefeitura e execução sem surpresas.',
+    project: 'residencial-antonio-sabrina-executivo',
   },
   {
     title: 'Projetos especiais',
-    text: 'Urbanismo, instalações efêmeras e consultorias. Se não está na lista, vale a conversa.',
+    text: 'Urbanismo, equipamentos culturais, instalações efêmeras e consultorias. Se não está na lista, vale a conversa.',
+    project: 'centro-cultural-memoria-viva',
   },
-];
+].map((s) => {
+  const p = byId.get(s.project);
+  return { ...s, href: p ? `/projects/${p.id}` : '/projects', projectTitle: p?.data.title };
+});
 
 const steps = [
   { title: 'Briefing', text: 'Você responde algumas perguntas rápidas sobre o espaço, o prazo e o orçamento.' },
@@ -71,75 +89,107 @@ const showTestimonials = false;
 const testimonials = [
   { quote: 'Depoimento do cliente.', name: 'Nome do cliente', role: 'Projeto, bairro' },
 ];
+
+const pad = (n: number) => String(n).padStart(2, '0');
 ---
 
 <BaseLayout
-  title="Bruno Duarte — Arquiteto e Urbanista em Belo Horizonte"
-  description="Projetos de arquitetura residencial, comercial e design de interiores em Belo Horizonte e Minas Gerais. Do conceito ao executivo."
+  title={`${site.studio} — ${site.name} | Arquitetura e interiores em Belo Horizonte`}
+  description="Estúdio duarq, de Bruno Duarte: arquitetura residencial, comercial e design de interiores em Belo Horizonte e Minas Gerais. Do conceito ao executivo."
   fullTitle={true}
 >
-  {/* ───────────── Hero ───────────── */}
-  <section class="max-w-7xl mx-auto px-5 md:px-10 pt-10 md:pt-16 pb-20 md:pb-28">
-    <div class="grid lg:grid-cols-[1.15fr_1fr] gap-10 lg:gap-16 items-end">
-      <div class="lg:pb-6">
-        <p class="eyebrow" data-reveal>Arquitetura · Interiores · Belo Horizonte</p>
-        <h1
-          class="mt-6 font-display text-[2.9rem] leading-[1.02] sm:text-6xl lg:text-[5.4rem] text-ink-950"
-          data-reveal
-          style="--reveal-delay: 80ms"
-        >
-          Arquitetura que começa <em class="text-warm-700">pela escuta</em>.
-        </h1>
-        <p class="mt-8 max-w-md text-lg leading-relaxed text-ink-600" data-reveal style="--reveal-delay: 160ms">
-          Projetos residenciais, comerciais e de interiores em BH e região — do primeiro estudo
-          ao detalhamento executivo.
-        </p>
-        <div class="mt-10 flex flex-wrap gap-3" data-reveal style="--reveal-delay: 240ms">
-          <a href="/projects" class="btn btn-dark">Ver projetos</a>
-          <a href="/quiz" class="btn btn-outline text-ink-950">Iniciar projeto</a>
-        </div>
+  {/* ───────────── Hero: full-width slideshow ───────────── */}
+  <section id="hero" class="relative w-full h-[calc(100svh-4.5rem)] md:h-[calc(100svh-5rem)] min-h-[34rem] max-h-[60rem] overflow-hidden bg-warm-100" aria-roledescription="carrossel" aria-label="Projetos em destaque">
+    {slides.map((s, i) => (
+      <div class:list={['hero-slide absolute inset-0', i === 0 && 'is-active']} data-slide={i} aria-hidden={i === 0 ? 'false' : 'true'}>
+        <img
+          src={s.src}
+          alt={s.title}
+          class="w-full h-full object-cover"
+          fetchpriority={i === 0 ? 'high' : 'low'}
+          loading={i === 0 ? 'eager' : 'lazy'}
+          decoding="async"
+        />
       </div>
+    ))}
 
-      <figure data-reveal style="--reveal-delay: 120ms">
-        <div class="aspect-[4/5] bg-warm-200 overflow-hidden">
-          <img
-            src="/projects/casa-antonio-sabrina/7.png"
-            alt="Sala de estar com painel de madeira e iluminação embutida"
-            width="1200"
-            height="1500"
-            class="w-full h-full object-cover"
-            fetchpriority="high"
-            decoding="async"
-          />
+    {/* Shade so the text stays readable on any image */}
+    <div class="absolute inset-0 bg-gradient-to-t from-warm-50 via-warm-50/45 to-warm-50/10 pointer-events-none"></div>
+    <div class="absolute inset-0 bg-gradient-to-r from-warm-50/70 via-transparent to-transparent pointer-events-none"></div>
+
+    <div class="relative h-full max-w-7xl mx-auto px-5 md:px-10 pb-10 md:pb-14 flex flex-col justify-end">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-end">
+        <div class="lg:col-span-8 min-w-0">
+          <p class="eyebrow text-ink-800" data-reveal>{site.studio} · Arquitetura · Interiores · Belo Horizonte</p>
+          <h1
+            class="mt-6 font-display text-[2.8rem] leading-[1] sm:text-6xl lg:text-[5.6rem] font-extralight text-ink-950"
+            data-reveal
+            style="--reveal-delay: 80ms"
+          >
+            Arquitetura que começa <em>pela escuta</em>.
+          </h1>
+          <div class="mt-10 flex flex-wrap gap-3" data-reveal style="--reveal-delay: 160ms">
+            <a href="/projects" class="btn btn-dark">Ver projetos</a>
+            <a href="/quiz" class="btn btn-outline text-ink-950">Iniciar projeto</a>
+          </div>
         </div>
-        <figcaption class="mt-3 flex justify-between eyebrow">
-          <span>Casa Antônio e Sabrina</span>
-          <span>Interiores</span>
-        </figcaption>
-      </figure>
+
+        {slides.length > 0 && (
+          <div class="lg:col-span-4 lg:justify-self-end w-full lg:max-w-xs" data-reveal style="--reveal-delay: 240ms">
+            <a id="hero-caption" href={`/projects/${slides[0].id}`} class="group block">
+              <span class="eyebrow text-ink-700" id="hero-kicker">{slides[0].kicker}</span>
+              <span class="mt-2 flex items-center justify-between gap-4 text-lg text-ink-950 group-hover:text-warm-700 transition-colors">
+                <span id="hero-title">{slides[0].title}</span>
+                <span aria-hidden="true">→</span>
+              </span>
+            </a>
+            {slides.length > 1 && (
+              <div class="mt-5 flex items-center gap-4">
+                <span class="index-num text-sm text-ink-800 w-14" id="hero-count">{pad(1)} / {pad(slides.length)}</span>
+                <div class="flex-1 flex gap-1.5" role="tablist" aria-label="Escolher imagem">
+                  {slides.map((s, i) => (
+                    <button
+                      type="button"
+                      class="hero-dot group/dot relative flex-1 h-6 cursor-pointer"
+                      data-go={i}
+                      role="tab"
+                      aria-selected={i === 0 ? 'true' : 'false'}
+                      aria-label={`${i + 1}: ${s.title}`}
+                    >
+                      <span class="absolute inset-x-0 top-1/2 h-px bg-ink-950/30 group-hover/dot:bg-ink-950/60"></span>
+                      <span class="hero-bar absolute left-0 top-1/2 h-px bg-warm-600"></span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+      </div>
     </div>
   </section>
 
   {/* ───────────── Studio / principles ───────────── */}
-  <section class="border-t border-warm-200">
+  <section>
     <div class="max-w-7xl mx-auto px-5 md:px-10 py-20 md:py-32 grid lg:grid-cols-12 gap-12">
       <div class="lg:col-span-5" data-reveal>
-        <p class="eyebrow">O escritório</p>
+        <p class="eyebrow">O estúdio</p>
         <h2 class="mt-5 font-display text-4xl md:text-5xl leading-[1.08] text-ink-950">
           Um arquiteto do começo <em>ao fim</em> do seu projeto.
         </h2>
         <p class="mt-6 text-ink-600 leading-relaxed max-w-md">
-          Sou arquiteto e urbanista em Belo Horizonte. Trabalho com poucos projetos por vez para
-          acompanhar cada um de perto — da primeira conversa ao último detalhe da obra.
+          O {site.studio} é o escritório de {site.name}, arquiteto e urbanista em Belo Horizonte.
+          Poucos projetos por vez, para acompanhar cada um de perto — da primeira conversa ao último
+          detalhe da obra.
         </p>
-        <a href="/about" class="link-line mt-8">Conheça o escritório</a>
+        <a href="/about" class="link-line mt-8">Conheça o estúdio</a>
       </div>
 
       <ol class="lg:col-span-6 lg:col-start-7 grid sm:grid-cols-2 gap-x-10 gap-y-12">
         {principles.map((p, i) => (
           <li data-reveal style={`--reveal-delay: ${i * 90}ms`}>
-            <span class="index-num text-2xl">{String(i + 1).padStart(2, '0')}</span>
-            <h3 class="mt-3 font-display text-2xl text-ink-950">{p.title}</h3>
+            <span class="index-num text-lg">{pad(i + 1)}</span>
+            <h3 class="mt-3 font-display text-2xl font-normal text-ink-950">{p.title}</h3>
             <p class="mt-3 text-[0.95rem] leading-relaxed text-ink-600">{p.text}</p>
           </li>
         ))}
@@ -147,48 +197,43 @@ const testimonials = [
     </div>
   </section>
 
-  {/* ───────────── Selected projects ───────────── */}
-  <section class="bg-warm-100">
-    <div class="max-w-7xl mx-auto px-5 md:px-10 py-20 md:py-32">
-      <div class="flex flex-wrap items-end justify-between gap-6 mb-14 md:mb-20" data-reveal>
-        <div>
-          <p class="eyebrow">Projetos selecionados</p>
-          <h2 class="mt-5 font-display text-4xl md:text-5xl text-ink-950">Trabalhos recentes</h2>
+  {/* ───────────── Selected projects: equal tiles ───────────── */}
+  {featured.length > 0 && (
+    <section class="bg-warm-100 border-y border-warm-300">
+      <div class="max-w-7xl mx-auto px-5 md:px-10 py-20 md:py-32">
+        <div class="flex flex-wrap items-end justify-between gap-6 mb-14 md:mb-20" data-reveal>
+          <div>
+            <p class="eyebrow">Projetos selecionados</p>
+            <h2 class="mt-5 font-display text-4xl md:text-5xl text-ink-950">Trabalhos recentes</h2>
+          </div>
+          <a href="/projects" class="link-line">Ver todos os projetos</a>
         </div>
-        <a href="/projects" class="link-line">Ver todos os projetos</a>
-      </div>
 
-      <div class="grid md:grid-cols-12 gap-x-8 gap-y-16">
-        {featured.map((p, i) => {
-          const layout = [
-            { cls: 'md:col-span-7', aspect: 'aspect-[4/5]' },
-            { cls: 'md:col-span-5 md:pt-40', aspect: 'aspect-[4/5]' },
-            { cls: 'md:col-span-8 md:col-start-3', aspect: 'aspect-[16/9]' },
-          ][i];
-          return (
-            <div class={layout.cls} data-reveal>
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-14">
+          {featured.map((p, i) => (
+            <div data-reveal style={`--reveal-delay: ${i * 100}ms`}>
               <ProjectTile
                 slug={p.id}
                 title={p.data.title}
-                image={p.data.coverImage ?? p.data.images?.[0]?.src}
+                image={coverOf(p)}
                 type={p.data.type}
                 scope={p.data.scope}
                 location={p.data.location}
                 year={p.data.pubDate.getFullYear()}
-                aspect={layout.aspect}
+                aspect="aspect-[4/5]"
               />
             </div>
-          );
-        })}
+          ))}
+        </div>
       </div>
-    </div>
-  </section>
+    </section>
+  )}
 
-  {/* ───────────── Services ───────────── */}
+  {/* ───────────── Services (with portrait) ───────────── */}
   <section id="servicos" class="scroll-mt-20">
     <div class="max-w-7xl mx-auto px-5 md:px-10 py-20 md:py-32 grid lg:grid-cols-12 gap-12">
       <div class="lg:col-span-4" data-reveal>
-        <div class="lg:sticky lg:top-32">
+        <div class="lg:sticky lg:top-28">
           <p class="eyebrow">Serviços</p>
           <h2 class="mt-5 font-display text-4xl md:text-5xl leading-[1.08] text-ink-950">
             O que eu <em>faço</em>
@@ -196,19 +241,41 @@ const testimonials = [
           <p class="mt-6 text-ink-600 leading-relaxed max-w-sm">
             Do estudo de viabilidade ao acompanhamento da obra — você contrata só as etapas de que precisa.
           </p>
+          <figure class="mt-10 max-w-xs">
+            <div class="aspect-[4/5] bg-warm-200 overflow-hidden">
+              <img
+                src="/headshot_profissional.jpg"
+                alt={`${site.name}, arquiteto e urbanista`}
+                width="2556"
+                height="3408"
+                class="w-full h-full object-cover grayscale-[35%]"
+                loading="lazy"
+                decoding="async"
+              />
+            </div>
+            <figcaption class="mt-3 eyebrow">{site.name} · {site.role}</figcaption>
+          </figure>
         </div>
       </div>
 
       <ol class="lg:col-span-7 lg:col-start-6 border-t border-warm-300">
         {services.map((s, i) => (
-          <li class="group grid grid-cols-[3rem_1fr] md:grid-cols-[4.5rem_1fr] gap-x-4 py-8 md:py-10 border-b border-warm-300" data-reveal>
-            <span class="index-num text-xl md:text-2xl pt-1">{String(i + 1).padStart(2, '0')}</span>
-            <div>
-              <h3 class="font-display text-2xl md:text-3xl text-ink-950 group-hover:text-warm-700 transition-colors">
-                {s.title}
-              </h3>
-              <p class="mt-3 text-ink-600 leading-relaxed max-w-lg">{s.text}</p>
-            </div>
+          <li class="border-b border-warm-300" data-reveal>
+            <a href={s.href} class="group grid grid-cols-[3rem_1fr_auto] md:grid-cols-[4.5rem_1fr_auto] gap-x-4 py-8 md:py-10">
+              <span class="index-num text-lg md:text-xl pt-1.5">{pad(i + 1)}</span>
+              <div>
+                <h3 class="font-display text-2xl md:text-3xl text-ink-950 group-hover:text-warm-700 transition-colors">
+                  {s.title}
+                </h3>
+                <p class="mt-3 text-ink-600 leading-relaxed max-w-lg">{s.text}</p>
+                {s.projectTitle && (
+                  <p class="mt-4 eyebrow text-ink-500 group-hover:text-warm-700 transition-colors">
+                    Ver projeto: {s.projectTitle}
+                  </p>
+                )}
+              </div>
+              <span class="pt-2 text-xl text-ink-400 group-hover:text-warm-700 group-hover:translate-x-1 transition-all" aria-hidden="true">→</span>
+            </a>
           </li>
         ))}
       </ol>
@@ -216,25 +283,25 @@ const testimonials = [
   </section>
 
   {/* ───────────── How to start (briefing) ───────────── */}
-  <section class="bg-ink-950 text-ink-300">
+  <section class="band text-ink-300 border-y border-ink-800">
     <div class="max-w-7xl mx-auto px-5 md:px-10 py-20 md:py-32">
       <div class="grid lg:grid-cols-12 gap-12 items-end mb-16 md:mb-20" data-reveal>
         <div class="lg:col-span-7">
-          <p class="eyebrow text-ink-400">Como começar</p>
+          <p class="eyebrow">Como começar</p>
           <h2 class="mt-5 font-display text-4xl md:text-6xl leading-[1.05] text-warm-50">
-            Do briefing ao projeto em <em class="text-warm-300">quatro passos</em>.
+            Do briefing ao projeto em <em>quatro passos</em>.
           </h2>
         </div>
         <div class="lg:col-span-4 lg:col-start-9 lg:text-right">
-          <a href="/quiz" class="btn btn-light">Preencher briefing</a>
+          <a href="/quiz" class="btn btn-dark">Preencher briefing</a>
         </div>
       </div>
 
       <ol class="grid sm:grid-cols-2 lg:grid-cols-4 gap-px bg-ink-800 border border-ink-800">
         {steps.map((s, i) => (
           <li class="bg-ink-950 p-8 md:p-10" data-reveal style={`--reveal-delay: ${i * 90}ms`}>
-            <span class="index-num text-3xl text-warm-400">{String(i + 1).padStart(2, '0')}</span>
-            <h3 class="mt-6 font-display text-2xl text-warm-50">{s.title}</h3>
+            <span class="index-num text-2xl">{pad(i + 1)}</span>
+            <h3 class="mt-6 font-display text-2xl font-normal text-warm-50">{s.title}</h3>
             <p class="mt-3 text-sm leading-relaxed text-ink-400">{s.text}</p>
           </li>
         ))}
@@ -244,7 +311,7 @@ const testimonials = [
 
   {/* ───────────── Testimonials (hidden until real) ───────────── */}
   {showTestimonials && (
-    <section class="border-b border-warm-200">
+    <section class="border-b border-warm-300">
       <div class="max-w-7xl mx-auto px-5 md:px-10 py-20 md:py-32">
         <p class="eyebrow mb-12">O que dizem os clientes</p>
         <div class="grid md:grid-cols-3 gap-6">
@@ -254,42 +321,27 @@ const testimonials = [
     </section>
   )}
 
-  {/* ───────────── About ───────────── */}
+  {/* ───────────── Quote ───────────── */}
   <section>
-    <div class="max-w-7xl mx-auto px-5 md:px-10 py-20 md:py-32 grid md:grid-cols-12 gap-10 md:gap-16 items-center">
-      <div class="md:col-span-5 lg:col-span-4" data-reveal>
-        <div class="aspect-[3/4] bg-warm-200 overflow-hidden">
-          <img
-            src="/headshot_profissional.jpg"
-            alt="Bruno Duarte, arquiteto e urbanista"
-            width="2556"
-            height="3408"
-            class="w-full h-full object-cover"
-            loading="lazy"
-            decoding="async"
-          />
-        </div>
-      </div>
-      <div class="md:col-span-7 lg:col-span-6 lg:col-start-6" data-reveal style="--reveal-delay: 100ms">
-        <p class="eyebrow">Sobre</p>
-        <blockquote class="mt-6 font-display text-3xl md:text-4xl leading-[1.2] text-ink-950">
-          “Bons espaços nascem da escuta atenta e do equilíbrio entre
-          <em class="text-warm-700">estética e funcionalidade</em>.”
-        </blockquote>
-        <p class="mt-8 text-ink-600 leading-relaxed max-w-lg">
-          Bruno Duarte — arquiteto e urbanista em Belo Horizonte, com experiência em projetos
-          residenciais, comerciais, reformas e modelagem BIM.
-        </p>
-        <a href="/about" class="link-line mt-8">Mais sobre mim</a>
-      </div>
+    <div class="max-w-5xl mx-auto px-5 md:px-10 py-20 md:py-32" data-reveal>
+      <p class="eyebrow">Sobre</p>
+      <blockquote class="mt-6 font-display font-light text-3xl md:text-5xl leading-[1.15] tracking-tight text-ink-950">
+        “Bons espaços nascem da escuta atenta e do equilíbrio entre
+        <em>estética e funcionalidade</em>.”
+      </blockquote>
+      <p class="mt-8 text-ink-600 leading-relaxed max-w-xl">
+        {site.name} — arquiteto e urbanista em Belo Horizonte, com experiência em projetos
+        residenciais, comerciais, reformas e modelagem BIM.
+      </p>
+      <a href="/about" class="link-line mt-8">Mais sobre mim</a>
     </div>
   </section>
 
   {/* ───────────── Blog ───────────── */}
   {posts.length > 0 && (
-    <section class="bg-warm-100">
+    <section class="bg-warm-100 border-t border-warm-300">
       <div class="max-w-7xl mx-auto px-5 md:px-10 py-20 md:py-28">
-        <div class="flex flex-wrap items-end justify-between gap-6 mb-12" data-reveal>
+        <div class="flex flex-wrap items-end justify-between gap-6 mb-12 md:mb-16" data-reveal>
           <div>
             <p class="eyebrow">Blog</p>
             <h2 class="mt-5 font-display text-4xl md:text-5xl text-ink-950">Notas de projeto</h2>
@@ -297,26 +349,110 @@ const testimonials = [
           <a href="/blog" class="link-line">Ver todos os artigos</a>
         </div>
 
-        <ul class="border-t border-warm-300">
-          {posts.map((post) => (
-            <li class="border-b border-warm-300" data-reveal>
-              <a
-                href={`/blog/${post.id}`}
-                class="group grid md:grid-cols-[9rem_1fr_auto] gap-x-8 gap-y-2 py-7 md:py-8 items-baseline"
-              >
-                <span class="eyebrow">{formatDate(post.data.pubDate)}{post.data.category && ` · ${post.data.category}`}</span>
-                <div>
-                  <h3 class="font-display text-2xl md:text-[1.75rem] text-ink-950 group-hover:text-warm-700 transition-colors">
-                    {post.data.title}
-                  </h3>
-                  <p class="mt-2 text-ink-600 text-[0.95rem] max-w-2xl">{post.data.description}</p>
-                </div>
-                <span class="hidden md:block text-ink-400 group-hover:text-warm-700 group-hover:translate-x-1 transition-all" aria-hidden="true">→</span>
-              </a>
-            </li>
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-14">
+          {posts.map((post, i) => (
+            <div data-reveal style={`--reveal-delay: ${i * 100}ms`}>
+              <BlogPostCard
+                title={post.data.title}
+                description={post.data.description}
+                slug={post.id}
+                date={post.data.pubDate.toISOString()}
+                coverImage={post.data.coverImage}
+                category={post.data.category}
+              />
+            </div>
           ))}
-        </ul>
+        </div>
       </div>
     </section>
   )}
 </BaseLayout>
+
+<style>
+  .hero-slide {
+    opacity: 0;
+    transition: opacity 1.6s var(--ease-soft);
+  }
+  .hero-slide.is-active {
+    opacity: 1;
+  }
+  /* Slow push-in on the visible image */
+  .hero-slide img {
+    transform: scale(1.06);
+    transition: transform 9s linear;
+  }
+  .hero-slide.is-active img {
+    transform: scale(1);
+  }
+  .hero-bar {
+    width: 0;
+  }
+  .hero-dot[aria-selected='true'] .hero-bar {
+    animation: hero-progress var(--hero-interval, 6500ms) linear forwards;
+  }
+  #hero.is-paused .hero-dot[aria-selected='true'] .hero-bar {
+    animation: none;
+    width: 100%;
+  }
+  @keyframes hero-progress {
+    from { width: 0; }
+    to { width: 100%; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .hero-slide,
+    .hero-slide img {
+      transition: none;
+      transform: none;
+    }
+    .hero-dot[aria-selected='true'] .hero-bar {
+      animation: none;
+      width: 100%;
+    }
+  }
+</style>
+
+<script define:vars={{ slides, interval: 6500 }}>
+  const hero = document.getElementById('hero');
+  const slideEls = hero ? [...hero.querySelectorAll('.hero-slide')] : [];
+  if (hero && slideEls.length > 1) {
+    const dots = [...hero.querySelectorAll('.hero-dot')];
+    const caption = document.getElementById('hero-caption');
+    const kicker = document.getElementById('hero-kicker');
+    const title = document.getElementById('hero-title');
+    const count = document.getElementById('hero-count');
+    const pad = (n) => String(n).padStart(2, '0');
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    hero.style.setProperty('--hero-interval', `${interval}ms`);
+    if (reduced) hero.classList.add('is-paused');
+
+    let current = 0;
+    let timer;
+
+    const show = (i) => {
+      current = (i + slideEls.length) % slideEls.length;
+      slideEls.forEach((el, n) => {
+        el.classList.toggle('is-active', n === current);
+        el.setAttribute('aria-hidden', String(n !== current));
+      });
+      dots.forEach((d, n) => {
+        // Re-trigger the progress animation on the active dot
+        d.setAttribute('aria-selected', 'false');
+        if (n === current) requestAnimationFrame(() => d.setAttribute('aria-selected', 'true'));
+      });
+      const s = slides[current];
+      caption.href = `/projects/${s.id}`;
+      kicker.textContent = s.kicker;
+      title.textContent = s.title;
+      count.textContent = `${pad(current + 1)} / ${pad(slides.length)}`;
+    };
+
+    const start = () => {
+      clearInterval(timer);
+      if (!reduced && !document.hidden) timer = setInterval(() => show(current + 1), interval);
+    };
+
+    dots.forEach((d) => d.addEventListener('click', () => { show(Number(d.dataset.go)); start(); }));
+    document.addEventListener('visibilitychange', start);
+    start();
+  }
+</script>

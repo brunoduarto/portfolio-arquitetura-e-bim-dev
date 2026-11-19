@@ -2,6 +2,7 @@
 title: "Tendências de design de interiores em 2026"
 description: "Materiais naturais, iluminação inteligente e espaços multifuncionais estão em alta."
 pubDate: 2025-11-05
+coverImage: "/projects/casa-antonio-sabrina/5.png"
 category: "Interiores"
 ---
 

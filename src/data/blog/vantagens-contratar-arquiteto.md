@@ -2,6 +2,7 @@
 title: "Por que contratar um arquiteto (e quando não precisa)"
 description: "O que um arquiteto realmente faz, quanto custa e em que situações vale o investimento."
 pubDate: 2025-03-10
+coverImage: "/projects/piraka/fachada-frontal.png"
 category: "Dicas"
 ---
 

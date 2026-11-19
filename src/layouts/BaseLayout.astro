@@ -13,7 +13,7 @@ interface Props {
   description?: string;
   ogImage?: string;
   ogType?: 'website' | 'article';
-  /** Pass true to use title as-is (no "| Bruno Arq" suffix) */
+  /** Pass true to use title as-is (no "| Estúdio duarq" suffix) */
   fullTitle?: boolean;
 }
 
@@ -27,18 +27,74 @@ const {
 
 const siteUrl   = Astro.site ?? new URL('https://bruno.arq.br');
 const pageUrl   = new URL(Astro.url.pathname, siteUrl).toString();
-const pageTitle = fullTitle ? title : `${title} | Bruno Arq`;
+const pageTitle = fullTitle ? title : `${title} | ${site.studio}`;
 const absOgImage = ogImage.startsWith('http') ? ogImage : new URL(ogImage, siteUrl).toString();
 
-const personSchema = {
+// Structured data: the studio (ProfessionalService) and the architect (Person)
+// as one linked entity, so Google ties the site, the CAU registration and the
+// social profiles together. schema.org has no "Architect" type; this is the
+// standard pairing for an architecture practice.
+const home = siteUrl.toString();
+const studioId = `${home}#estudio`;
+const personId = `${home}#bruno`;
+const telephone = `+${site.whatsapp.replace(/^(\d{2})(\d{2})(\d{5})(\d{4})$/, '$1 $2 $3-$4')}`;
+const structuredData = {
   '@context': 'https://schema.org',
-  '@type': 'Person',
-  name: 'Bruno Duarte de Oliveira',
-  jobTitle: 'Arquiteto e Urbanista',
-  url: siteUrl.toString(),
-  sameAs: [
-    'https://github.com/brunoduarto',
-    'https://www.linkedin.com/in/bruno-duarte-deoliveira/',
+  '@graph': [
+    {
+      '@type': 'ProfessionalService',
+      '@id': studioId,
+      name: site.studio,
+      description: 'Estúdio de arquitetura e interiores: projetos residenciais, comerciais, interiores e projeto executivo em Belo Horizonte e Minas Gerais.',
+      url: home,
+      logo: new URL('/logos/logo-duarq.svg', siteUrl).toString(),
+      image: new URL('/og-image.png', siteUrl).toString(),
+      email: site.email,
+      telephone,
+      address: {
+        '@type': 'PostalAddress',
+        addressLocality: 'Belo Horizonte',
+        addressRegion: 'MG',
+        addressCountry: 'BR',
+      },
+      areaServed: [
+        { '@type': 'City', name: 'Belo Horizonte' },
+        { '@type': 'State', name: 'Minas Gerais' },
+      ],
+      knowsAbout: ['Arquitetura residencial', 'Arquitetura comercial', 'Design de interiores', 'Projeto executivo', 'BIM'],
+      founder: { '@id': personId },
+      sameAs: [site.instagram],
+    },
+    {
+      '@type': 'Person',
+      '@id': personId,
+      name: site.fullName,
+      alternateName: site.name,
+      jobTitle: site.role,
+      url: new URL('/about', siteUrl).toString(),
+      image: new URL('/headshot_profissional.jpg', siteUrl).toString(),
+      worksFor: { '@id': studioId },
+      alumniOf: { '@type': 'CollegeOrUniversity', name: 'Universidade Federal de Viçosa' },
+      hasCredential: {
+        '@type': 'EducationalOccupationalCredential',
+        credentialCategory: 'Registro profissional',
+        name: `CAU ${site.cau}`,
+        recognizedBy: {
+          '@type': 'Organization',
+          name: 'Conselho de Arquitetura e Urbanismo do Brasil',
+          url: 'https://caubr.gov.br',
+        },
+      },
+      sameAs: [site.linkedin, site.instagram, site.github],
+    },
+    {
+      '@type': 'WebSite',
+      '@id': `${home}#site`,
+      url: home,
+      name: site.studio,
+      inLanguage: 'pt-BR',
+      publisher: { '@id': studioId },
+    },
   ],
 };
 ---
@@ -73,7 +129,8 @@ const personSchema = {
     <meta property="og:description" content={description} />
     <meta property="og:image"       content={absOgImage} />
     <meta property="og:locale"      content="pt_BR" />
-    <meta property="og:site_name"   content="Bruno Arq" />
+    <meta property="og:site_name"   content={site.studio} />
+    <meta name="theme-color" content="#0e0c0c" />
 
     <!-- Twitter / X Card -->
     <meta name="twitter:card"        content="summary_large_image" />
@@ -91,15 +148,15 @@ const personSchema = {
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;1,6..72,300;1,6..72,400&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,200..600;1,300..400&display=swap"
       rel="stylesheet"
     />
 
     <!-- Mark JS as available before paint so [data-reveal] can start hidden -->
     <script is:inline>document.documentElement.classList.add('js');</script>
 
-    <!-- JSON-LD Person schema (identifies portfolio owner to search engines) -->
-    <script type="application/ld+json" set:html={JSON.stringify(personSchema)} />
+    <!-- JSON-LD: studio + architect as one entity for search engines -->
+    <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
 
     <!-- Slot for extra head tags from child layouts (e.g. Article schema on project pages) -->
     <slot name="head" />

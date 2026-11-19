@@ -17,16 +17,16 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         <legend class="font-display text-xl text-ink-950 mb-4 pb-2 border-b border-warm-200 w-full">Sobre você</legend>
         <div>
           <label for="name" class="block text-sm text-ink-600 mb-1">Nome</label>
-          <input type="text" id="name" name="name" class="w-full px-4 py-3 bg-white border border-warm-200 text-ink-800 text-sm focus:outline-none focus:border-warm-500 transition-colors" placeholder="Seu nome" />
+          <input type="text" id="name" name="name" class="w-full px-4 py-3 bg-warm-100 border border-warm-200 text-ink-800 text-sm focus:outline-none focus:border-warm-500 transition-colors" placeholder="Seu nome" />
         </div>
         <div class="grid grid-cols-2 gap-4">
           <div>
             <label for="email" class="block text-sm text-ink-600 mb-1">Email</label>
-            <input type="email" id="email" name="email" class="w-full px-4 py-3 bg-white border border-warm-200 text-ink-800 text-sm focus:outline-none focus:border-warm-500 transition-colors" placeholder="seu@email.com" />
+            <input type="email" id="email" name="email" class="w-full px-4 py-3 bg-warm-100 border border-warm-200 text-ink-800 text-sm focus:outline-none focus:border-warm-500 transition-colors" placeholder="seu@email.com" />
           </div>
           <div>
             <label for="phone" class="block text-sm text-ink-600 mb-1">Telefone / WhatsApp</label>
-            <input type="tel" id="phone" name="phone" class="w-full px-4 py-3 bg-white border border-warm-200 text-ink-800 text-sm focus:outline-none focus:border-warm-500 transition-colors" placeholder="(31) 99999-9999" />
+            <input type="tel" id="phone" name="phone" class="w-full px-4 py-3 bg-warm-100 border border-warm-200 text-ink-800 text-sm focus:outline-none focus:border-warm-500 transition-colors" placeholder="(31) 99999-9999" />
           </div>
         </div>
       </fieldset>
@@ -36,7 +36,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         <legend class="font-display text-xl text-ink-950 mb-4 pb-2 border-b border-warm-200 w-full">O projeto</legend>
         <div>
           <label for="project-type" class="block text-sm text-ink-600 mb-1">Que tipo de projeto?</label>
-          <select id="project-type" name="project-type" class="w-full px-4 py-3 bg-white border border-warm-200 text-ink-800 text-sm focus:outline-none focus:border-warm-500 transition-colors">
+          <select id="project-type" name="project-type" class="w-full px-4 py-3 bg-warm-100 border border-warm-200 text-ink-800 text-sm focus:outline-none focus:border-warm-500 transition-colors">
             <option value="">Selecione...</option>
             <option value="casa-nova">Construção de casa</option>
             <option value="reforma">Reforma</option>
@@ -49,16 +49,16 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         <div class="grid grid-cols-2 gap-4">
           <div>
             <label for="area" class="block text-sm text-ink-600 mb-1">Área estimada (m²)</label>
-            <input type="text" id="area" name="area" class="w-full px-4 py-3 bg-white border border-warm-200 text-ink-800 text-sm focus:outline-none focus:border-warm-500 transition-colors" placeholder="Ex: 120" />
+            <input type="text" id="area" name="area" class="w-full px-4 py-3 bg-warm-100 border border-warm-200 text-ink-800 text-sm focus:outline-none focus:border-warm-500 transition-colors" placeholder="Ex: 120" />
           </div>
           <div>
             <label for="location" class="block text-sm text-ink-600 mb-1">Localização</label>
-            <input type="text" id="location" name="location" class="w-full px-4 py-3 bg-white border border-warm-200 text-ink-800 text-sm focus:outline-none focus:border-warm-500 transition-colors" placeholder="Bairro, cidade" />
+            <input type="text" id="location" name="location" class="w-full px-4 py-3 bg-warm-100 border border-warm-200 text-ink-800 text-sm focus:outline-none focus:border-warm-500 transition-colors" placeholder="Bairro, cidade" />
           </div>
         </div>
         <div>
           <label for="has-land" class="block text-sm text-ink-600 mb-1">Já tem terreno ou imóvel?</label>
-          <select id="has-land" name="has-land" class="w-full px-4 py-3 bg-white border border-warm-200 text-ink-800 text-sm focus:outline-none focus:border-warm-500 transition-colors">
+          <select id="has-land" name="has-land" class="w-full px-4 py-3 bg-warm-100 border border-warm-200 text-ink-800 text-sm focus:outline-none focus:border-warm-500 transition-colors">
             <option value="">Selecione...</option>
             <option value="sim">Sim, já tenho</option>
             <option value="procurando">Estou procurando</option>
@@ -67,7 +67,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         </div>
         <div>
           <label for="timeline" class="block text-sm text-ink-600 mb-1">Quando pretende começar?</label>
-          <select id="timeline" name="timeline" class="w-full px-4 py-3 bg-white border border-warm-200 text-ink-800 text-sm focus:outline-none focus:border-warm-500 transition-colors">
+          <select id="timeline" name="timeline" class="w-full px-4 py-3 bg-warm-100 border border-warm-200 text-ink-800 text-sm focus:outline-none focus:border-warm-500 transition-colors">
             <option value="">Selecione...</option>
             <option value="agora">O mais rápido possível</option>
             <option value="3-meses">Nos próximos 3 meses</option>
@@ -82,15 +82,15 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         <legend class="font-display text-xl text-ink-950 mb-4 pb-2 border-b border-warm-200 w-full">O que você precisa</legend>
         <div>
           <label for="rooms" class="block text-sm text-ink-600 mb-1">Ambientes desejados</label>
-          <textarea id="rooms" name="rooms" rows="3" class="w-full px-4 py-3 bg-white border border-warm-200 text-ink-800 text-sm focus:outline-none focus:border-warm-500 transition-colors resize-none" placeholder="Ex: 3 quartos (1 suíte), sala integrada, cozinha americana, varanda, home office..."></textarea>
+          <textarea id="rooms" name="rooms" rows="3" class="w-full px-4 py-3 bg-warm-100 border border-warm-200 text-ink-800 text-sm focus:outline-none focus:border-warm-500 transition-colors resize-none" placeholder="Ex: 3 quartos (1 suíte), sala integrada, cozinha americana, varanda, home office..."></textarea>
         </div>
         <div>
           <label for="people" class="block text-sm text-ink-600 mb-1">Quantas pessoas vão usar o espaço?</label>
-          <input type="text" id="people" name="people" class="w-full px-4 py-3 bg-white border border-warm-200 text-ink-800 text-sm focus:outline-none focus:border-warm-500 transition-colors" placeholder="Ex: casal + 2 filhos + 1 cachorro" />
+          <input type="text" id="people" name="people" class="w-full px-4 py-3 bg-warm-100 border border-warm-200 text-ink-800 text-sm focus:outline-none focus:border-warm-500 transition-colors" placeholder="Ex: casal + 2 filhos + 1 cachorro" />
         </div>
         <div>
           <label for="priorities" class="block text-sm text-ink-600 mb-1">O que é mais importante pra você?</label>
-          <textarea id="priorities" name="priorities" rows="2" class="w-full px-4 py-3 bg-white border border-warm-200 text-ink-800 text-sm focus:outline-none focus:border-warm-500 transition-colors resize-none" placeholder="Ex: muita luz natural, privacidade, espaço pra receber amigos, home office silencioso..."></textarea>
+          <textarea id="priorities" name="priorities" rows="2" class="w-full px-4 py-3 bg-warm-100 border border-warm-200 text-ink-800 text-sm focus:outline-none focus:border-warm-500 transition-colors resize-none" placeholder="Ex: muita luz natural, privacidade, espaço pra receber amigos, home office silencioso..."></textarea>
         </div>
       </fieldset>
 
@@ -99,11 +99,11 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         <legend class="font-display text-xl text-ink-950 mb-4 pb-2 border-b border-warm-200 w-full">Estilo e referências</legend>
         <div>
           <label for="style" class="block text-sm text-ink-600 mb-1">Como você descreveria o estilo que gosta?</label>
-          <textarea id="style" name="style" rows="2" class="w-full px-4 py-3 bg-white border border-warm-200 text-ink-800 text-sm focus:outline-none focus:border-warm-500 transition-colors resize-none" placeholder="Ex: clean e moderno, rústico com madeira, industrial, não sei ainda..."></textarea>
+          <textarea id="style" name="style" rows="2" class="w-full px-4 py-3 bg-warm-100 border border-warm-200 text-ink-800 text-sm focus:outline-none focus:border-warm-500 transition-colors resize-none" placeholder="Ex: clean e moderno, rústico com madeira, industrial, não sei ainda..."></textarea>
         </div>
         <div>
           <label for="references" class="block text-sm text-ink-600 mb-1">Tem referências? (links do Pinterest, Instagram, fotos)</label>
-          <textarea id="references" name="references" rows="2" class="w-full px-4 py-3 bg-white border border-warm-200 text-ink-800 text-sm focus:outline-none focus:border-warm-500 transition-colors resize-none" placeholder="Cole links ou descreva o que você viu e gostou"></textarea>
+          <textarea id="references" name="references" rows="2" class="w-full px-4 py-3 bg-warm-100 border border-warm-200 text-ink-800 text-sm focus:outline-none focus:border-warm-500 transition-colors resize-none" placeholder="Cole links ou descreva o que você viu e gostou"></textarea>
         </div>
       </fieldset>
 
@@ -112,7 +112,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         <legend class="font-display text-xl text-ink-950 mb-4 pb-2 border-b border-warm-200 w-full">Orçamento</legend>
         <div>
           <label for="budget" class="block text-sm text-ink-600 mb-1">Tem uma faixa de orçamento em mente?</label>
-          <select id="budget" name="budget" class="w-full px-4 py-3 bg-white border border-warm-200 text-ink-800 text-sm focus:outline-none focus:border-warm-500 transition-colors">
+          <select id="budget" name="budget" class="w-full px-4 py-3 bg-warm-100 border border-warm-200 text-ink-800 text-sm focus:outline-none focus:border-warm-500 transition-colors">
             <option value="">Prefiro não dizer / Não sei ainda</option>
             <option value="ate-100k">Até R$100 mil</option>
             <option value="100-300k">R$100 a R$300 mil</option>
@@ -122,7 +122,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         </div>
         <div>
           <label for="extra" class="block text-sm text-ink-600 mb-1">Mais alguma coisa que queira contar?</label>
-          <textarea id="extra" name="extra" rows="3" class="w-full px-4 py-3 bg-white border border-warm-200 text-ink-800 text-sm focus:outline-none focus:border-warm-500 transition-colors resize-none" placeholder="Qualquer informação extra que achar relevante..."></textarea>
+          <textarea id="extra" name="extra" rows="3" class="w-full px-4 py-3 bg-warm-100 border border-warm-200 text-ink-800 text-sm focus:outline-none focus:border-warm-500 transition-colors resize-none" placeholder="Qualquer informação extra que achar relevante..."></textarea>
         </div>
       </fieldset>
 
@@ -140,7 +140,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         </button>
         <button
           type="submit"
-          class="flex-1 inline-flex items-center justify-center px-8 py-4 bg-ink-950 text-white font-medium hover:bg-ink-800 transition-colors"
+          class="flex-1 inline-flex items-center justify-center px-8 py-4 bg-warm-800 text-white font-medium hover:bg-warm-500 transition-colors"
         >
           Enviar por email
         </button>

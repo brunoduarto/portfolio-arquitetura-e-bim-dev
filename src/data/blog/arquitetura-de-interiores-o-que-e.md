@@ -2,6 +2,7 @@
 title: "Arquitetura de interiores: o que faz e quando contratar"
 description: "A diferença entre decoração e arquitetura de interiores, e por que isso importa no seu projeto."
 pubDate: 2025-06-15
+coverImage: "/projects/casa-antonio-sabrina/3.png"
 category: "Interiores"
 ---
 

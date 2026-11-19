@@ -2,49 +2,76 @@
 @plugin "@tailwindcss/typography";
 
 /*
-  Visual system — "warm editorial"
-  Palette taken from the project renders: limestone off-white, greige,
-  natural wood. The `warm-*` and `ink-*` names are kept so pages that have
-  not been redesigned yet pick up the new palette automatically.
+  Visual system — "night studio"
+  Dark by default, red accents, one sans-serif family.
+
+  The scale NAMES are kept from the light theme so every page (including the
+  ones not redesigned yet) switches at once, but their LIGHTNESS is inverted:
+    warm-50…300  = surfaces and lines, darkest first (warm-50 is the page)
+    warm-400…950 = red accent
+    ink-*        = text, ink-950 is the brightest
+  Sections that were "dark bands" in the light theme use the .band class below.
 */
 @theme {
-  /* Sand → wood: backgrounds (50–200), lines (300), accent (500–800) */
-  --color-warm-50: #faf8f4;
-  --color-warm-100: #f3eee6;
-  --color-warm-200: #e7dfd3;
-  --color-warm-300: #d3c4ae;
-  --color-warm-400: #b99a76;
-  --color-warm-500: #a07a52;
-  --color-warm-600: #8a6240;
-  --color-warm-700: #724f33;
-  --color-warm-800: #5b3f2a;
-  --color-warm-900: #463122;
-  --color-warm-950: #2a1d14;
+  /* Surfaces → lines, then red accent */
+  --color-warm-50: #0e0c0c;
+  --color-warm-100: #161313;
+  --color-warm-200: #211b1b;
+  --color-warm-300: #352c2c;
+  --color-warm-400: #8f3a3a;
+  --color-warm-500: #c43c3c;
+  --color-warm-600: #e0524f;
+  --color-warm-700: #ef6461;
+  --color-warm-800: #b02e2e;
+  --color-warm-900: #ff8a85;
+  --color-warm-950: #ffd9d6;
 
-  /* Warm greys for text and dark sections */
-  --color-ink-50: #f6f5f3;
-  --color-ink-100: #e9e6e1;
-  --color-ink-200: #d4cfc7;
-  --color-ink-300: #b3aca1;
-  --color-ink-400: #8e867a;
-  --color-ink-500: #6f685d;
-  --color-ink-600: #575148;
-  --color-ink-700: #45403a;
-  --color-ink-800: #35312c;
-  --color-ink-900: #27241f;
-  --color-ink-950: #1a1815;
+  /* Text, brightest at 950 */
+  --color-ink-50: #1c1818;
+  --color-ink-100: #2a2524;
+  --color-ink-200: #3f3938;
+  --color-ink-300: #57504f;
+  --color-ink-400: #7a7372;
+  --color-ink-500: #8f8786;
+  --color-ink-600: #a8a09f;
+  --color-ink-700: #c2bbba;
+  --color-ink-800: #d8d2d1;
+  --color-ink-900: #ebe6e5;
+  --color-ink-950: #f5f1f0;
 
-  /* Serif for display, light grotesque for text */
-  --font-display: "Newsreader", ui-serif, Georgia, serif;
+  --font-display: "Inter Tight", ui-sans-serif, system-ui, sans-serif;
   --font-body: "Inter Tight", ui-sans-serif, system-ui, sans-serif;
   --font-mono: ui-monospace, "Cascadia Code", Consolas, monospace;
 
   --ease-soft: cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
+/*
+  .band — a raised dark section written with light-theme "dark band" classes
+  (bg-ink-950, text-warm-50, text-ink-300…). Inside it the ink scale runs the
+  old way again (950 = darkest), with dark-theme values.
+*/
+.band {
+  --color-ink-950: #161313;
+  --color-ink-900: #1d1818;
+  --color-ink-800: #352c2c;
+  --color-ink-700: #4a4040;
+  --color-ink-600: #6e6766;
+  --color-ink-500: #8f8786;
+  --color-ink-400: #a8a09f;
+  --color-ink-300: #c2bbba;
+  --color-ink-200: #d8d2d1;
+  --color-ink-100: #ebe6e5;
+  --color-ink-50: #f5f1f0;
+  --color-warm-50: #f5f1f0;
+  --color-warm-300: #ef6461;
+  background-color: var(--color-ink-950);
+}
+
 @layer base {
   html {
     scroll-behavior: smooth;
+    color-scheme: dark;
   }
   body {
     background-color: var(--color-warm-50);
@@ -53,11 +80,20 @@
   h1, h2, h3 {
     font-family: var(--font-display);
     font-weight: 300;
-    letter-spacing: -0.015em;
+    letter-spacing: -0.03em;
+  }
+  /* Emphasis inside headings: accent colour, not italics */
+  :where(h1, h2, h3, blockquote) em {
+    font-style: normal;
+    color: var(--color-warm-700);
   }
   ::selection {
-    background-color: var(--color-warm-200);
+    background-color: var(--color-warm-800);
     color: var(--color-ink-950);
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-warm-600);
+    outline-offset: 3px;
   }
 }
 
@@ -74,9 +110,9 @@
 
   /* Numbered list marker: 01, 02 … */
   .index-num {
-    font-family: var(--font-display);
-    font-style: italic;
-    font-weight: 300;
+    font-family: var(--font-body);
+    font-weight: 400;
+    letter-spacing: 0.02em;
     color: var(--color-warm-600);
     font-variant-numeric: tabular-nums;
   }
@@ -101,7 +137,7 @@
     right: 0;
     bottom: 0;
     height: 1px;
-    background: currentColor;
+    background: var(--color-warm-600);
     transform-origin: left;
     transition: transform 0.5s var(--ease-soft);
   }
@@ -109,7 +145,7 @@
     transform: scaleX(0.35);
   }
 
-  /* Solid and outline buttons */
+  /* Buttons: red primary, light secondary, outline */
   .btn {
     display: inline-flex;
     align-items: center;
@@ -123,26 +159,26 @@
     transition: background-color 0.3s, color 0.3s, border-color 0.3s;
   }
   .btn-dark {
-    background: var(--color-ink-950);
-    color: var(--color-warm-50);
+    background: var(--color-warm-800);
+    color: #fff;
   }
   .btn-dark:hover {
-    background: var(--color-warm-800);
+    background: var(--color-warm-500);
   }
   .btn-light {
-    background: var(--color-warm-50);
-    color: var(--color-ink-950);
+    background: #f5f1f0;
+    color: #0e0c0c;
   }
   .btn-light:hover {
-    background: var(--color-warm-200);
+    background: #d8d2d1;
   }
   .btn-outline {
     border: 1px solid currentColor;
   }
   .btn-outline:hover {
-    background: var(--color-ink-950);
-    border-color: var(--color-ink-950);
-    color: var(--color-warm-50);
+    background: #f5f1f0;
+    border-color: #f5f1f0;
+    color: #0e0c0c;
   }
 }
 
@@ -189,13 +225,20 @@ html.js [data-reveal].is-visible {
 .prose {
   --tw-prose-body: var(--color-ink-700);
   --tw-prose-headings: var(--color-ink-950);
+  --tw-prose-lead: var(--color-ink-600);
   --tw-prose-links: var(--color-warm-700);
-  --tw-prose-pre-bg: var(--color-ink-950);
-  --tw-prose-pre-code: var(--color-ink-200);
-  --tw-prose-hr: var(--color-warm-200);
-  --tw-prose-quotes: var(--color-ink-600);
-  --tw-prose-quote-borders: var(--color-warm-400);
   --tw-prose-bold: var(--color-ink-900);
+  --tw-prose-counters: var(--color-ink-500);
+  --tw-prose-bullets: var(--color-warm-500);
+  --tw-prose-hr: var(--color-warm-300);
+  --tw-prose-quotes: var(--color-ink-800);
+  --tw-prose-quote-borders: var(--color-warm-600);
+  --tw-prose-captions: var(--color-ink-500);
+  --tw-prose-code: var(--color-ink-950);
+  --tw-prose-pre-bg: var(--color-warm-100);
+  --tw-prose-pre-code: var(--color-ink-800);
+  --tw-prose-th-borders: var(--color-warm-300);
+  --tw-prose-td-borders: var(--color-warm-200);
 }
 .prose :where(h1, h2, h3, h4) {
   font-weight: 400;

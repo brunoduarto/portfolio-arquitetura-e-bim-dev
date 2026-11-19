@@ -2,9 +2,13 @@
 // WhatsApp button. Change them here and every page follows.
 
 export const site = {
+  studio: 'Estúdio duarq',
   name: 'Bruno Duarte',
+  fullName: 'Bruno Duarte de Oliveira',
   role: 'Arquiteto e Urbanista',
+  cau: 'A-3212610',
   city: 'Belo Horizonte, MG',
+  github: 'https://github.com/brunoduarto',
   email: 'contato@bruno.arq.br',
   whatsapp: '5531987760114',
   whatsappMessage: 'Oi, Bruno! Vi seu site e quero conversar sobre um projeto.',

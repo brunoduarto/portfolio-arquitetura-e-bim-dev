@@ -2,6 +2,7 @@
 title: "BIM em projetos residenciais: o que muda na prática"
 description: "Como a modelagem em BIM ajuda a evitar problemas na obra e entregar um projeto mais completo."
 pubDate: 2025-05-18
+coverImage: "/projects/his/render-entrada.jpg"
 category: "Tecnologia"
 ---
 
