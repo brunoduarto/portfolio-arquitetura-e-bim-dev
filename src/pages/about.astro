@@ -203,13 +203,13 @@ const software = {
             <h2 class="font-display text-lg text-warm-50 mb-4">Habilidades</h2>
             <div class="space-y-5">
               <div>
-                <h3 class="font-mono text-xs uppercase tracking-wider text-warm-600 mb-2">Profissionais</h3>
+                <h3 class="font-mono text-xs tracking-wider text-warm-600 mb-2">Profissionais</h3>
                 <ul class="space-y-1.5">
                   {softPro.map((s) => <li class="text-xs text-ink-400">{s}</li>)}
                 </ul>
               </div>
               <div>
-                <h3 class="font-mono text-xs uppercase tracking-wider text-warm-600 mb-2">Pessoais</h3>
+                <h3 class="font-mono text-xs tracking-wider text-warm-600 mb-2">Pessoais</h3>
                 <ul class="space-y-1.5">
                   {softPersonal.map((s) => <li class="text-xs text-ink-400">{s}</li>)}
                 </ul>
@@ -225,7 +225,7 @@ const software = {
 
         <!-- Name header -->
         <header class="mb-10 pb-8 border-b border-warm-200">
-          <p class="font-mono text-xs uppercase tracking-widest text-ink-400 mb-2">Curriculum Vitae</p>
+          <p class="font-mono text-xs tracking-widest text-ink-400 mb-2">Curriculum Vitae</p>
           <h1 class="font-display text-4xl md:text-5xl text-ink-950 leading-tight">
             Bruno Duarte de Oliveira
           </h1>
@@ -326,19 +326,19 @@ const software = {
           <h3 class="font-display text-2xl text-warm-50 mb-6">Softwares</h3>
           <div class="grid grid-cols-1 sm:grid-cols-3 gap-8">
             <div>
-              <h4 class="font-mono text-xs uppercase tracking-wider text-warm-500 mb-3">Básico</h4>
+              <h4 class="font-mono text-xs tracking-wider text-warm-500 mb-3">Básico</h4>
               <ul class="space-y-2">
                 {software.basico.map((s) => <li class="text-sm text-ink-300">{s}</li>)}
               </ul>
             </div>
             <div>
-              <h4 class="font-mono text-xs uppercase tracking-wider text-warm-500 mb-3">Intermediário</h4>
+              <h4 class="font-mono text-xs tracking-wider text-warm-500 mb-3">Intermediário</h4>
               <ul class="space-y-2">
                 {software.intermediario.map((s) => <li class="text-sm text-ink-300">{s}</li>)}
               </ul>
             </div>
             <div>
-              <h4 class="font-mono text-xs uppercase tracking-wider text-warm-500 mb-3">Avançado</h4>
+              <h4 class="font-mono text-xs tracking-wider text-warm-500 mb-3">Avançado</h4>
               <ul class="space-y-2">
                 {software.avancado.map((s) => <li class="text-sm text-ink-300">{s}</li>)}
               </ul>
@@ -393,7 +393,7 @@ const software = {
   .hero-label {
     font-family: var(--font-mono);
     font-size: 0.6875rem;
-    text-transform: uppercase;
+    text-transform: lowercase;
     letter-spacing: 0.15em;
     color: var(--color-warm-600);
     margin-bottom: 1.25rem;
@@ -458,7 +458,7 @@ const software = {
   .tools-label {
     font-family: var(--font-mono);
     font-size: 0.6875rem;
-    text-transform: uppercase;
+    text-transform: lowercase;
     letter-spacing: 0.15em;
     color: var(--color-warm-600);
     text-align: center;

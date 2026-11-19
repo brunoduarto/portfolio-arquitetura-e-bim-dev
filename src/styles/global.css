@@ -2,70 +2,89 @@
 @plugin "@tailwindcss/typography";
 
 /*
-  Visual system — "night studio"
-  Dark by default, red accents, one sans-serif family.
+  Visual system — "night studio", soft
+  Dark, black and red, but lifted blacks, muted reds and gentle fades.
+  Everything is set in lowercase.
 
-  The scale NAMES are kept from the light theme so every page (including the
-  ones not redesigned yet) switches at once, but their LIGHTNESS is inverted:
+  The scale NAMES are kept from the old light theme so every page switches at
+  once, but their LIGHTNESS is inverted:
     warm-50…300  = surfaces and lines, darkest first (warm-50 is the page)
     warm-400…950 = red accent
     ink-*        = text, ink-950 is the brightest
-  Sections that were "dark bands" in the light theme use the .band class below.
+  .band  — raised dark section written with light-theme "dark band" classes
+  .light — bone-coloured contrast section (dark text on light)
 */
 @theme {
   /* Surfaces → lines, then red accent */
-  --color-warm-50: #0e0c0c;
-  --color-warm-100: #161313;
-  --color-warm-200: #211b1b;
-  --color-warm-300: #352c2c;
-  --color-warm-400: #8f3a3a;
-  --color-warm-500: #c43c3c;
-  --color-warm-600: #e0524f;
-  --color-warm-700: #ef6461;
-  --color-warm-800: #b02e2e;
-  --color-warm-900: #ff8a85;
-  --color-warm-950: #ffd9d6;
+  --color-warm-50: #141212;
+  --color-warm-100: #1b1818;
+  --color-warm-200: #252020;
+  --color-warm-300: #3a3232;
+  --color-warm-400: #7d3d3b;
+  --color-warm-500: #b4504c;
+  --color-warm-600: #d6625d;
+  --color-warm-700: #e4766f;
+  --color-warm-800: #a63c38;
+  --color-warm-900: #f19a93;
+  --color-warm-950: #fbdcd8;
 
   /* Text, brightest at 950 */
-  --color-ink-50: #1c1818;
-  --color-ink-100: #2a2524;
-  --color-ink-200: #3f3938;
-  --color-ink-300: #57504f;
-  --color-ink-400: #7a7372;
-  --color-ink-500: #8f8786;
-  --color-ink-600: #a8a09f;
-  --color-ink-700: #c2bbba;
-  --color-ink-800: #d8d2d1;
-  --color-ink-900: #ebe6e5;
-  --color-ink-950: #f5f1f0;
+  --color-ink-50: #1f1b1b;
+  --color-ink-100: #2c2726;
+  --color-ink-200: #423b3a;
+  --color-ink-300: #5a5251;
+  --color-ink-400: #7c7473;
+  --color-ink-500: #948b8a;
+  --color-ink-600: #aca3a2;
+  --color-ink-700: #c3bbba;
+  --color-ink-800: #d6cfce;
+  --color-ink-900: #e5dfde;
+  --color-ink-950: #efeae8;
 
-  --font-display: "Inter Tight", ui-sans-serif, system-ui, sans-serif;
-  --font-body: "Inter Tight", ui-sans-serif, system-ui, sans-serif;
+  /* Helvetica Neue where the system has it (Apple devices, licensed with the OS);
+     Inter (SIL Open Font License) everywhere else. */
+  --font-display: "Helvetica Neue", "Inter", Helvetica, Arial, sans-serif;
+  --font-body: "Helvetica Neue", "Inter", Helvetica, Arial, sans-serif;
   --font-mono: ui-monospace, "Cascadia Code", Consolas, monospace;
 
   --ease-soft: cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
-/*
-  .band — a raised dark section written with light-theme "dark band" classes
-  (bg-ink-950, text-warm-50, text-ink-300…). Inside it the ink scale runs the
-  old way again (950 = darkest), with dark-theme values.
-*/
 .band {
-  --color-ink-950: #161313;
-  --color-ink-900: #1d1818;
-  --color-ink-800: #352c2c;
-  --color-ink-700: #4a4040;
-  --color-ink-600: #6e6766;
-  --color-ink-500: #8f8786;
-  --color-ink-400: #a8a09f;
-  --color-ink-300: #c2bbba;
-  --color-ink-200: #d8d2d1;
-  --color-ink-100: #ebe6e5;
-  --color-ink-50: #f5f1f0;
-  --color-warm-50: #f5f1f0;
-  --color-warm-300: #ef6461;
+  --color-ink-950: #1b1818;
+  --color-ink-900: #211d1d;
+  --color-ink-800: #3a3232;
+  --color-ink-700: #4e4545;
+  --color-ink-600: #6f6766;
+  --color-ink-500: #948b8a;
+  --color-ink-400: #aca3a2;
+  --color-ink-300: #c3bbba;
+  --color-ink-200: #d6cfce;
+  --color-ink-100: #e5dfde;
+  --color-ink-50: #efeae8;
+  --color-warm-50: #efeae8;
+  --color-warm-300: #e4766f;
   background-color: var(--color-ink-950);
+}
+
+.light {
+  --color-warm-50: #ebe5e1;
+  --color-warm-100: #e2dbd6;
+  --color-warm-200: #d5ccc6;
+  --color-warm-300: #c2b7b0;
+  --color-warm-500: #a8443f;
+  --color-warm-600: #a63c38;
+  --color-warm-700: #9a3430;
+  --color-ink-950: #171313;
+  --color-ink-900: #221d1d;
+  --color-ink-800: #2f2828;
+  --color-ink-700: #3e3636;
+  --color-ink-600: #564d4c;
+  --color-ink-500: #6f6564;
+  --color-ink-400: #8a807f;
+  --color-ink-300: #b1a7a6;
+  background-color: var(--color-warm-50);
+  color: var(--color-ink-800);
 }
 
 @layer base {
@@ -75,12 +94,32 @@
   }
   body {
     background-color: var(--color-warm-50);
+    /* faint red glows instead of a flat black page */
+    background-image:
+      radial-gradient(60rem 40rem at 100% 0%, rgb(190 70 66 / 0.07), transparent 70%),
+      radial-gradient(50rem 40rem at 0% 55%, rgb(190 70 66 / 0.045), transparent 70%);
+    background-attachment: fixed;
     color: var(--color-ink-800);
+    text-transform: lowercase;
+    -webkit-font-smoothing: antialiased;
+  }
+  /* What people type keeps its own casing */
+  input,
+  textarea,
+  select,
+  code,
+  pre,
+  kbd {
+    text-transform: none;
+  }
+  /* Browsers reset casing on buttons; follow the page instead */
+  button {
+    text-transform: inherit;
   }
   h1, h2, h3 {
     font-family: var(--font-display);
     font-weight: 300;
-    letter-spacing: -0.03em;
+    letter-spacing: -0.035em;
   }
   /* Emphasis inside headings: accent colour, not italics */
   :where(h1, h2, h3, blockquote) em {
@@ -89,7 +128,7 @@
   }
   ::selection {
     background-color: var(--color-warm-800);
-    color: var(--color-ink-950);
+    color: #fff;
   }
   :focus-visible {
     outline: 2px solid var(--color-warm-600);
@@ -98,13 +137,12 @@
 }
 
 @layer components {
-  /* Small uppercase label above headings */
+  /* Small label above headings */
   .eyebrow {
     font-family: var(--font-body);
-    font-size: 0.72rem;
-    font-weight: 500;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
+    font-size: 0.82rem;
+    font-weight: 400;
+    letter-spacing: 0.02em;
     color: var(--color-ink-500);
   }
 
@@ -123,12 +161,10 @@
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-    font-size: 0.8rem;
-    font-weight: 500;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
+    font-size: 0.95rem;
+    font-weight: 400;
     color: var(--color-ink-900);
-    padding-bottom: 0.25rem;
+    padding-bottom: 0.3rem;
   }
   .link-line::after {
     content: "";
@@ -145,40 +181,52 @@
     transform: scaleX(0.35);
   }
 
-  /* Buttons: red primary, light secondary, outline */
+  /* Buttons: soft red primary, light secondary, outline — pill shaped */
   .btn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
     gap: 0.6rem;
-    padding: 0.95rem 1.75rem;
-    font-size: 0.75rem;
-    font-weight: 500;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+    padding: 0.9rem 1.6rem;
+    border-radius: 999px;
+    font-size: 0.95rem;
+    font-weight: 400;
+    letter-spacing: 0;
+    line-height: 1.2;
+    transition: background-color 0.3s, color 0.3s, border-color 0.3s, box-shadow 0.3s;
   }
   .btn-dark {
     background: var(--color-warm-800);
     color: #fff;
+    box-shadow: 0 10px 30px -12px rgb(166 60 56 / 0.7);
   }
   .btn-dark:hover {
     background: var(--color-warm-500);
   }
   .btn-light {
-    background: #f5f1f0;
-    color: #0e0c0c;
+    background: #efeae8;
+    color: #141212;
   }
   .btn-light:hover {
-    background: #d8d2d1;
+    background: #d6cfce;
   }
   .btn-outline {
-    border: 1px solid currentColor;
+    border: 1px solid color-mix(in srgb, currentColor 45%, transparent);
   }
   .btn-outline:hover {
-    background: #f5f1f0;
-    border-color: #f5f1f0;
-    color: #0e0c0c;
+    border-color: currentColor;
+    background: color-mix(in srgb, currentColor 8%, transparent);
+  }
+
+  /* Soft section that fades in and out of the page background (no hard edges) */
+  .fade-panel {
+    background-image: linear-gradient(
+      to bottom,
+      transparent,
+      var(--color-warm-100) 12%,
+      var(--color-warm-100) 88%,
+      transparent
+    );
   }
 }
 

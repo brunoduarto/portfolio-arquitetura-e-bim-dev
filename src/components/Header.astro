@@ -8,23 +8,23 @@ const isActive = (href: string) => !href.includes('#') && currentPath.startsWith
 
 <header
   id="site-header"
-  class="sticky top-0 z-50 bg-warm-50/90 backdrop-blur-md border-b border-transparent transition-colors duration-300 data-scrolled:border-warm-200"
+  class="sticky top-0 z-50 bg-warm-50/85 backdrop-blur-md border-b border-transparent transition-colors duration-300 data-scrolled:border-warm-300/60"
 >
   <div class="max-w-7xl mx-auto px-5 md:px-10 flex items-center justify-between h-18 md:h-20">
     <a href="/" class="flex items-center gap-3 text-ink-950" aria-label={`${site.studio} — início`}>
       <img src="/logos/logo-duarq.svg" alt="" width="44" height="44" class="w-10 h-10 md:w-11 md:h-11" />
       <span class="flex flex-col gap-1">
         <Brand class="font-display text-xl md:text-[1.35rem] font-normal tracking-tight leading-none" />
-        <span class="eyebrow text-[0.62rem] leading-none">{site.name}</span>
+        <span class="eyebrow text-[0.68rem] leading-none">{site.name}</span>
       </span>
     </a>
 
-    <nav class="hidden lg:flex items-center gap-9" aria-label="Principal">
+    <nav class="hidden xl:flex items-center gap-8" aria-label="Principal">
       {navLinks.map(({ href, label }) => (
         <a
           href={href}
           class:list={[
-            'text-[0.8rem] tracking-[0.12em] uppercase transition-colors',
+            'text-[0.95rem] transition-colors',
             isActive(href) ? 'text-warm-700' : 'text-ink-600 hover:text-ink-950',
           ]}
           aria-current={isActive(href) ? 'page' : undefined}
@@ -32,44 +32,81 @@ const isActive = (href: string) => !href.includes('#') && currentPath.startsWith
           {label}
         </a>
       ))}
-      <a href="/quiz" class="btn btn-dark py-3 px-5">Iniciar projeto</a>
+      <a href="/quiz" class="btn btn-dark py-3 px-5 whitespace-nowrap">fazer um orçamento preliminar</a>
     </nav>
 
     <button
       id="menu-toggle"
       type="button"
-      class="lg:hidden -mr-2 p-2 text-ink-900"
+      class="xl:hidden -mr-2 p-2 text-ink-900 cursor-pointer"
       aria-controls="mobile-menu"
       aria-expanded="false"
       aria-label="Abrir menu"
     >
-      <svg class="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25">
-        <path class="menu-open" d="M3 8h18M3 16h18" />
-        <path class="menu-close hidden" d="M5 5l14 14M19 5L5 19" />
+      <svg class="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" aria-hidden="true">
+        <path d="M3 8h18M3 16h18" />
+      </svg>
+    </button>
+  </div>
+</header>
+
+{/*
+  Full-screen menu. It lives OUTSIDE <header>: the header's backdrop-blur makes it the
+  containing block for fixed children, which squashed the old menu into the header bar.
+*/}
+<div
+  id="mobile-menu"
+  class="xl:hidden fixed inset-0 z-[60] h-[100dvh] bg-warm-50 flex-col hidden overscroll-contain"
+  role="dialog"
+  aria-modal="true"
+  aria-label="Menu"
+>
+  {/* Soft red glow so the panel isn't a flat black */}
+  <div class="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_85%_10%,rgba(200,70,66,0.16),transparent_55%)]" aria-hidden="true"></div>
+
+  <div class="relative flex items-center justify-between h-18 md:h-20 px-5 md:px-10 shrink-0">
+    <a href="/" class="flex items-center gap-3 text-ink-950">
+      <img src="/logos/logo-duarq.svg" alt="" width="44" height="44" class="w-10 h-10 md:w-11 md:h-11" />
+      <Brand class="font-display text-xl md:text-[1.35rem] tracking-tight leading-none" />
+    </a>
+    <button id="menu-close" type="button" class="-mr-2 p-2 text-ink-900 cursor-pointer" aria-label="Fechar menu">
+      <svg class="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" aria-hidden="true">
+        <path d="M5 5l14 14M19 5L5 19" />
       </svg>
     </button>
   </div>
 
-  {/* Mobile: full-screen menu */}
-  <div
-    id="mobile-menu"
-    class="lg:hidden fixed inset-x-0 top-18 bottom-0 bg-warm-50 px-5 pt-10 pb-12 flex-col justify-between hidden"
-  >
-    <nav class="flex flex-col gap-1" aria-label="Principal (celular)">
+  <div class="relative flex-1 min-h-0 overflow-y-auto px-5 md:px-10 pb-[max(1.5rem,env(safe-area-inset-bottom))] flex flex-col justify-between gap-8">
+    <nav class="flex flex-col pt-[2vh]" aria-label="Principal (celular)">
       {navLinks.map(({ href, label }, i) => (
-        <a href={href} class="flex items-baseline gap-4 py-3 border-b border-warm-200">
-          <span class="index-num text-sm">{String(i + 1).padStart(2, '0')}</span>
-          <span class="font-display text-4xl text-ink-950">{label}</span>
+        <a
+          href={href}
+          class="flex items-baseline gap-4 py-[clamp(0.6rem,2.2vh,1.1rem)] border-b border-warm-300/70"
+          aria-current={isActive(href) ? 'page' : undefined}
+        >
+          <span class="index-num text-sm w-6">{String(i + 1).padStart(2, '0')}</span>
+          <span
+            class:list={[
+              'font-display font-light tracking-tight leading-none text-[clamp(1.9rem,min(9vw,6.5vh),3.25rem)]',
+              isActive(href) ? 'text-warm-700' : 'text-ink-950',
+            ]}
+          >
+            {label}
+          </span>
         </a>
       ))}
     </nav>
-    <a href="/quiz" class="btn btn-dark w-full">Iniciar projeto</a>
+    <div class="flex flex-col gap-3">
+      <a href="/quiz" class="btn btn-dark w-full">fazer um orçamento preliminar</a>
+      <p class="text-center text-sm text-ink-500">{site.email}</p>
+    </div>
   </div>
-</header>
+</div>
 
 <script>
   const header = document.getElementById('site-header')!;
   const toggle = document.getElementById('menu-toggle')!;
+  const closeBtn = document.getElementById('menu-close')!;
   const menu = document.getElementById('mobile-menu')!;
 
   const onScroll = () => header.toggleAttribute('data-scrolled', window.scrollY > 8);
@@ -78,15 +115,18 @@ const isActive = (href: string) => !href.includes('#') && currentPath.startsWith
 
   const setOpen = (open: boolean) => {
     toggle.setAttribute('aria-expanded', String(open));
-    toggle.setAttribute('aria-label', open ? 'Fechar menu' : 'Abrir menu');
     menu.classList.toggle('hidden', !open);
     menu.classList.toggle('flex', open);
-    toggle.querySelector('.menu-open')!.classList.toggle('hidden', open);
-    toggle.querySelector('.menu-close')!.classList.toggle('hidden', !open);
-    document.body.style.overflow = open ? 'hidden' : '';
+    document.documentElement.style.overflow = open ? 'hidden' : '';
+    (open ? closeBtn : toggle).focus();
   };
 
-  toggle.addEventListener('click', () => setOpen(toggle.getAttribute('aria-expanded') !== 'true'));
+  toggle.addEventListener('click', () => setOpen(true));
+  closeBtn.addEventListener('click', () => setOpen(false));
   menu.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => setOpen(false)));
-  document.addEventListener('keydown', (e) => e.key === 'Escape' && setOpen(false));
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && toggle.getAttribute('aria-expanded') === 'true') setOpen(false);
+  });
+  // Close if the screen grows past the menu breakpoint while open
+  window.matchMedia('(min-width: 1280px)').addEventListener('change', (e) => e.matches && setOpen(false));
 </script>
